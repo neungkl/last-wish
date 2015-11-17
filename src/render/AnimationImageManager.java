@@ -8,9 +8,9 @@ public class AnimationImageManager {
 	private boolean isPlay;
 	private boolean isLoop;
 	private int frame;
-	private GIFBufferedImage[] images;
+	private ImageData[] images;
 	
-	public AnimationImageManager(GIFBufferedImage[] images) {
+	public AnimationImageManager(ImageData[] images) {
 		frame = 0;
 		isPlay = false;
 		this.images = images;
@@ -43,7 +43,7 @@ public class AnimationImageManager {
 	
 	public void draw(Graphics2D g2, int x, int y) {
 		if(isPlay || isLoop) {
-			GIFBufferedImage gif = images[frame];
+			ImageData gif = images[frame];
 			g2.drawImage(gif.getImg(), x + gif.getOffsetX(), y + gif.getOffsetY(), null);
 		}
 	}

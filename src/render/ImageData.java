@@ -2,12 +2,12 @@ package render;
 
 import java.awt.image.BufferedImage;
 
-public class GIFBufferedImage {
+public class ImageData {
 	private int offsetX;
 	private int offsetY;
 	private BufferedImage img;
 	
-	public GIFBufferedImage(BufferedImage img) {
+	public ImageData(BufferedImage img) {
 		this.img = img;
 	}
 	

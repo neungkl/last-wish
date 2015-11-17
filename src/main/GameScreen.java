@@ -6,14 +6,14 @@ import java.awt.Graphics2D;
 import javax.swing.JComponent;
 
 import render.AnimationImageManager;
-import resource.GIFReader;
+import resource.ImageReader;
 
 public class GameScreen extends JComponent {
 	
 	AnimationImageManager test;
 	
 	public AnimationImageManager read(String url) {
-		return new AnimationImageManager(GIFReader.get(url));
+		return new AnimationImageManager(ImageReader.get(url));
 	}
 	
 	public GameScreen() {

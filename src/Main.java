@@ -27,7 +27,6 @@ public class Main {
 			}
 			g.update();
 			g.repaint();
-			System.out.println(InputFlag.get(InputFlag.MOUSE_LEFT_CLICK));
 			InputFlag.clearTrigger();
 		}
 	}

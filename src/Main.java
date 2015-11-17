@@ -1,3 +1,5 @@
+import input.InputFlag;
+
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -15,14 +17,18 @@ public class Main {
 		frame.pack();
 		frame.setVisible(true);
 		
+		InputFlag.reset();
+		
 		while(true) {
 			try {
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			} catch(Exception e) {
 				
 			}
 			g.update();
 			g.repaint();
+			System.out.println(InputFlag.get(InputFlag.MOUSE_LEFT_CLICK));
+			InputFlag.clearTrigger();
 		}
 	}
 }

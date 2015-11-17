@@ -26,7 +26,7 @@ public class ImageReader {
 		
 			try {
 			    javax.imageio.ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
-			    ImageInputStream stream = ImageIO.createImageInputStream(loader.getResourceAsStream(url));
+			    ImageInputStream stream = ImageIO.createImageInputStream(loader.getResourceAsStream(url));;
 			    reader.setInput(stream);
 			    
 			    int count = reader.getNumImages(true);

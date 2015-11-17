@@ -2,7 +2,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import main.GameScreen;
+import base.GameScreen;
 
 public class Main {
 	public static void main(String[] args) {
@@ -21,6 +21,7 @@ public class Main {
 			} catch(Exception e) {
 				
 			}
+			g.update();
 			g.repaint();
 		}
 	}

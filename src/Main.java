@@ -7,20 +7,23 @@ import javax.swing.JFrame;
 import base.GameScreen;
 
 public class Main {
+	
+	private static JFrame frame; 
+	
 	public static void main(String[] args) {
 
 		JFrame frame = new JFrame();
-		GameScreen gameScreen = new GameScreen(frame);
+		GameScreen gameScreen = new GameScreen();
 
-		frame.add(gameScreen);
-		frame.setPreferredSize(new Dimension(1024, 768));
+		frame.setPreferredSize(new Dimension(1920, 1080));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setUndecorated(true);
+		// frame.setUndecorated(true);
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.add(gameScreen);
 		frame.pack();
 		frame.setVisible(true);
-		
-		System.out.println(frame.getWidth()+" "+frame.getHeight());
+
+		gameScreen.updateScreenSize();
 
 		InputFlag.reset();
 
@@ -33,5 +36,9 @@ public class Main {
 			gameScreen.repaint();
 			InputFlag.clearTrigger();
 		}
+	}
+	
+	public static JFrame getFrame() {
+		return frame;
 	}
 }

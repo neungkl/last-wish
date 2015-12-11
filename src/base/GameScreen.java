@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -20,17 +21,11 @@ public class GameScreen extends JComponent {
 	private static final long serialVersionUID = 8847233362005632459L;
 	public static int FRAMERATE = 60;
 	
-	private static int WIDTH;
-	private static int HEIGHT;
+	public static int WIDTH;
+	public static int HEIGHT;
 	
-	private JFrame currentFrame;
-	
-	public GameScreen(JFrame frame) {
+	public GameScreen() {
 		initializeInputListener();
-		currentFrame = frame;
-		
-		WIDTH = frame.getWidth();
-		HEIGHT = frame.getHeight();
 	}
 	
 	private void initializeInputListener() {
@@ -70,6 +65,19 @@ public class GameScreen extends JComponent {
 			}
 		});
 		
+		addMouseMotionListener(new MouseMotionListener() {
+			
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				InputFlag.setMousePosition(e.getX(), e.getY());
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
 		addKeyListener(new KeyListener() {
 			
 			@Override
@@ -89,6 +97,11 @@ public class GameScreen extends JComponent {
 	
 	public void update() {
 		GameState.getInstance().update();
+	}
+	
+	public void updateScreenSize() {
+		WIDTH = this.getWidth();
+		HEIGHT = this.getHeight();
 	}
 	
 	@Override

@@ -1,16 +1,22 @@
 package render;
 
+import input.InputFlag;
+import input.MouseInteractiveListener;
+
 import java.awt.Graphics2D;
 
 public abstract class Rendable implements Comparable<Rendable> {
 	
 	private int x,y;
-	protected int z;
+	private int z;
 	private int width, height;
 	private boolean destroy;
 	private boolean visible;
 	private boolean pausable;
-	protected int align;
+	private int align;
+	
+	private boolean isEnter;
+	private MouseInteractiveListener mouseListener;
 	
 	public Rendable(int z) {
 		this(0, 0, z);
@@ -28,6 +34,9 @@ public abstract class Rendable implements Comparable<Rendable> {
 		this.visible = true;
 		this.pausable = false;
 		this.align = RenderHelper.LEFT | RenderHelper.TOP;
+		
+		this.isEnter = false;
+		this.mouseListener = null;
 	}
 	
 	public final void setPosX(int x) {
@@ -55,8 +64,11 @@ public abstract class Rendable implements Comparable<Rendable> {
 		this.z = z;
 	}
 	
-	public void setAlign(int align) {
+	public final void setAlign(int align) {
 		this.align = align;
+	}
+	protected final int getAlign() {
+		return align;
 	}
 	
 	public int getZ() {
@@ -91,13 +103,47 @@ public abstract class Rendable implements Comparable<Rendable> {
 		return pausable;
 	}
 	
-	public abstract void update();
+	public final void addMouseInteractiveListener(MouseInteractiveListener mouseListener) {
+		this.mouseListener = mouseListener;
+	}
+	
+	protected boolean isHitTest(int x, int y) {
+		return RenderHelper.isHitTest(x, y, getPosX(), getPosY(), getWidth(), getHeight(), getAlign());
+	}
+	
+	public void trigger() {
+		if(mouseListener != null) {
+			if(isHitTest(InputFlag.getMouseX(), InputFlag.getMouseY())) {
+				if(!isEnter) {
+					isEnter = true;
+					mouseListener.onEnter();
+				}
+				if(InputFlag.get(InputFlag.MOUSE_LEFT_CLICK)) {
+					mouseListener.onClick();
+				}
+			} else {
+				if(isEnter) {
+					isEnter = false;
+					mouseListener.onLeave();
+				}
+			}
+		}
+	}
+	
+	public void update() {
+		trigger();
+	}
+	
 	public abstract void draw(Graphics2D g);
 	
 	@Override
 	public final int compareTo(Rendable that) {
-		if(this.getZ() < that.getZ()) return 1;
-		if(this.getZ() == that.getZ()) return 0;
-		return -1;
+		if(this.getZ() < that.getZ()) return -1;
+		if(this.getZ() == that.getZ()) {
+			if(this.getPosY() < that.getPosY()) return -1;
+			if(this.getPosY() == that.getPosY()) return 0;
+			return 1;
+		}
+		return 1;
 	}
 }

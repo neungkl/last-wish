@@ -22,9 +22,6 @@ public class BoxRendable extends Rendable {
 	}
 
 	@Override
-	public void update() {}
-
-	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(color);
 		g.drawRect(getPosX(), getPosY(), getWidth(), getHeight());

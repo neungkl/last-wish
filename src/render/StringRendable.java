@@ -48,9 +48,6 @@ public class StringRendable extends Rendable {
 	}
 	
 	@Override
-	public void update() {}
-	
-	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(color);
 		g.setFont(font);
@@ -61,7 +58,7 @@ public class StringRendable extends Rendable {
 			getPosY(), 
 			getWidth(g), 
 			getHeight(), 
-			align
+			getAlign()
 		);
 	}
 	

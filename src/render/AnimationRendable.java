@@ -56,12 +56,8 @@ public class AnimationRendable extends Rendable {
 	}
 	
 	@Override
-	public final int getZ() {
-		return -getPosY();
-	}
-	
-	@Override
 	public void update() {
+		super.update();
 		animation.update();
 	}
 	
@@ -75,7 +71,7 @@ public class AnimationRendable extends Rendable {
 			getPosY() + (int) (img.getOffsetY() * ratio), 
 			(int) (img.getWidth() * ratio), 
 			(int) (img.getHeight() * ratio), 
-			align
+			getAlign()
 		);
 	}
 	

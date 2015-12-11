@@ -17,11 +17,16 @@ public class Resource {
 	}
 	
 	private ImageData[] read(String url) {
-		return ImageReader.get(url);
+		return ImageReader.get("assets/" + url);
 	}
 
 	private Resource() {
-		imageCL.put("test", read("assets/test.gif"));
+		imageCL.put("game_bg", read("game/bg2.png"));
+		imageCL.put("menu_bg", read("menu/bg.jpg"));
+		imageCL.put("exit_btn", read("menu/exit.png"));
+		imageCL.put("start_btn", read("menu/start.png"));
+		imageCL.put("highscore_btn", read("menu/highscore.png"));
+		imageCL.put("logo", read("menu/logo.png"));
 	}
 	
 	public ImageData[] getImage(String key) {

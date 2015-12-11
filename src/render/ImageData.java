@@ -40,7 +40,7 @@ public class ImageData {
 		return img.getHeight();
 	}
 	
-	public BufferedImage getImg() {
+	public BufferedImage getBufferedImg() {
 		return img;
 	}
 }

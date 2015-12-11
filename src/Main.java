@@ -8,25 +8,29 @@ import base.GameScreen;
 
 public class Main {
 	public static void main(String[] args) {
-		
+
 		JFrame frame = new JFrame();
-		GameScreen g = new GameScreen();
-		
-		frame.add(g);
-		frame.setPreferredSize(new Dimension(500,500));
+		GameScreen gameScreen = new GameScreen(frame);
+
+		frame.add(gameScreen);
+		frame.setPreferredSize(new Dimension(1024, 768));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    frame.setUndecorated(true);
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.pack();
 		frame.setVisible(true);
 		
+		System.out.println(frame.getWidth()+" "+frame.getHeight());
+
 		InputFlag.reset();
-		
-		while(true) {
+
+		while (true) {
 			try {
-				Thread.sleep(1000);
-			} catch(Exception e) {
-				
+				Thread.sleep((long) (1000f / GameScreen.FRAMERATE));
+			} catch (InterruptedException e) {
 			}
-			g.update();
-			g.repaint();
+			gameScreen.update();
+			gameScreen.repaint();
 			InputFlag.clearTrigger();
 		}
 	}

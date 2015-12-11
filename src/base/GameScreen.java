@@ -10,19 +10,27 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import frame.Frame;
-import frame.GameFrame;
+import render.RendableHolder;
 
 public class GameScreen extends JComponent {
 	
-	Frame game;
+	private static final long serialVersionUID = 8847233362005632459L;
+	public static int FRAMERATE = 60;
 	
-	public GameScreen() {
-		game = new GameFrame();
-		
+	private static int WIDTH;
+	private static int HEIGHT;
+	
+	private JFrame currentFrame;
+	
+	public GameScreen(JFrame frame) {
 		initializeInputListener();
+		currentFrame = frame;
+		
+		WIDTH = frame.getWidth();
+		HEIGHT = frame.getHeight();
 	}
 	
 	private void initializeInputListener() {
@@ -80,7 +88,7 @@ public class GameScreen extends JComponent {
 	}
 	
 	public void update() {
-		game.update();
+		GameState.getInstance().update();
 	}
 	
 	@Override
@@ -88,6 +96,6 @@ public class GameScreen extends JComponent {
 		super.paintComponent(g);
 
 		Graphics2D g2d = (Graphics2D) g;
-		game.draw(g2d);
+		RendableHolder.getInstance().draw(g2d);
 	}
 }

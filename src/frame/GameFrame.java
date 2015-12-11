@@ -1,28 +1,34 @@
 package frame;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-
-import render.AnimationImageManager;
-import resource.Resource;
+import render.AnimationRendable;
+import render.Rendable;
+import render.RendableHolder;
+import render.StaticImageRendable;
 
 public class GameFrame implements Frame {
-	
-	AnimationImageManager test;
-	
+
+	Rendable test, test2;
+
 	public GameFrame() {
-		test = Resource.getInstance().getImage("test");
-		test.play();
+		test = new StaticImageRendable("test", 0, 100, 1.5f);
+		
+		test2 = new AnimationRendable("test", 0, 50, 1.5f);
+		((AnimationRendable) test2).loop(10);
+
+		RendableHolder.getInstance().add(test);
+		RendableHolder.getInstance().add(test2);
 	}
 
 	@Override
 	public void update() {
-		test.update();
 	}
-	
+
 	@Override
-	public void draw(Graphics2D g) {
-		test.draw((Graphics2D) g, 0, 0);
+	public void pause() {
+	}
+
+	@Override
+	public void destroy() {
 	}
 
 }

@@ -1,4 +1,4 @@
-package base;
+package essential;
 
 import render.RendableHolder;
 import frame.Frame;

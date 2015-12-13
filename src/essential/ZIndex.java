@@ -1,4 +1,4 @@
-package base;
+package essential;
 
 public class ZIndex {
 	public static final int BACKGROUND = 0;

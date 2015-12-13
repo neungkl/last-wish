@@ -1,34 +1,22 @@
 package object.appear;
 
-import java.util.ArrayList;
-
-import object.structure.IObjectOnScreen;
+import object.structure.Base;
 import render.RenderHelper;
 import render.rendable.AnimationRendable;
-import render.rendable.Rendable;
-import base.ZIndex;
+import essential.ZIndex;
 
-public class MainBase implements IObjectOnScreen {
-
-	AnimationRendable base;
-	private int currentAngle = 0;
+public class MainBase extends Base {
 	
 	public MainBase(int x, int y, float ratio) {
-		base = new AnimationRendable("base_main", x, y + 40, ratio);
-		base.setAlign(RenderHelper.CENTER_MIDDLE);
-		base.setZ(ZIndex.OBJECT_IN_GAME);
+		image = new AnimationRendable("base_main", x, y + 40, ratio);
+		image.setAlign(RenderHelper.CENTER_MIDDLE);
+		image.setZ(ZIndex.OBJECT_IN_GAME);
 	}
-	
+
 	@Override
-	public ArrayList<Rendable> getRendable() {
-		ArrayList<Rendable> list = new ArrayList<>();
-		list.add(base);
-		return list;
-	}
-	
-	public void rotate() {
-		currentAngle++;
-		base.setAngle(currentAngle);
+	public void upgrade(int level) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

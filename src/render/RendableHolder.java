@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import essential.GameState;
 import object.structure.IObjectOnScreen;
+import object.structure.IObjectWithSingleImage;
 import render.effect.IHoverEffect;
 import render.rendable.Rendable;
-import base.GameState;
 
 public class RendableHolder {
 	private static final RendableHolder instance = new RendableHolder();
@@ -28,7 +29,11 @@ public class RendableHolder {
 		getInstance().collections.add(obj);
 	}
 	public static void add(IObjectOnScreen obj) {
-		getInstance().collections.addAll(obj.getRendable());
+		if(obj instanceof IObjectWithSingleImage) {
+			getInstance().collections.add(((IObjectWithSingleImage) obj).getImage());
+		} else {
+			getInstance().collections.addAll(obj.getRendable());
+		}
 	}
 	public static void add(ArrayList<Rendable> list) {
 		getInstance().collections.addAll(list);
@@ -36,6 +41,13 @@ public class RendableHolder {
 	
 	public ArrayList<Rendable> getRendableList() {
 		return collections;
+	}
+	
+	public static void remove(IObjectOnScreen obj) {
+		getInstance().collections.removeAll(obj.getRendable());
+	}
+	public static void remove(ArrayList<Rendable> list) {
+		getInstance().collections.removeAll(list);
 	}
 	
 	public void update() {
@@ -53,7 +65,7 @@ public class RendableHolder {
 			Rendable render = collections.get(i);
 			if(!GameState.IS_PAUSING || render.isPausable()) {
 				render.update();
-				if(render.isListen()) {
+				if(render.isListen() && render.isVisible()) {
 					render.trigger();
 				}
 			}

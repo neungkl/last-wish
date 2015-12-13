@@ -2,12 +2,12 @@ package object.appear;
 
 import java.util.ArrayList;
 
+import essential.GameScreen;
+import essential.ZIndex;
 import object.structure.IObjectOnScreen;
 import render.RendableHolder;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
-import base.GameScreen;
-import base.ZIndex;
 
 public class TileBackground implements IObjectOnScreen {
 	

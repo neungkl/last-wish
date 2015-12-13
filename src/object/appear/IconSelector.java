@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
+import essential.ZIndex;
 import object.structure.IObjectOnScreen;
 import render.rendable.BoxRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 import render.rendable.StringRendable;
 import resource.Resource;
-import base.ZIndex;
 
 public class IconSelector implements IObjectOnScreen {
 

@@ -110,6 +110,7 @@ public class StaticImageRendable extends Rendable implements IHoverEffect {
 			getPosY(),
 			getWidth(), 
 			getHeight(),
+			isPale(),
 			getAngle(),
 			getOriginX(),
 			getOriginY(),

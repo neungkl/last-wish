@@ -18,6 +18,7 @@ public abstract class Rendable implements Comparable<Rendable> {
 	private boolean pausable;
 	private int align;
 	private int angle;
+	private boolean isPale;
 	
 	private String name;
 	
@@ -26,7 +27,7 @@ public abstract class Rendable implements Comparable<Rendable> {
 	private boolean isListen;
 	
 	public Rendable(int z) {
-		this(0, 0, z);
+		this(-1000, -1000, z);
 	}
 	public Rendable(int x, int y, int z) {
 		this(x, y, z, 0, 0);
@@ -49,6 +50,7 @@ public abstract class Rendable implements Comparable<Rendable> {
 		this.originX = width / 2;
 		this.originY = height / 2;
 		this.isListen = true;
+		this.isPale = false;
 	}
 	
 	public final int getPosX() {
@@ -69,6 +71,9 @@ public abstract class Rendable implements Comparable<Rendable> {
 	}
 	public int getHeight() {
 		return height;
+	}
+	public final boolean isPale() {
+		return isPale;
 	}
 	public final int getAngle() {
 		return angle;
@@ -103,6 +108,9 @@ public abstract class Rendable implements Comparable<Rendable> {
 	public final void setAlign(int align) {
 		this.align = align;
 	}
+	public final void setPale(boolean isPale) {
+		this.isPale = isPale;
+	}
 	public final void setAngle(int angle) {
 		this.angle = angle;
 	}
@@ -124,6 +132,7 @@ public abstract class Rendable implements Comparable<Rendable> {
 	}
 	
 	public final void setListen(boolean isListen) {
+		if(isListen == false && mouseListener != null) mouseListener.onLeave(this);
 		this.isListen = isListen;
 	}
 	
@@ -142,6 +151,10 @@ public abstract class Rendable implements Comparable<Rendable> {
 	}
 	public final boolean isPausable() {
 		return pausable;
+	}
+	
+	public final void rotateTo(int x, int y) {
+		this.angle = (int) (Math.atan2(y - this.y, x - this.x) * 360);
 	}
 	
 	public final void addMouseInteractiveListener(MouseInteractiveListener mouseListener) {
@@ -179,6 +192,17 @@ public abstract class Rendable implements Comparable<Rendable> {
 	public final int compareTo(Rendable that) {
 		if(this.getZ() < that.getZ()) return -1;
 		if(this.getZ() == that.getZ()) {
+			
+			int thisPosY = this.getPosY();
+			int thatPosY = that.getPosY();
+			
+			if((align & RenderHelper.BOTTOM) != 0) thisPosY -= height;
+			if((align & RenderHelper.CENTER) != 0) thisPosY -= height / 2;
+			
+			if((that.getAlign() & RenderHelper.BOTTOM) != 0) thatPosY -= that.getHeight();
+			if((that.getAlign() & RenderHelper.CENTER) != 0) thatPosY -= that.getHeight() / 2;
+			
+			
 			if(this.getPosY() < that.getPosY()) return -1;
 			if(this.getPosY() == that.getPosY()) return 0;
 			return 1;

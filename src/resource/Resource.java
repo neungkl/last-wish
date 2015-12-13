@@ -50,6 +50,11 @@ public class Resource {
 		
 		image.put("wall_corner", read("game/wall/corner.png"));
 		
+		image.put("icon_shooter1", read("game/icon/tmp.jpg"));
+		image.put("icon_shooter2", read("game/icon/tmp.jpg"));
+		image.put("icon_shooter3", read("game/icon/tmp.jpg"));
+		image.put("icon_shooter4", read("game/icon/tmp.jpg"));
+		
 		image.put("icon_barn", read("game/icon/barn.jpg"));
 		image.put("icon_bazuka", read("game/icon/bazuka.jpg"));
 		image.put("icon_farm", read("game/icon/farm.jpg"));

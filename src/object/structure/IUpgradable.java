@@ -1,9 +1,10 @@
 package object.structure;
 
 public interface IUpgradable {
-	public void getCurrentLevel();
+	public int getCurrentLevel();
 	public void upgrade(int level);
 	public int getWoodRequire();
-	public int getIconRequire();
+	public int getIronRequire();
 	public int getFarmRequire();
+	public boolean isMaxLevel();
 }

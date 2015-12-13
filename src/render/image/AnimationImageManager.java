@@ -3,7 +3,7 @@ package render.image;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import base.GameScreen;
+import essential.GameScreen;
 import exception.AnimationException;
 
 public class AnimationImageManager implements Cloneable {

@@ -5,7 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import base.GameScreen;
+import essential.GameScreen;
 
 public class Main {
 	

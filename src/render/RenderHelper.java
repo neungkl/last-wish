@@ -1,8 +1,10 @@
 package render;
 
+import java.awt.AlphaComposite;
+import java.awt.Composite;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 
@@ -16,6 +18,7 @@ public class RenderHelper {
 	public static final int CENTER_MIDDLE = CENTER | MIDDLE;
 	
 	private static final RescaleOp rescaleOp = new RescaleOp(1.5f, 0, null);
+	private static final Composite translucent = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
 	
 	private static final int getOffsetX(int x, int width, int align) {
 		if((align & CENTER) != 0) {
@@ -35,9 +38,16 @@ public class RenderHelper {
 		return y;
 	}
 	
-	public static void draw(Graphics2D g, BufferedImage img, int x, int y, int width, int height, int angle, int originX, int originY, int align) {
+	public static void draw(Graphics2D g, BufferedImage img, int x, int y, int width, int height, boolean isPale, int angle, int originX, int originY, int align) {
 		x = getOffsetX(x, width, align);
 		y = getOffsetY(y, height, align);
+		
+		Composite originComposite = null;
+		
+		if(isPale) {
+			originComposite = g.getComposite();
+			g.setComposite(translucent);
+		}
 		
 		if(angle != 0) {
 			AffineTransform tmp = g.getTransform();
@@ -49,6 +59,10 @@ public class RenderHelper {
 			g.setTransform(tmp);
 		} else {
 			g.drawImage(img, x, y, width, height, null);
+		}
+		
+		if(isPale) {
+			g.setComposite(originComposite);
 		}
 	}
 	
@@ -81,7 +95,21 @@ public class RenderHelper {
 		x = getOffsetX(x, width, align);
 		y = getOffsetY(y, height, align);
 		
-		g.drawString(text, x, y);
+		drawStringMultiLine(g, text, x, y);
+	}
+	
+	private static void drawStringMultiLine(Graphics2D g, String text, int x, int y) {
+	    FontMetrics m = g.getFontMetrics();
+        String[] words = text.split("\n");
+        String currentLine = words[0];
+        for(int i = 1; i < words.length; i++) {
+            g.drawString(currentLine, x, y);
+            y += m.getHeight();
+            currentLine = words[i];
+        }
+        if(currentLine.trim().length() > 0) {
+            g.drawString(currentLine, x, y);
+        }
 	}
 	
 	public static boolean isHitTest(int x, int y, int sx, int sy, int width, int height, int align) {

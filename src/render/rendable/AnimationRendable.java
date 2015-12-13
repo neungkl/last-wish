@@ -64,7 +64,8 @@ public class AnimationRendable extends StaticImageRendable {
 			getPosX() + (int) (img.getOffsetX() * ratio), 
 			getPosY() + (int) (img.getOffsetY() * ratio), 
 			getWidth(), 
-			getHeight(), 
+			getHeight(),
+			isPale(),
 			getAngle(),
 			getOriginX(),
 			getOriginY(),
@@ -75,7 +76,7 @@ public class AnimationRendable extends StaticImageRendable {
 	@Override
 	public void drawHoverEffect(Graphics2D g) {
 		ImageData img = animation.getCurrentImageData(); 
-		RenderHelper.draw(
+		RenderHelper.drawHoverEffect(
 			g, 
 			img.getBufferedImg(), 
 			getPosX() + (int) (img.getOffsetX() * ratio), 

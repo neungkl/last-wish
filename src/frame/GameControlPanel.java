@@ -1,5 +1,6 @@
 package frame;
 
+import input.HighlightObjectListener;
 import input.MouseInteractiveListener;
 
 import java.awt.Color;
@@ -8,14 +9,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import object.appear.IconSelector;
+import object.structure.Base;
+import object.structure.ILive;
+import object.structure.IStat;
 import render.RendableHolder;
 import render.rendable.BoxRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 import render.rendable.StringRendable;
 import resource.Resource;
-import base.GameScreen;
-import base.ZIndex;
+import essential.GameScreen;
+import essential.ZIndex;
 
 public class GameControlPanel {
 	
@@ -24,7 +28,6 @@ public class GameControlPanel {
 	private Font roboto;
 	
 	private boolean isSelectBase;
-	private boolean isDragAndDrop;
 	
 	private Color bgCol, bgNonActiveCol;
 	
@@ -39,7 +42,6 @@ public class GameControlPanel {
 		this.gameFrame = gameFrame;
 		this.y = y;
 		this.height = height;
-		this.isDragAndDrop = false;
 		
 		roboto = Resource.getFont("roboto");
 		
@@ -122,52 +124,28 @@ public class GameControlPanel {
 		baseObj = new HashMap<>();
 		defenseObj = new HashMap<>();
 		
-		String[] fileList = {"farm","logger","ironworks","barn","warehouse","light","tank","sniper","bazuka"};
+		String[] fileList = {"farm","logger","ironworks","barn","warehouse"};
+		
+		HighlightObjectListener<StaticImageRendable> baseListener = new HighlightObjectListener<StaticImageRendable>() {
+			
+			@Override
+			public void onClick(StaticImageRendable icon) {
+				gameFrame.spawnNewBase(icon.getName().split("_")[1]);
+			}
+		}; 
 		
 		for(int i=0; i<fileList.length; i++) {
 			IconSelector s = new IconSelector("icon_" + fileList[i], 10 + 80 * i, this.y + 10, 70);
 			StaticImageRendable icon = s.getIcon();
-			icon.addMouseInteractiveListener(new MouseInteractiveListener<StaticImageRendable>() {
-				
-				@Override
-				public void onLeave(StaticImageRendable icon) {
-					icon.setHoverEffect(false);
-				}
-				
-				@Override
-				public void onEnter(StaticImageRendable icon) {
-					icon.setHoverEffect(true);
-				}
-				
-				@Override
-				public void onClick(StaticImageRendable icon) {
-					isDragAndDrop = true;
-				}
-			});
+			icon.addMouseInteractiveListener(baseListener);
 			baseObj.put(fileList[i], s);
 		}
 		
-		fileList = new String[]{"sniper"};
+		fileList = new String[]{"light","tank","sniper","bazuka","shooter1","shooter2","shooter3","shooter4"};
 		for(int i=0; i<fileList.length; i++) {
 			IconSelector s = new IconSelector("icon_" + fileList[i], 10 + 80 * i, this.y + 10, 70);
 			StaticImageRendable icon = s.getIcon();
-			icon.addMouseInteractiveListener(new MouseInteractiveListener<StaticImageRendable>() {
-				
-				@Override
-				public void onLeave(StaticImageRendable icon) {
-					icon.setHoverEffect(false);
-				}
-				
-				@Override
-				public void onEnter(StaticImageRendable icon) {
-					icon.setHoverEffect(true);
-				}
-				
-				@Override
-				public void onClick(StaticImageRendable icon) {
-					isDragAndDrop = true;
-				}
-			});
+			icon.addMouseInteractiveListener(baseListener);
 			icon.setVisible(false);
 			defenseObj.put(fileList[i], s);
 		}
@@ -183,7 +161,7 @@ public class GameControlPanel {
 	
 	private void initialRightPanel() {
 		rightObj = new ArrayList<>();
-		RendableHolder.add(new BoxRendable(GameScreen.WIDTH - 300, y - 75, 300, height + 75, bgCol, ZIndex.CONTROL_BAR));
+		RendableHolder.add(new BoxRendable(GameScreen.WIDTH - 300, y - 80, 300, height + 75, bgCol, ZIndex.CONTROL_BAR));
 	}
 	
 	private void switchSelectBase(boolean isSelectBase) {
@@ -197,7 +175,93 @@ public class GameControlPanel {
 		}
 	}
 	
-	public boolean isDragAndDrop() {
-		return isDragAndDrop;
+	public void showStat(Base base) {
+		
+		int px = GameScreen.WIDTH - 300;
+		int py = y - 80;
+		
+		int ex = GameScreen.WIDTH - 80;
+		int ey = GameScreen.HEIGHT - 50;
+		
+		Rendable hold;
+		
+		RendableHolder.remove(rightObj);
+		rightObj.clear();
+		
+		String name = base.getImage().getName();
+		name = name.split("_")[1];
+		name = Character.toString(name.charAt(0)).toUpperCase()+name.substring(1);
+		
+		rightObj.add(
+			new StringRendable(
+				name,
+				Resource.getFont("roboto", Font.BOLD, 18f), 
+				px + 10, py + 22, Color.WHITE, null, 
+				ZIndex.CONTROL_BAR_OBJECT
+			)
+		);
+		
+		py += 20;
+		
+		if(base instanceof ILive) {
+			
+			ILive live = (ILive) base;
+			
+			
+			rightObj.add(
+				new StringRendable(
+					"HP", 
+					Resource.getFont("roboto", Font.PLAIN, 16f), 
+					px + 10, py + 25, Color.WHITE, null, 
+					ZIndex.CONTROL_BAR_OBJECT
+				)
+			);
+			rightObj.add(
+				new StringRendable(
+					live.getCurrentHp()+"/"+live.getFullHp(), 
+					Resource.getFont("roboto", Font.PLAIN, 14f), 
+					px + 45, py + 45, Color.WHITE, null, 
+					ZIndex.CONTROL_BAR_OBJECT
+				)
+			);
+			
+			hold = new BoxRendable(px + 50, py + 10, 220, 18, Color.RED, ZIndex.CONTROL_BAR_OBJECT);
+			rightObj.add(hold);
+			
+			py += 38;
+		}
+		
+		String txt = "";
+		
+		
+		
+		if(base instanceof IStat) {
+			hold = new StringRendable(
+				((IStat) base).getStatString(), 
+				Resource.getFont("roboto", Font.PLAIN, 15f), 
+				px + 12, py + 32, new Color(250, 250, 250), null,
+				ZIndex.CONTROL_BAR_OBJECT
+			);
+			rightObj.add(hold);
+		}
+		
+		String[] seq = {
+			"Farm : " + base.getFarmRequire(),
+			"Wood : " + base.getWoodRequire(),
+			"Iron : " + base.getIronRequire()
+		};
+		
+		
+		for(int i=0; i<3; i++) {
+			hold = new StringRendable(
+				seq[i], 
+				Resource.getFont("roboto", Font.PLAIN, 12f), 
+				ex, ey + 15 * i, new Color(250, 250, 250), null,
+				ZIndex.CONTROL_BAR_OBJECT
+			);
+			rightObj.add(hold);
+		}
+		
+		RendableHolder.add(rightObj);
 	}
 }

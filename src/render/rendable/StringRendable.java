@@ -1,9 +1,11 @@
-package render;
+package render.rendable;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+
+import render.RenderHelper;
 
 public class StringRendable extends Rendable {
 
@@ -22,11 +24,20 @@ public class StringRendable extends Rendable {
 		this(text, font, x, y, Color.BLACK, context);
 	}
 	public StringRendable(String text, Font font, int x, int y, Color color, Graphics2D context) {
-		super(x, y, 0);
+		this(text, font, x, y, color, context, 0);
+	}
+	public StringRendable(String text, Font font, int x, int y, Color color, Graphics2D context, int z) {
+		super(x, y, z);
 		this.text = text;
 		this.font = font;
 		this.color = color;
-		this.fontMetrics = context.getFontMetrics(font);
+		
+		if(context != null)
+			this.fontMetrics = context.getFontMetrics(font);
+	}
+	
+	public void setText(String text) {
+		this.text = text;
 	}
 	
 	@Override
@@ -46,6 +57,13 @@ public class StringRendable extends Rendable {
 	public int getWidth(Graphics2D g) {
 		return g.getFontMetrics(font).stringWidth(text);
 	}
+	
+	public void setColor(Color color) {
+		this.color = color;
+	}
+	
+	@Override
+	public void update() {}
 	
 	@Override
 	public void draw(Graphics2D g) {

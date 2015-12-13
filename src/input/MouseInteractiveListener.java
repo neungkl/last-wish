@@ -1,7 +1,7 @@
 package input;
 
-public interface MouseInteractiveListener {
-	public void onEnter();
-	public void onLeave();
-	public void onClick();
+public interface MouseInteractiveListener<T> {
+	public void onEnter(T object);
+	public void onLeave(T object);
+	public void onClick(T object);
 }

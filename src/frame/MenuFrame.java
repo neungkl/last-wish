@@ -1,64 +1,77 @@
 package frame;
 
-import java.awt.Graphics2D;
-
-import input.InputFlag;
 import input.MouseInteractiveListener;
+
+import javax.swing.JOptionPane;
+
+import main.Main;
+import render.RendableHolder;
+import render.RenderHelper;
+import render.rendable.StaticImageRendable;
 import base.GameScreen;
 import base.GameState;
 import base.ZIndex;
-import object.TileBackground;
-import render.RendableHolder;
-import render.RenderHelper;
-import render.StaticImageRendable;
 
 public class MenuFrame implements Frame {
 	public MenuFrame() {
 		StaticImageRendable bg = new StaticImageRendable("menu_bg");
-		float ratio = Math.min((float) GameScreen.WIDTH / bg.getWidth(), (float) GameScreen.HEIGHT / bg.getHeight());
+		float ratio = Math.max((float) GameScreen.WIDTH / bg.getWidth(), (float) GameScreen.HEIGHT / bg.getHeight());
+		
+		ratio = 1;
 		
 		bg.setPos(GameScreen.WIDTH / 2, GameScreen.HEIGHT / 2);
 		bg.setAlign(RenderHelper.CENTER_MIDDLE);
 		bg.setRatio(ratio);
 		bg.setZ(ZIndex.BACKGROUND);
 		
-		RendableHolder.getInstance().add(bg);
+		RendableHolder.add(bg);
 		
 		String[] btnName = {"start_btn", "highscore_btn", "exit_btn"};
 		
 		for(int i=0; i<btnName.length; i++) {
-			StaticImageRendable btn = new StaticImageRendable(btnName[i], GameScreen.WIDTH / 2, GameScreen.HEIGHT - 400 + i * 125, 1.1f);
+			StaticImageRendable btn = new StaticImageRendable(btnName[i], GameScreen.WIDTH / 2, GameScreen.HEIGHT - 300 + i * 100, 1f);
 			
 			String currentBtnName = btnName[i];
 			
 			btn.setAlign(RenderHelper.CENTER_MIDDLE);
 			btn.setZ(ZIndex.MENU_BTN);
-			btn.addMouseInteractiveListener(new MouseInteractiveListener() {
+			btn.addMouseInteractiveListener(new MouseInteractiveListener<StaticImageRendable>() {
 				
 				@Override
-				public void onLeave() {
+				public void onLeave(StaticImageRendable btn) {
 					btn.setHoverEffect(false);
 				}
 				
 				@Override
-				public void onEnter() {
+				public void onEnter(StaticImageRendable btn) {
 					btn.setHoverEffect(true);
 				}
 				
 				@Override
-				public void onClick() {
+				public void onClick(StaticImageRendable btn) {
 					if(currentBtnName.equals("start_btn")) {
 						GameState.getInstance().changeStage(GameState.GAME_STAGE);
+					} else if(currentBtnName.equals("exit_btn")) {
+						int dialogResult = JOptionPane.showConfirmDialog(
+							Main.getFrame(), 
+							"Wold you like to exit the game ?",
+							"Warning",
+							JOptionPane.YES_NO_OPTION
+						);
+						
+						if(dialogResult == JOptionPane.YES_OPTION) {
+							System.exit(0);
+						}
 					}
 				}
 			});
-			RendableHolder.getInstance().add(btn);
+			RendableHolder.add(btn);
 		}
 		
-		StaticImageRendable logo = new StaticImageRendable("logo", GameScreen.WIDTH / 2, 250, 1.1f);
+		StaticImageRendable logo = new StaticImageRendable("logo", GameScreen.WIDTH / 2, 250, 1f);
 		logo.setAlign(RenderHelper.CENTER_MIDDLE);
 		logo.setZ(ZIndex.MENU_BTN);
-		RendableHolder.getInstance().add(logo);
+		RendableHolder.add(logo);
 	}
 
 	@Override

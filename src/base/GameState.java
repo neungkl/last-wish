@@ -22,7 +22,7 @@ public class GameState {
 	}
 	
 	public GameState() {
-		changeStage(MENU_STAGE);
+		changeStage(GAME_STAGE);
 	}
 	
 	public void update() {

@@ -4,6 +4,7 @@ import input.InputFlag;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -11,14 +12,13 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import render.RendableHolder;
 
+@SuppressWarnings("serial")
 public class GameScreen extends JComponent {
 	
-	private static final long serialVersionUID = 8847233362005632459L;
 	public static int FRAMERATE = 60;
 	
 	public static int WIDTH;
@@ -109,6 +109,9 @@ public class GameScreen extends JComponent {
 		super.paintComponent(g);
 
 		Graphics2D g2d = (Graphics2D) g;
+		
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
+		
 		RendableHolder.getInstance().draw(g2d);
 	}
 }

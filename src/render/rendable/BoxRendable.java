@@ -1,4 +1,4 @@
-package render;
+package render.rendable;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -17,13 +17,22 @@ public class BoxRendable extends Rendable {
 		this(x, y, width, height, Color.BLACK);
 	}
 	public BoxRendable(int x, int y, int width, int height, Color color) {
-		super(x, y, 0, width, height);
+		this(x, y, width, height, color, 0);
+	}
+	public BoxRendable(int x, int y, int width, int height, Color color, int z) {
+		super(x, y, z, width, height);
+		this.color = color;
+	}
+	
+	public void setColor(Color color) {
 		this.color = color;
 	}
 
 	@Override
 	public void draw(Graphics2D g) {
 		g.setColor(color);
-		g.drawRect(getPosX(), getPosY(), getWidth(), getHeight());
+		g.fillRect(getPosX(), getPosY(), getWidth(), getHeight());
 	}
+	@Override
+	public void update() {}
 }

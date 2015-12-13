@@ -1,3 +1,4 @@
+package main;
 import input.InputFlag;
 
 import java.awt.Dimension;
@@ -15,10 +16,11 @@ public class Main {
 		JFrame frame = new JFrame();
 		GameScreen gameScreen = new GameScreen();
 
-		frame.setPreferredSize(new Dimension(1920, 1080));
+		frame.setPreferredSize(new Dimension(1366, 768));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// frame.setUndecorated(true);
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//frame.setUndecorated(true);
+		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setResizable(false);
 		frame.add(gameScreen);
 		frame.pack();
 		frame.setVisible(true);
@@ -32,8 +34,10 @@ public class Main {
 				Thread.sleep((long) (1000f / GameScreen.FRAMERATE));
 			} catch (InterruptedException e) {
 			}
+			
 			gameScreen.update();
 			gameScreen.repaint();
+			
 			InputFlag.clearTrigger();
 		}
 	}

@@ -1,13 +1,13 @@
 package render;
 
-import input.InputFlag;
-
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-import object.IObjectOnScreen;
+import object.structure.IObjectOnScreen;
+import render.effect.IHoverEffect;
+import render.rendable.Rendable;
 import base.GameState;
 
 public class RendableHolder {
@@ -24,14 +24,18 @@ public class RendableHolder {
 		}
 	}
 	
-	public void add(IObjectOnScreen object) {
-		this.add(object.getRendable());
+	public static void add(Rendable obj) {
+		getInstance().collections.add(obj);
 	}
-	public void add(ArrayList<Rendable> rendable) {
-		collections.addAll(rendable);
+	public static void add(IObjectOnScreen obj) {
+		getInstance().collections.addAll(obj.getRendable());
 	}
-	public void add(Rendable rendable) {
-		collections.add(rendable);
+	public static void add(ArrayList<Rendable> list) {
+		getInstance().collections.addAll(list);
+	}
+	
+	public ArrayList<Rendable> getRendableList() {
+		return collections;
 	}
 	
 	public void update() {
@@ -49,6 +53,9 @@ public class RendableHolder {
 			Rendable render = collections.get(i);
 			if(!GameState.IS_PAUSING || render.isPausable()) {
 				render.update();
+				if(render.isListen()) {
+					render.trigger();
+				}
 			}
 		}
 	}
@@ -59,13 +66,15 @@ public class RendableHolder {
 			Rendable render = collections.get(i);
 			
 			if(!render.isVisible()) continue;
-			render.draw(g);
 			
 			if(render instanceof IHoverEffect) {
 				if(((IHoverEffect) render).isHoverEffect()) {
 					((IHoverEffect) render).drawHoverEffect(g);
+					continue;
 				}
 			}
+			
+			render.draw(g);
 		}
 	}
 	

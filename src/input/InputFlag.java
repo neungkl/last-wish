@@ -81,7 +81,8 @@ public class InputFlag {
 		for (int i = 0; i < keyTrigger.length; i++)
 			keyTrigger[i] = false;
 		mouseLeftTrigger = mouseRightTrigger = false;
-		mouseLeftClick = mouseRightClick = false;
+		mouseLeftClick = false;
+		mouseRightClick = false;
 	}
 
 	public static void setMousePosition(int x, int y) {

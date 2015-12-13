@@ -1,10 +1,11 @@
-package object;
+package object.appear;
 
 import java.util.ArrayList;
 
-import render.Rendable;
+import object.structure.IObjectOnScreen;
 import render.RendableHolder;
-import render.StaticImageRendable;
+import render.rendable.Rendable;
+import render.rendable.StaticImageRendable;
 import base.GameScreen;
 import base.ZIndex;
 
@@ -28,7 +29,7 @@ public class TileBackground implements IObjectOnScreen {
 			for(int j=0; j<=GameScreen.HEIGHT; j += height) {
 				tmp = new StaticImageRendable(file, i, j);
 				tmp.setZ(ZIndex.BACKGROUND);
-				RendableHolder.getInstance().add(tmp);
+				RendableHolder.add(tmp);
 				bg.add(tmp);
 			}
 		}

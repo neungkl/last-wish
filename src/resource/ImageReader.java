@@ -8,7 +8,7 @@ import javax.imageio.stream.ImageInputStream;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import render.ImageData;
+import render.image.ImageData;
 import exception.ResourceException;
 
 public class ImageReader {
@@ -16,7 +16,7 @@ public class ImageReader {
 	private static ClassLoader loader = ImageReader.class.getClassLoader();
 	private ImageReader() {}
 	
-	public static ImageData[] get(String url) {
+	public static ImageData[] get(String url) throws ResourceException {
 		
 		ImageData[] frame = null;
 		
@@ -51,7 +51,7 @@ public class ImageReader {
 			    }
 			    
 			} catch (Exception e) {
-			    throw new ResourceException("File not found directory " + url + " " + e.getMessage());
+			    throw new ResourceException(ResourceException.FILE_NOT_FOUND, url);
 			}
 			
 		} else if(extension.equals("png") || extension.equals("jpg")) {
@@ -60,10 +60,10 @@ public class ImageReader {
 			try {
 				frame[0] = new ImageData(ImageIO.read(loader.getResource(url)));
 			} catch(Exception e) {
-				throw new ResourceException("File not found directory " + url + " " + e.getMessage());
+				throw new ResourceException(ResourceException.FILE_NOT_FOUND, url);
 			}
 		} else {
-			throw new ResourceException("File extension incorrect : " + extension);
+			throw new ResourceException(ResourceException.EXTENSION_INCORRECT, extension);
 		}
 		
 		return frame;

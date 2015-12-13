@@ -1,22 +1,29 @@
-package render;
+package render.rendable;
 
 import input.InputFlag;
 import input.MouseInteractiveListener;
 
 import java.awt.Graphics2D;
 
+import render.RenderHelper;
+
 public abstract class Rendable implements Comparable<Rendable> {
 	
 	private int x,y;
+	private int originX, originY;
 	private int z;
 	private int width, height;
 	private boolean destroy;
 	private boolean visible;
 	private boolean pausable;
 	private int align;
+	private int angle;
+	
+	private String name;
 	
 	private boolean isEnter;
 	private MouseInteractiveListener mouseListener;
+	private boolean isListen;
 	
 	public Rendable(int z) {
 		this(0, 0, z);
@@ -37,16 +44,49 @@ public abstract class Rendable implements Comparable<Rendable> {
 		
 		this.isEnter = false;
 		this.mouseListener = null;
-	}
-	
-	public final void setPosX(int x) {
-		this.x = x;
+		
+		this.angle = 0;
+		this.originX = width / 2;
+		this.originY = height / 2;
+		this.isListen = true;
 	}
 	
 	public final int getPosX() {
 		return x;
 	}
 	
+	public final int getPosY() {
+		return y;
+	}
+	public int getZ() {
+		return z;
+	}
+	protected final int getAlign() {
+		return align;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public final int getAngle() {
+		return angle;
+	}
+	public final int getOriginX() {
+		return originX;
+	}
+	public final int getOriginY() {
+		return originY;
+	}
+	
+	public final String getName() {
+		return name;
+	}
+	
+	public final void setPosX(int x) {
+		this.x = x;
+	}
 	public final void setPosY(int y) {
 		this.y = y;
 	}
@@ -56,10 +96,6 @@ public abstract class Rendable implements Comparable<Rendable> {
 		this.y = y;
 	}
 	
-	public final int getPosY() {
-		return y;
-	}
-	
 	public final void setZ(int z) {
 		this.z = z;
 	}
@@ -67,20 +103,17 @@ public abstract class Rendable implements Comparable<Rendable> {
 	public final void setAlign(int align) {
 		this.align = align;
 	}
-	protected final int getAlign() {
-		return align;
+	public final void setAngle(int angle) {
+		this.angle = angle;
 	}
 	
-	public int getZ() {
-		return z;
+	public final void setOrigin(int x, int y) {
+		this.originX = x;
+		this.originY = y;
 	}
 	
-	public int getWidth() {
-		return width;
-	}
-	
-	public int getHeight() {
-		return height;
+	public final void setName(String name) {
+		this.name = name;
 	}
 	
 	public final void destroy() {
@@ -88,6 +121,14 @@ public abstract class Rendable implements Comparable<Rendable> {
 	}
 	public final boolean isDestroy() {
 		return destroy;
+	}
+	
+	public final void setListen(boolean isListen) {
+		this.isListen = isListen;
+	}
+	
+	public final boolean isListen() {
+		return isListen;
 	}
 	
 	public final void setVisible(boolean visible) {
@@ -116,23 +157,21 @@ public abstract class Rendable implements Comparable<Rendable> {
 			if(isHitTest(InputFlag.getMouseX(), InputFlag.getMouseY())) {
 				if(!isEnter) {
 					isEnter = true;
-					mouseListener.onEnter();
+					mouseListener.onEnter(this);
 				}
-				if(InputFlag.get(InputFlag.MOUSE_LEFT_CLICK)) {
-					mouseListener.onClick();
+				if(InputFlag.getTrigger(InputFlag.MOUSE_LEFT)) {
+					mouseListener.onClick(this);
 				}
 			} else {
 				if(isEnter) {
 					isEnter = false;
-					mouseListener.onLeave();
+					mouseListener.onLeave(this);
 				}
 			}
 		}
 	}
 	
-	public void update() {
-		trigger();
-	}
+	public abstract void update();
 	
 	public abstract void draw(Graphics2D g);
 	

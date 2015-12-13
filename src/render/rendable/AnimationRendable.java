@@ -1,11 +1,14 @@
-package render;
+package render.rendable;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import render.RenderHelper;
+import render.image.AnimationImageManager;
+import render.image.ImageData;
 import resource.Resource;
 
-public class AnimationRendable extends Rendable {
+public class AnimationRendable extends StaticImageRendable {
 	
 	private AnimationImageManager animation;
 	private float ratio;
@@ -17,22 +20,14 @@ public class AnimationRendable extends Rendable {
 		this(file, 0, 0, ratio);
 	}
 	public AnimationRendable(String file, int x, int y, float ratio) {
-		this(Resource.getInstance().getImageAnimation(file), x, y, ratio);
+		this(Resource.getImageAnimation(file), x, y, ratio);
 		
 	}
 	private AnimationRendable(AnimationImageManager animation, int x, int y, float ratio) {
 		super(x, y, 0, animation.getWidth(), animation.getHeight());
 		this.animation = animation;
-		this.ratio = ratio;
-	}
-	
-	@Override
-	public int getWidth() {
-		return (int)(super.getWidth() * ratio);
-	}
-	@Override
-	public int getHeight() {
-		return (int)(super.getHeight() * ratio);
+		setRatio(ratio);
+		setOrigin(getWidth() / 2, getHeight() / 2);
 	}
 	
 	public AnimationImageManager getAnimation() {
@@ -57,7 +52,6 @@ public class AnimationRendable extends Rendable {
 	
 	@Override
 	public void update() {
-		super.update();
 		animation.update();
 	}
 	
@@ -69,11 +63,30 @@ public class AnimationRendable extends Rendable {
 			img.getBufferedImg(), 
 			getPosX() + (int) (img.getOffsetX() * ratio), 
 			getPosY() + (int) (img.getOffsetY() * ratio), 
-			(int) (img.getWidth() * ratio), 
-			(int) (img.getHeight() * ratio), 
+			getWidth(), 
+			getHeight(), 
+			getAngle(),
+			getOriginX(),
+			getOriginY(),
 			getAlign()
 		);
 	}
 	
+	@Override
+	public void drawHoverEffect(Graphics2D g) {
+		ImageData img = animation.getCurrentImageData(); 
+		RenderHelper.draw(
+			g, 
+			img.getBufferedImg(), 
+			getPosX() + (int) (img.getOffsetX() * ratio), 
+			getPosY() + (int) (img.getOffsetY() * ratio), 
+			getWidth(), 
+			getHeight(), 
+			getAngle(),
+			getOriginX(),
+			getOriginY(),
+			getAlign()
+		);
+	}
 	
 }

@@ -1,14 +1,18 @@
-package render;
+package render.rendable;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import render.RenderHelper;
+import render.effect.IHoverEffect;
 import resource.Resource;
 
 public class StaticImageRendable extends Rendable implements IHoverEffect {
 
 	private BufferedImage image;
 	private float ratio;
+	private int realWidth, realHeight;
+	private int currentWidth, currentHeight;
 	private boolean hoverEffect = false;
 
 	public StaticImageRendable(String file) {
@@ -25,27 +29,46 @@ public class StaticImageRendable extends Rendable implements IHoverEffect {
 	}
 
 	public StaticImageRendable(String file, int x, int y, float ratio) {
-		this(Resource.getInstance().getImage(file)[0].getBufferedImg(), x, y, ratio);
+		this(Resource.getImage(file)[0].getBufferedImg(), x, y, ratio);
 	}
 
 	private StaticImageRendable(BufferedImage image, int x, int y, float ratio) {
 		super(x, y, 0, image.getWidth(), image.getHeight());
 		this.image = image;
-		this.ratio = ratio;
+		this.realWidth = image.getWidth();
+		this.realHeight = image.getHeight();
+		
+		setRatio(ratio);
+		setOrigin(currentWidth / 2, currentHeight / 2);
 	}
-
-	@Override
-	public int getWidth() {
-		return (int) (super.getWidth() * ratio);
+	protected StaticImageRendable(int x, int y, int z, int width, int height) {
+		super(x, y, z, width, height);
+		this.realWidth = width;
+		this.realHeight = height;
 	}
-
-	@Override
-	public int getHeight() {
-		return (int) (super.getHeight() * ratio);
+	
+	public final void setRatioWithWidth(int width) {
+		setRatio(width / (float) realWidth);
+	}
+	public final void setRatioWithHeight(int height) {
+		setRatio(height / (float) realHeight);
 	}
 
 	public final void setRatio(float ratio) {
 		this.ratio = ratio;
+		
+		currentWidth = (int) (super.getWidth() * ratio);
+		currentHeight = (int) (super.getHeight() * ratio);
+	}
+	
+	@Override
+	public int getWidth() {
+		return currentWidth;
+	}
+	
+	@Override
+	public int getHeight() {
+		return currentHeight;
 	}
 
 	public final float getRatio() {
@@ -59,8 +82,8 @@ public class StaticImageRendable extends Rendable implements IHoverEffect {
 			y, 
 			getPosX(), 
 			getPosY(),
-			(int) (getWidth() * ratio), 
-			(int) (this.getHeight() * ratio),
+			currentWidth, 
+			currentHeight,
 			getAlign()
 		);
 	}
@@ -74,6 +97,9 @@ public class StaticImageRendable extends Rendable implements IHoverEffect {
 	public boolean isHoverEffect() {
 		return hoverEffect;
 	}
+	
+	@Override
+	public void update() {}
 
 	@Override
 	public void draw(Graphics2D g) {
@@ -82,8 +108,11 @@ public class StaticImageRendable extends Rendable implements IHoverEffect {
 			image, 
 			getPosX(), 
 			getPosY(),
-			(int) (getWidth() * ratio), 
-			(int) (getHeight() * ratio),
+			getWidth(), 
+			getHeight(),
+			getAngle(),
+			getOriginX(),
+			getOriginY(),
 			getAlign()
 		);
 	}
@@ -95,8 +124,11 @@ public class StaticImageRendable extends Rendable implements IHoverEffect {
 			image, 
 			getPosX(), 
 			getPosY(),
-			(int) (getWidth() * ratio), 
-			(int) (getHeight() * ratio),
+			currentWidth, 
+			currentHeight,
+			getAngle(),
+			getOriginX(),
+			getOriginY(),
 			getAlign()
 		);
 	}

@@ -48,10 +48,10 @@ public class Resource {
 		image.put("base_tank", read("game/base/tank.png"));
 		image.put("base_warehouse", read("game/base/warehouse.png"));
 		
-		image.put("icon_shooter1", read("game/icon/tmp.jpg"));
-		image.put("icon_shooter2", read("game/icon/tmp.jpg"));
-		image.put("icon_shooter3", read("game/icon/tmp.jpg"));
-		image.put("icon_shooter4", read("game/icon/tmp.jpg"));
+		image.put("icon_shooter1", read("game/icon/shooter1.jpg"));
+		image.put("icon_shooter2", read("game/icon/shooter2.jpg"));
+		image.put("icon_shooter3", read("game/icon/shooter3.jpg"));
+		image.put("icon_shooter4", read("game/icon/shooter4.jpg"));
 		
 		image.put("icon_barn", read("game/icon/barn.jpg"));
 		image.put("icon_bazuka", read("game/icon/bazuka.jpg"));

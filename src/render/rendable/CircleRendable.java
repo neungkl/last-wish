@@ -32,6 +32,10 @@ public class CircleRendable extends Rendable {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+	
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
 
 	@Override
 	public void draw(Graphics2D g) {

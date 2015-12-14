@@ -4,7 +4,7 @@ import frame.GameFrame;
 
 public interface IAttackable {
 	public int getDamage();
-	public int getFireRate();
+	public float getFireRate();
 	public int getRang();
 	public void increaseTime();
 	public boolean isAttack();

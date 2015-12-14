@@ -28,6 +28,11 @@ public class StringRendable extends Rendable {
 	}
 	public StringRendable(String text, Font font, int x, int y, Color color, Graphics2D context, int z) {
 		super(x, y, z);
+		
+		if(text == null) {
+			throw new RuntimeException("Text must not be null");
+		}
+		
 		this.text = text;
 		this.font = font;
 		this.color = color;

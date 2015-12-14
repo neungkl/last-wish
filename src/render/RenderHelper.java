@@ -76,7 +76,10 @@ public class RenderHelper {
 			img.isAlphaPremultiplied(),
 			null
 		);
-		rescaleOp.filter(img, newImg);
+		
+		try {
+			rescaleOp.filter(newImg, newImg);
+		} catch(IllegalArgumentException e) {}
 		
 		if(angle != 0) {
 			AffineTransform tmp = g.getTransform();

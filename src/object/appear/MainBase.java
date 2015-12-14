@@ -12,11 +12,20 @@ public class MainBase extends Base {
 		image = new AnimationRendable("base_main", x, y + 40, ratio);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
+		
+		this.fullHp = this.currentHp = 3000;
 	}
 
 	@Override
 	public void upgrade(int level) {
-		// TODO Auto-generated method stub
-		
+		level++;
+		if(level <= maxLevel) {
+			this.fullHp += 300;
+			this.currentHp += 300;
+		} else {
+			level = maxLevel;
+		}
+		currentLevel = level;
 	}
+
 }

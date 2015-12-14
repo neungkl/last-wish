@@ -24,9 +24,11 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	private int physicalRadius;
 	private boolean isDestroy; 
 	
+	private int lastAttackTime = -1000;
+	
 	protected Base(int radius) {
 		physicalRadius = radius;
-		woodRequire = farmRequire = ironRequire = 0;
+		woodRequire = farmRequire = ironRequire = farmPer = 0;
 		currentLevel = maxLevel = 1;
 		
 		fullHp = currentHp = 0;
@@ -100,6 +102,13 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	@Override
 	public int getPosY() {
 		return image.getPosY();
+	}
+	
+	@Override
+	public double getDistance(IPhysical obj) {
+		float delX = obj.getPosX() - this.getPosX();
+		float delY = obj.getPosY() - this.getPosY();
+		return (float) Math.sqrt(delX * delX + delY * delY);
 	}
 	
 	@Override

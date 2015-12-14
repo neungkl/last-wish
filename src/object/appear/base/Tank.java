@@ -1,7 +1,8 @@
 package object.appear.base;
 
+import object.appear.bullet.MiniBullet;
 import object.structure.BaseAttack;
-import frame.GameFrame;
+import object.structure.Bullet;
 
 public class Tank extends BaseAttack {
 
@@ -12,7 +13,7 @@ public class Tank extends BaseAttack {
 		this.fireRate = 2;
 		this.woodRequire = 1500;
 		this.ironRequire = 1200;
-		this.rang =80;
+		this.rang = 140;
 		this.damage= 8;
 		this.farmPer = 4;
 		this.maxLevel = 5;
@@ -44,8 +45,7 @@ public class Tank extends BaseAttack {
 	}
 	
 	@Override
-	public void attack(GameFrame gameFrame) {
-		//System.out.println("shooter1 attack");
+	protected Bullet generateBullet(float angle) {
+		return new MiniBullet(this, damage, getPosX(), getPosY(), angle);
 	}
-	
 }

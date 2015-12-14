@@ -1,7 +1,7 @@
 package frame;
 
-import input.BaseListener;
 import input.InputFlag;
+import input.MapParentListener;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -21,10 +21,15 @@ import object.appear.base.Shooter4;
 import object.appear.base.Sniper;
 import object.appear.base.Tank;
 import object.appear.base.Warehouse;
+import object.appear.bullet.BazukaBullet;
+import object.appear.bullet.FastBullet;
 import object.appear.zombie.OdinaryZombie;
 import object.structure.Base;
+import object.structure.BaseAttack;
+import object.structure.BaseShooter;
 import object.structure.Bullet;
 import object.structure.IAttackable;
+import object.structure.ILive;
 import object.structure.IObjectOnScreen;
 import object.structure.IPhysical;
 import object.structure.IShooter;
@@ -35,7 +40,9 @@ import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 import essential.Config;
 import essential.GameScreen;
-import frame.logic.SpawnZombie;
+import essential.Pair;
+import essential.ZIndex;
+import frame.logic.TimeCounter;
 
 public class GameFrame implements Frame {
 	
@@ -49,8 +56,13 @@ public class GameFrame implements Frame {
 	private ArrayList<Bullet> bulletList;
 	private ArrayList<Zombie> zombieList;
 	
-	private Base currentShowingStat = null;
+	private CircleRendable showRang;
+	private static final Color showRangCol = new Color(7, 230, 226, 50);
+	
+	private IObjectOnScreen currentShowingStat = null;
 	private Base dragAndDropObj = null;
+	
+	
 	
 	public void test(IPhysical sss) {
 		//RendableHolder.add(new CircleRendable(mainBase.getPosX(), mainBase.getPosY(), 32, Color.RED, 10000));
@@ -58,7 +70,7 @@ public class GameFrame implements Frame {
 	
 	public GameFrame() {
 		
-		SpawnZombie.start();
+		TimeCounter.start();
 		
 		RendableHolder.add(new TileBackground("game_bg"));
 		
@@ -78,7 +90,7 @@ public class GameFrame implements Frame {
 		mainBase = new MainBase(centerX, centerY, 0.2f);
 		mainBase.setName("Main Base");
 		mainBase.getSingleRendable().addMouseInteractiveListener(
-			new BaseListener(mainBase){
+			new MapParentListener<Base>(mainBase) {
 				@Override
 				public void onClick(StaticImageRendable object, Base parent) {
 					currentShowingStat = parent;
@@ -90,6 +102,10 @@ public class GameFrame implements Frame {
 		
 		baseList.add(mainBase);
 		RendableHolder.add(mainBase);
+		
+		showRang = new CircleRendable(0, 0, 0, showRangCol, ZIndex.EXTERNAL_INFO);
+		showRang.setVisible(false);
+		RendableHolder.add(showRang);
 	}
 	
 	public void spawnNewBase(String name) {
@@ -152,10 +168,14 @@ public class GameFrame implements Frame {
 		return bulletList;
 	}
 	
+	public ArrayList<Zombie> getZombieList() {
+		return zombieList;
+	}
+	
 	private void clearDestroyedObject() {
 		for(Iterator<Base> it = baseList.iterator(); it.hasNext(); ) {
 			Base cur = it.next();
-			if(cur.isDestroy()) {
+			if(cur.isDestroy() || cur.isDie()) {
 				cur.destroy();
 				it.remove();
 				cur = null;
@@ -165,6 +185,15 @@ public class GameFrame implements Frame {
 		for(Iterator<Bullet> it = bulletList.iterator(); it.hasNext(); ) {
 			Bullet cur = it.next();
 			if(cur.isDestroy() || cur.isOutOfArea()) {
+				cur.destroy();
+				it.remove();
+				cur = null;
+			}
+		}
+		
+		for(Iterator<Zombie> it = zombieList.iterator(); it.hasNext(); ) {
+			Zombie cur = it.next();
+			if(cur.isDestroy()) {
 				cur.destroy();
 				it.remove();
 				cur = null;
@@ -185,14 +214,15 @@ public class GameFrame implements Frame {
 					each.setListen(true);
 				}
 				
-				dragAndDropObj.getSingleRendable().addMouseInteractiveListener(new BaseListener(dragAndDropObj){
-
-					@Override
-					public void onClick(StaticImageRendable object, Base parent) {
-						currentShowingStat = parent;
+				dragAndDropObj.getSingleRendable().addMouseInteractiveListener(
+					new MapParentListener<Base>(dragAndDropObj){
+						@Override
+						public void onClick(StaticImageRendable object, Base parent) {
+							currentShowingStat = parent;
+						}
+						
 					}
-					
-				});
+				);
 				
 				if(Config.DEBUG) {
 					RendableHolder.add(new CircleRendable(
@@ -215,6 +245,17 @@ public class GameFrame implements Frame {
 		
 		if(currentShowingStat != null) {
 			controlPanel.showStat(currentShowingStat);
+			
+			if(currentShowingStat instanceof BaseAttack && !(currentShowingStat instanceof BaseShooter)) {
+				BaseAttack ba = (BaseAttack) currentShowingStat;
+				if(ba.getRang() != Integer.MAX_VALUE) {
+					showRang.setVisible(true);
+					showRang.setPos(ba.getPosX(), ba.getPosY());
+					showRang.setRadius(ba.getRang());
+				}
+			} else {
+				showRang.setVisible(false);
+			}
 		}
 		
 		for(Base base : baseList) {
@@ -233,14 +274,11 @@ public class GameFrame implements Frame {
 		
 		for(Bullet bullet : bulletList) {
 			bullet.update();
-			for(Base base : baseList) {
-				if(bullet.isHitTest(base)) {
-					bullet.destroy();
-				}
-			}
 			for(Zombie zombie : zombieList) {
 				if(bullet.isHitTest(zombie)) {
-					zombie.decreaseHp(Integer.MAX_VALUE);
+					if(!(bullet instanceof BazukaBullet || bullet instanceof FastBullet))
+						bullet.destroy();
+					bullet.attack(zombie);
 				}
 			}
 		}
@@ -249,11 +287,28 @@ public class GameFrame implements Frame {
 			zombie.update(baseList);
 		}
 		
-		if(SpawnZombie.shouldSpawnZombie()) {
+		if(TimeCounter.shouldSpawnZombie()) {
 			Zombie zombie = new OdinaryZombie();
+			zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
+
+				@Override
+				public void onClick(StaticImageRendable object, Zombie parent) {
+					currentShowingStat = parent;
+				}
+				
+			});
 			zombieList.add(zombie);
 			RendableHolder.add(zombie);
-			SpawnZombie.setShouldSpawnZombie(false);
+			TimeCounter.setShouldSpawnZombie(false);
+		}
+		
+		if(TimeCounter.isNewSecond()) {
+			
+			for(Zombie zombie : zombieList) {
+				zombie.updateCombatStatus();
+			}
+			
+			TimeCounter.setNewSecond(false);
 		}
 	}
 	

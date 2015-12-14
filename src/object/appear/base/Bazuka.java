@@ -1,6 +1,8 @@
 package object.appear.base;
 
+import object.appear.bullet.BazukaBullet;
 import object.structure.BaseAttack;
+import object.structure.Bullet;
 import frame.GameFrame;
 
 public class Bazuka extends BaseAttack {
@@ -44,8 +46,7 @@ public class Bazuka extends BaseAttack {
 	}
 	
 	@Override
-	public void attack(GameFrame gameFrame) {
-		//System.out.println("shooter1 attack");
+	protected Bullet generateBullet(float angle) {
+		return new BazukaBullet(this, damage, getPosX(), getPosY(), angle);
 	}
-	
 }

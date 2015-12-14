@@ -53,8 +53,6 @@ public class AnimationImageManager implements Cloneable {
 	}
 
 	public void loop(int speed) {
-		if (isLoop)
-			throw new AnimationException("The animation is already loop.");
 		isPlay = isFinish = false;
 		isLoop = true;
 		frame = 0;

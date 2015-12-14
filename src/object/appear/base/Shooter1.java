@@ -1,10 +1,8 @@
 package object.appear.base;
 
-import object.appear.bullet.BazukaBullet;
+import object.appear.bullet.NormalBullet;
 import object.structure.BaseShooter;
 import object.structure.Bullet;
-import render.RendableHolder;
-import frame.GameFrame;
 
 public class Shooter1 extends BaseShooter {
 
@@ -45,10 +43,7 @@ public class Shooter1 extends BaseShooter {
 	}
 
 	@Override
-	public void attack(GameFrame gameFrame) {
-		Bullet b = new BazukaBullet(this, 10, getPosX(), getPosY(), getSingleRendable().getAngle());
-		RendableHolder.add(b);
-		gameFrame.getBulletList().add(b);
+	protected Bullet generateBullet(float angle) {
+		return new NormalBullet(this, damage, getPosX(), getPosY(), angle);
 	}
-
 }

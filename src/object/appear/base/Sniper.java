@@ -1,6 +1,8 @@
 package object.appear.base;
 
+import object.appear.bullet.FastBullet;
 import object.structure.BaseAttack;
+import object.structure.Bullet;
 import frame.GameFrame;
 
 public class Sniper extends BaseAttack {
@@ -12,7 +14,7 @@ public class Sniper extends BaseAttack {
 		this.fireRate = 4;
 		this.woodRequire = 1500;
 		this.ironRequire =1100;
-		this.rang = 200;
+		this.rang = 300;
 		this.damage= 30;
 		this.farmPer = 3;
 		this.maxLevel = 5;
@@ -44,8 +46,8 @@ public class Sniper extends BaseAttack {
 	}
 	
 	@Override
-	public void attack(GameFrame gameFrame) {
-		//System.out.println("shooter1 attack");
+	protected Bullet generateBullet(float angle) {
+		return new FastBullet(this, damage, getPosX(), getPosY(), angle);
 	}
 	
 }

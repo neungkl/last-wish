@@ -224,7 +224,9 @@ public class GameControlPanel {
 				)
 			);
 			
-			hold = new BoxRendable(px + 50, py + 10, 220, 18, Color.RED, ZIndex.CONTROL_BAR_OBJECT);
+			int width = (int) (220f * live.getCurrentHp() / live.getFullHp());
+			
+			hold = new BoxRendable(px + 50, py + 10, width, 18, Color.RED, ZIndex.CONTROL_BAR_OBJECT);
 			rightObj.add(hold);
 			
 			py += 38;

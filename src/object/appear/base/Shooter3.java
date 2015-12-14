@@ -1,6 +1,10 @@
 package object.appear.base;
 
+import object.appear.bullet.BoldBullet;
+import object.appear.bullet.NormalBullet;
 import object.structure.BaseShooter;
+import object.structure.Bullet;
+import render.RendableHolder;
 import frame.GameFrame;
 
 public class Shooter3 extends BaseShooter {
@@ -40,9 +44,9 @@ public class Shooter3 extends BaseShooter {
 		}
 		this.currentLevel = level;
 	}
-
+	
 	@Override
-	public void attack(GameFrame gameFrame) {
-		// System.out.println("shooter1 attack");
+	protected Bullet generateBullet(float angle) {
+		return new BoldBullet(this, damage, getPosX(), getPosY(), angle);
 	}
 }

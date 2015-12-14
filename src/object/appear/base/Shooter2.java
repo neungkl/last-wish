@@ -1,6 +1,8 @@
 package object.appear.base;
 
+import object.appear.bullet.NormalBullet;
 import object.structure.BaseShooter;
+import object.structure.Bullet;
 import frame.GameFrame;
 
 public class Shooter2 extends BaseShooter {
@@ -8,34 +10,34 @@ public class Shooter2 extends BaseShooter {
 	public Shooter2(float ratio) {
 		super("base_shooter2", ratio);
 		
-		this.fullHp = 170;
-		this.fireRate = 5;
-		this.woodRequire = 1400;
-		this.ironRequire = 1600;
-		this.rang = Integer.MAX_VALUE;
-		this.farmPer = 10;
-		this.damage= 30;
-		this.maxLevel = 10;
+		this.fullHp =150;
+		this.fireRate = 3;
+		this.woodRequire = 1500;
+		this.ironRequire = 1350;
+		this.rang =Integer.MAX_VALUE;
+		this.damage= 12;
+		this.farmPer = 6;
+		this.maxLevel =10;
 		
 		this.currentHp = this.fullHp;
 	}
 	
 	public static boolean canBuild(int farm, int wood, int iron) {
 		return 
-			farm >=10 &&
-			wood >= 1000 &&
-			iron >= 1400;
+			farm >= 6 &&
+			wood >= 1200 &&
+			iron >= 1100;
 	}
 
 	@Override
 	public void upgrade(int level) {
 		level++;
 		if(level <= maxLevel) {
-			this.fullHp += 60;
-			this.currentHp += 60;
-			this.woodRequire += 500;
-			this.ironRequire +=400;
-			this.damage +=20;
+			this.fullHp += 20;
+			this.currentHp +=20;
+			this.woodRequire += 400;
+			this.ironRequire +=350;
+			this.damage += 9;
 		} else {
 			level = maxLevel;
 		}
@@ -43,7 +45,7 @@ public class Shooter2 extends BaseShooter {
 	}
 	
 	@Override
-	public void attack(GameFrame gameFrame) {
-		//System.out.println("shooter1 attack");
+	protected Bullet generateBullet(float angle) {
+		return new NormalBullet(this, damage, getPosX(), getPosY(), angle);
 	}
 }

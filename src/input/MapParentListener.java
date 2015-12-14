@@ -3,11 +3,11 @@ package input;
 import object.structure.Base;
 import render.rendable.StaticImageRendable;
 
-public abstract class BaseListener extends HighlightObjectListener<StaticImageRendable> {
+public abstract class MapParentListener<T> extends HighlightObjectListener<StaticImageRendable> {
 	
-	private Base parent;
+	private T parent;
 	
-	public BaseListener(Base parent) {
+	public MapParentListener(T parent) {
 		this.parent = parent;
 	}
 	
@@ -16,5 +16,5 @@ public abstract class BaseListener extends HighlightObjectListener<StaticImageRe
 		onClick(object, parent);
 	}
 	
-	public abstract void onClick(StaticImageRendable object, Base parent);
+	public abstract void onClick(StaticImageRendable object, T parent);
 }

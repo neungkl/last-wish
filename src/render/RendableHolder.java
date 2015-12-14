@@ -43,6 +43,9 @@ public class RendableHolder {
 		return collections;
 	}
 	
+	public static void remove(Rendable obj) {
+		getInstance().collections.remove(obj);
+	}
 	public static void remove(IObjectOnScreen obj) {
 		getInstance().collections.removeAll(obj.getRendable());
 	}

@@ -6,6 +6,7 @@ public interface IPhysical {
 	public int getPhysicalRadius();
 	public void setPhysicalRadius(int radius);
 	public boolean isHitTest(IPhysical obj);
+	public double getDistance(IPhysical obj); 
 	public void destroy();
 	public boolean isDestroy();
 }

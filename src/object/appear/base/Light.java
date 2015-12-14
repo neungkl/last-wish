@@ -1,6 +1,8 @@
 package object.appear.base;
 
+import object.appear.bullet.NormalBullet;
 import object.structure.BaseAttack;
+import object.structure.Bullet;
 import frame.GameFrame;
 
 public class Light extends BaseAttack {
@@ -10,10 +12,10 @@ public class Light extends BaseAttack {
 		
 		this.fullHp = 50;
 		this.damage = 7;
-		this.fireRate = 1;
+		this.fireRate = 0.85f;
 		this.woodRequire = 450;
 		this.ironRequire =420;
-		this.rang = 100;
+		this.rang = 80;
 		this.farmPer = 2;
 		this.maxLevel = 5;
 		
@@ -44,8 +46,8 @@ public class Light extends BaseAttack {
 	}
 	
 	@Override
-	public void attack(GameFrame gameFrame) {
-		//System.out.println("shooter1 attack");
+	protected Bullet generateBullet(float angle) {
+		return new NormalBullet(this, damage, getPosX(), getPosY(), angle);
 	}
 	
 }

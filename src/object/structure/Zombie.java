@@ -1,5 +1,7 @@
 package object.structure;
 
+import input.MapParentListener;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -13,7 +15,7 @@ import essential.GameScreen;
 import essential.RandUtil;
 import essential.ZIndex;
 
-public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
+public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 	
 	protected static final int MOVE = 0;
 	protected static final int ATTACK = 1;
@@ -42,6 +44,8 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 	
 	private String name;
 	private CircleRendable debug;
+	
+	private ArrayList<ILive> attackList;
 	
 	protected Zombie(String type, int hp, float speed, int damage, int radius, float ratio) {
 		int x = RandUtil.rand(GameScreen.WIDTH);
@@ -90,6 +94,7 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 		
 		this.fullHp = this.currentHp = hp;
 		
+		attackList = new ArrayList<>();
 		desBase = null;
 	}
 
@@ -124,6 +129,13 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 		return (int) y;
 	}
 	
+	@Override
+	public double getDistance(IPhysical obj) {
+		float delX = obj.getPosX() - this.getPosX();
+		float delY = obj.getPosY() - this.getPosY();
+		return (float) Math.sqrt(delX * delX + delY * delY);
+	}
+	
 	public void setAngle(int angle) {
 		this.angle = angle;
 	}
@@ -149,6 +161,8 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 		for(int i=0; i<list.size(); i++) {
 			
 			Base b = list.get(i);
+			
+			if(b.isDestroy()) continue;
 			
 			int delX = b.getPosX() - this.getPosX();
 			int delY = b.getPosY() - this.getPosY();
@@ -206,7 +220,7 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 				return ;
 			}
 		} else if(currentState == ATTACK) {
-			if(desBase == null) {
+			if(desBase == null || desBase.isDestroy()) {
 				switchState(MOVE);
 			}
 			if(!this.isHitTest(desBase)) {
@@ -216,6 +230,8 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 				switchState(DIE);
 				return ;
 			}
+			if(!attackList.contains(desBase))
+				attackList.add(desBase);
 		} else if(currentState == DIE) {
 			if(death.getAnimation().isFinish()) {
 				destroy();
@@ -224,27 +240,8 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 		}
 	}
 	
-	private final void switchState(int state) {
-		System.out.println(state);
-		currentState = state;
-		currentActive.setVisible(false);
-		switch(state) {
-		case MOVE :
-			currentActive = move;
-			currentActive.loop();
-			break;
-		case ATTACK :
-			currentActive = attack;
-			currentActive.loop(16);
-			break;
-		case DIE :
-			currentActive = death;
-			currentActive.play();
-			break;
-		}
-		currentActive.setVisible(true);
-	}
-
+	protected abstract void switchState(int state);
+	
 	@Override
 	public boolean isHitTest(IPhysical obj) {
 		int delX = getPosX() - obj.getPosX();
@@ -259,6 +256,8 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 		move.destroy();
 		death.destroy();
 		
+		attackList.clear();
+		
 		if(debug != null)
 			debug.destroy();
 		
@@ -268,6 +267,13 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 	@Override
 	public boolean isDestroy() {
 		return isDestroy;
+	}
+	
+	public void updateCombatStatus() {
+		for(ILive live : attackList) {
+			live.decreaseHp(damage);
+		}
+		attackList.clear();
 	}
 	
 	@Override
@@ -286,6 +292,12 @@ public class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen, IName {
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void addMouseInteractiveListener(MapParentListener<Zombie> mapParentListener) {
+		attack.addMouseInteractiveListener(mapParentListener);
+		move.addMouseInteractiveListener(mapParentListener);
+		death.addMouseInteractiveListener(mapParentListener);
 	}
 
 	@Override

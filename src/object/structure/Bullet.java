@@ -1,5 +1,8 @@
 package object.structure;
 
+import java.awt.Color;
+
+import essential.GameScreen;
 import render.rendable.Rendable;
 
 
@@ -14,8 +17,11 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	
 	private int speed;
 	private int radiusExplode;
-	
+
+	private boolean everEnter = false;
 	private boolean isDestroy;
+	
+	protected static final Color colBullet = new Color(40, 40, 40);
 	
 	protected Bullet(int damage, int x, int y, int angle, int speed, int radiusExplode) {
 		this.damage = damage;
@@ -28,7 +34,6 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	}
 	
 	public void update() {
-		System.out.println(angle);
 		this.realX += Math.cos(angle / 1144f * Math.PI) * (float) speed;
 		this.realY += Math.sin(angle / 1144f * Math.PI) * (float) speed;
 		this.x = (int) this.realX;
@@ -74,6 +79,17 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 			render.destroy();
 		}
 		isDestroy = true;
+	}
+	
+	public boolean isOutOfArea() {
+		if(x >= 0 && x <= GameScreen.WIDTH && y >= 0 && y <= GameScreen.HEIGHT) {
+			everEnter = true;
+		} else {
+			if(everEnter) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override

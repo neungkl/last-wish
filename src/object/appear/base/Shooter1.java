@@ -12,8 +12,7 @@ public class Shooter1 extends BaseShooter {
 		super("base_shooter1", ratio);
 		
 		this.fullHp = 120;
-		this.fireRate =100;
-		this.farmRequire = 350;
+		this.fireRate =2;
 		this.woodRequire = 1700;
 		this.ironRequire = 1800;
 		this.rang = Integer.MAX_VALUE;
@@ -37,7 +36,6 @@ public class Shooter1 extends BaseShooter {
 			this.fullHp += 0;
 			this.currentHp += 0;
 			this.fireRate += 0;
-			this.farmRequire += 0;
 			this.woodRequire += 0;
 			this.ironRequire += 0;
 			this.rang += 0;

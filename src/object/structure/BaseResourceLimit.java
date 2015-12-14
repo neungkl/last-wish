@@ -9,7 +9,7 @@ public abstract class BaseResourceLimit extends Base implements IBaseResourceLim
 	protected int maximumIron, maximumWood, maximumFarm;
 	
 	public BaseResourceLimit(String file, float ratio) {
-		super();
+		super(5);
 		image = new StaticImageRendable(file, -1000, -1000, ratio);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);

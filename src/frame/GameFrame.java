@@ -3,6 +3,7 @@ package frame;
 import input.BaseListener;
 import input.InputFlag;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -28,6 +29,7 @@ import object.structure.IObjectOnScreen;
 import object.structure.IShooter;
 import render.RendableHolder;
 import render.rendable.AnimationRendable;
+import render.rendable.CircleRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 import essential.GameScreen;
@@ -67,28 +69,18 @@ public class GameFrame implements Frame {
 	}
 	
 	private void initializeRendableObject() {
-		
-		// main base
-		
 		mainBase = new MainBase(centerX, centerY, 0.2f);
+		mainBase.getSingleRendable().setName("_Main Base");
+		mainBase.getSingleRendable().addMouseInteractiveListener(
+			new BaseListener(mainBase){
+				@Override
+				public void onClick(StaticImageRendable object, Base parent) {
+					currentShowingStat = parent;
+				}
+				
+			}
+		);
 		RendableHolder.add(mainBase);
-		
-		// wall corner
-
-		/*int areaSpace = 250;
-		
-		int[][] pos = {{1,1},{1,-1},{-1,1},{-1,-1}};
-		cornerWall = new StaticImageRendable[4];
-		for(int i=0; i<4; i++) {
-			int x = pos[i][0] * areaSpace + centerX;
-			int y = pos[i][1] * areaSpace + centerY;
-			
-			StaticImageRendable S = new StaticImageRendable("wall_corner", x, y, 0.15f);
-			S.setAlign(RenderHelper.CENTER_MIDDLE);
-			S.setZ(ZIndex.OBJECT_IN_GAME);
-			RendableHolder.add(S);
-			cornerWall[i] = S;
-		}*/
 	}
 	
 	public void spawnNewBase(String name) {
@@ -166,7 +158,7 @@ public class GameFrame implements Frame {
 		
 		for(Iterator<Bullet> it = bulletList.iterator(); it.hasNext(); ) {
 			Bullet cur = it.next();
-			if(cur.isDestroy()) {
+			if(cur.isDestroy() || cur.isOutOfArea()) {
 				cur.destroy();
 				it.remove();
 				cur = null;

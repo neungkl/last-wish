@@ -231,10 +231,6 @@ public class GameControlPanel {
 			py += 38;
 		}
 		
-		String txt = "";
-		
-		
-		
 		if(base instanceof IStat) {
 			hold = new StringRendable(
 				((IStat) base).getStatString(), 
@@ -246,13 +242,12 @@ public class GameControlPanel {
 		}
 		
 		String[] seq = {
-			"Farm : " + base.getFarmRequire(),
 			"Wood : " + base.getWoodRequire(),
 			"Iron : " + base.getIronRequire()
 		};
 		
 		
-		for(int i=0; i<3; i++) {
+		for(int i=0; i<seq.length; i++) {
 			hold = new StringRendable(
 				seq[i], 
 				Resource.getFont("roboto", Font.PLAIN, 12f), 

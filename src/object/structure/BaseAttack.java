@@ -4,7 +4,7 @@ import essential.ZIndex;
 import render.RenderHelper;
 import render.rendable.StaticImageRendable;
 
-public abstract class BaseAttack extends Base implements IAttackable, ILive, IStat {
+public abstract class BaseAttack extends Base implements IAttackable, IStat {
 
 	protected int damage;
 	protected int fireRate;
@@ -14,7 +14,7 @@ public abstract class BaseAttack extends Base implements IAttackable, ILive, ISt
 	private int currentTimeStamp;
 	
 	public BaseAttack(String file, float ratio) {
-		super();
+		super(5);
 		image = new StaticImageRendable(file, -1000, -1000, ratio);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);

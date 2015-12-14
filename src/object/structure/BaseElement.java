@@ -4,7 +4,7 @@ import render.RenderHelper;
 import render.rendable.StaticImageRendable;
 import essential.ZIndex;
 
-public abstract class BaseElement extends Base implements IBaseElement, ILive, IStat {
+public abstract class BaseElement extends Base implements IBaseElement, IStat {
 	
 	protected int giveWood;
 	protected int giveFarm;
@@ -15,7 +15,7 @@ public abstract class BaseElement extends Base implements IBaseElement, ILive, I
 	private boolean isDestroy;
 	
 	protected BaseElement(String file, int x, int y, float ratio) {
-		super();
+		super(5);
 		image = new StaticImageRendable(file, x, y, ratio);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);

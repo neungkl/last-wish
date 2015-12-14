@@ -11,8 +11,8 @@ import essential.ZIndex;
 public class NormalBullet extends Bullet {
 	
 	public NormalBullet(int damage, int x, int y, int angle) {
-		super(damage, x, y, angle, 3, 2);
-		render = new CircleRendable(x, y, 3, Color.BLACK, ZIndex.BULLET);
+		super(damage, x, y, angle, 2, 4);
+		render = new CircleRendable(x, y, 5, colBullet, ZIndex.BULLET);
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package object.structure;
 
-import java.util.ArrayList;
-
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 
@@ -22,9 +20,6 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	private int physicalRadius;
 	private boolean isDestroy; 
 	
-	public Base() {
-		this(5);
-	}
 	public Base(int radius) {
 		physicalRadius = radius;
 		woodRequire = farmRequire = ironRequire = 0;

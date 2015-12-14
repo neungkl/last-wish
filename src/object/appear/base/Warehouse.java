@@ -12,6 +12,7 @@ public class Warehouse extends BaseResourceLimit {
 		this.ironRequire = 0;
 		this.maximumWood = 0;
 		this.maximumIron = 0;
+		this.farmPer = 0;
 		this.maxLevel = 0;
 		
 		this.currentHp = this.fullHp;

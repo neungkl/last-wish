@@ -12,6 +12,7 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	protected int woodRequire;
 	protected int farmRequire;
 	protected int ironRequire;
+	protected int farmPer;
 	
 	protected int currentLevel;
 	protected int maxLevel;

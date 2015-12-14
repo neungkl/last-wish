@@ -11,6 +11,7 @@ public class Barn extends BaseResourceLimit {
 		this.woodRequire = 0;
 		this.ironRequire = 0;
 		this.maximumFarm = 0;
+		this.farmPer = 0;
 		this.maxLevel = 0;
 		
 		this.currentHp = this.fullHp;

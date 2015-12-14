@@ -11,12 +11,13 @@ public class Shooter1 extends BaseShooter {
 	public Shooter1(float ratio) {
 		super("base_shooter1", ratio);
 		
-		this.fullHp = 0;
-		this.fireRate = 0;
-		this.farmRequire = 0;
-		this.woodRequire = 0;
-		this.ironRequire = 0;
-		this.rang = 0;
+		this.fullHp = 120;
+		this.fireRate =100;
+		this.farmRequire = 350;
+		this.woodRequire = 1700;
+		this.ironRequire = 1800;
+		this.rang = Integer.MAX_VALUE;
+		this.farmPer = 0;
 		this.maxLevel = 0;
 		
 		this.currentHp = this.fullHp;
@@ -24,9 +25,9 @@ public class Shooter1 extends BaseShooter {
 	
 	public static boolean canBuild(int farm, int wood, int iron) {
 		return 
-			farm >= 0 &&
-			wood >= 0 &&
-			iron >= 0;
+			farm >= 200 &&
+			wood >= 1000 &&
+			iron >= 1400;
 	}
 
 	@Override

@@ -14,6 +14,7 @@ public class Logger extends BaseElement {
 		this.giveFarm = 0;
 		this.giveWood = 0;
 		this.giveIron = 0;
+		this.farmPer = 0;
 		this.maxLevel = 0;
 		
 		this.currentHp = this.fullHp;

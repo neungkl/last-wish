@@ -1,5 +1,6 @@
 package object.structure;
 
+import essential.GameScreen;
 import essential.ZIndex;
 import render.RenderHelper;
 import render.rendable.StaticImageRendable;
@@ -13,8 +14,8 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 	private boolean isDestroy;
 	private int currentTimeStamp;
 	
-	public BaseAttack(String file, float ratio) {
-		super(5);
+	protected BaseAttack(String file, float ratio) {
+		super(15);
 		image = new StaticImageRendable(file, -1000, -1000, ratio);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
@@ -48,7 +49,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 
 	@Override
 	public boolean isAttack() {
-		return currentTimeStamp%fireRate == 0;
+		return currentTimeStamp%(Math.max(1, fireRate) * GameScreen.FRAMERATE) == 0;
 	}
 	
 	@Override
@@ -66,7 +67,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 	public String getStatString() {
 		String txt = "Damage : " + damage + "     ";
 		txt += "Firerate : " + fireRate + "\n";
-		txt += "Rang : " + rang;
+		txt += "Rang : " + (rang == Integer.MAX_VALUE ? "MAX" : rang);
 		return txt;
 	}
 	

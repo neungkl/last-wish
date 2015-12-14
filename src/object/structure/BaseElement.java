@@ -15,7 +15,7 @@ public abstract class BaseElement extends Base implements IBaseElement, IStat {
 	private boolean isDestroy;
 	
 	protected BaseElement(String file, int x, int y, float ratio) {
-		super(5);
+		super(20);
 		image = new StaticImageRendable(file, x, y, ratio);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);

@@ -3,8 +3,9 @@ package object.structure;
 
 public abstract class BaseShooter extends BaseAttack implements IShooter {
 	
-	public BaseShooter(String file, float ratio) {
+	protected BaseShooter(String file, float ratio) {
 		super(file, ratio);
+		setPhysicalRadius(25);
 	}
 
 	@Override

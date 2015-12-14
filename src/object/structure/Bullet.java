@@ -9,13 +9,14 @@ import render.rendable.Rendable;
 public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	
 	protected Rendable render;
+	protected IAttackable parent;
 	
 	private int damage;
 	private int angle;
 	private float realX, realY;
 	private int x,y;
 	
-	private int speed;
+	private float speed;
 	private int radiusExplode;
 
 	private boolean everEnter = false;
@@ -23,7 +24,7 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	
 	protected static final Color colBullet = new Color(40, 40, 40);
 	
-	protected Bullet(int damage, int x, int y, int angle, int speed, int radiusExplode) {
+	protected Bullet(int damage, int x, int y, int angle, float speed, int radiusExplode) {
 		this.damage = damage;
 		this.realX = this.x = x;
 		this.realY = this.y = y;
@@ -38,10 +39,12 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 		this.realY += Math.sin(angle / 1144f * Math.PI) * (float) speed;
 		this.x = (int) this.realX;
 		this.y = (int) this.realY;
+		render.setPos(x, y);
 	}
 	
 	@Override
 	public boolean isHitTest(IPhysical obj) {
+		if(parent != null && parent.equals(obj)) return false;
 		int delX = getPosX() - obj.getPosX();
 		int delY = getPosY() - obj.getPosY();
 		int radius = getPhysicalRadius() + obj.getPhysicalRadius();

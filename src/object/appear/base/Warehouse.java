@@ -5,6 +5,7 @@ import object.structure.BaseResourceLimit;
 public class Warehouse extends BaseResourceLimit {
 	public Warehouse(float ratio) {
 		super("base_warehouse", ratio);
+		setPhysicalRadius(30);
 		
 		this.fullHp = 0;
 		this.farmRequire = 0;

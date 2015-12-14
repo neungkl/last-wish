@@ -63,10 +63,16 @@ public class Resource {
 		image.put("icon_tank", read("game/icon/tank.jpg"));
 		image.put("icon_warehouse", read("game/icon/warehouse.jpg"));
 		
+		String[] zombieList = {"normal","legionary","archer","warrior"};
+		
+		for(int i=0; i<zombieList.length; i++) {
+			image.put("zombie_"+zombieList[i]+"_attack", read("game/zombie/"+zombieList[i]+"/attack.gif"));
+			image.put("zombie_"+zombieList[i]+"_move", read("game/zombie/"+zombieList[i]+"/move.gif"));
+			image.put("zombie_"+zombieList[i]+"_death", read("game/zombie/"+zombieList[i]+"/death.gif"));
+		}
 		
 		
 		image.put("test", read("test.gif"));
-		image.put("test2", read("test3.gif"));
 		
 		try {
 			font.put("roboto", Font.createFont(Font.TRUETYPE_FONT, Resource.class.getClassLoader().getResourceAsStream("assets/roboto.ttf")));

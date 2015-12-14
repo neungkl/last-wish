@@ -26,6 +26,7 @@ import object.structure.Base;
 import object.structure.Bullet;
 import object.structure.IAttackable;
 import object.structure.IObjectOnScreen;
+import object.structure.IPhysical;
 import object.structure.IShooter;
 import render.RendableHolder;
 import render.rendable.AnimationRendable;
@@ -50,6 +51,10 @@ public class GameFrame implements Frame {
 	
 	private AnimationRendable a;
 	
+	public void test(IPhysical sss) {
+		RendableHolder.add(new CircleRendable(mainBase.getPosX(), mainBase.getPosY(), 32, Color.RED, 10000));
+	}
+	
 	public GameFrame() {
 		RendableHolder.add(new TileBackground("game_bg"));
 		
@@ -63,7 +68,7 @@ public class GameFrame implements Frame {
 		
 		controlPanel = new GameControlPanel(this, GameScreen.HEIGHT - bottomHeight, bottomHeight);
 		
-		a = new AnimationRendable("test2");
+		a = new AnimationRendable("zombie_normal_death");
 		a.loop(8);
 		RendableHolder.add(a);
 	}
@@ -80,6 +85,9 @@ public class GameFrame implements Frame {
 				
 			}
 		);
+		test(mainBase);
+		
+		baseList.add(mainBase);
 		RendableHolder.add(mainBase);
 	}
 	
@@ -116,16 +124,16 @@ public class GameFrame implements Frame {
 			obj = new Shooter4(0.8f);
 			break;
 		case "bazuka" :
-			obj = new Bazuka(0.8f);
+			obj = new Bazuka(0.4f);
 			break;
 		case "sniper" :
-			obj = new Sniper(0.8f);
+			obj = new Sniper(0.35f);
 			break;
 		case "light" :
-			obj = new Light(0.8f);
+			obj = new Light(0.65f);
 			break;
 		case "tank" :
-			obj = new Tank(0.8f);
+			obj = new Tank(0.3f);
 		}
 		
 		if(obj == null) {
@@ -219,6 +227,11 @@ public class GameFrame implements Frame {
 		
 		for(Bullet bullet : bulletList) {
 			bullet.update();
+			for(Base base : baseList) {
+				if(bullet.isHitTest(base)) {
+					bullet.destroy();
+				}
+			}
 		}
 	}
 

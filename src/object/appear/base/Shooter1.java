@@ -1,6 +1,6 @@
 package object.appear.base;
 
-import object.appear.bullet.NormalBullet;
+import object.appear.bullet.BazukaBullet;
 import object.structure.BaseShooter;
 import object.structure.Bullet;
 import render.RendableHolder;
@@ -12,7 +12,7 @@ public class Shooter1 extends BaseShooter {
 		super("base_shooter1", ratio);
 		
 		this.fullHp = 120;
-		this.fireRate =2;
+		this.fireRate = 2;
 		this.woodRequire = 1700;
 		this.ironRequire = 1800;
 		this.rang = Integer.MAX_VALUE;
@@ -47,7 +47,7 @@ public class Shooter1 extends BaseShooter {
 
 	@Override
 	public void attack(GameFrame gameFrame) {
-		Bullet b = new NormalBullet(10, getPosX(), getPosY(), getSingleRendable().getAngle());
+		Bullet b = new BazukaBullet(this, 10, getPosX(), getPosY(), getSingleRendable().getAngle());
 		RendableHolder.add(b);
 		gameFrame.getBulletList().add(b);
 	}

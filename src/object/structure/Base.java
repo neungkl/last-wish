@@ -20,7 +20,7 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	private int physicalRadius;
 	private boolean isDestroy; 
 	
-	public Base(int radius) {
+	protected Base(int radius) {
 		physicalRadius = radius;
 		woodRequire = farmRequire = ironRequire = 0;
 		currentLevel = maxLevel = 1;

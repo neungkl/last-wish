@@ -7,14 +7,14 @@ public class Ironworks extends BaseElement {
 	public Ironworks(float ratio) {
 		super("base_ironworks", -1000, -1000, ratio);
 		
-		this.fullHp = 0;
-		this.woodRequire = 0;
-		this.ironRequire = 0;
+		this.fullHp = 70;
+		this.woodRequire = 370;
+		this.ironRequire = 300;
 		this.giveFarm = 0;
 		this.giveWood = 0;
-		this.giveIron = 0;
-		this.farmPer = 0;
-		this.maxLevel = 0;
+		this.giveIron = 20;
+		this.farmPer = 5;
+		this.maxLevel = 20;
 		
 		this.currentHp = this.fullHp;
 	}
@@ -26,22 +26,22 @@ public class Ironworks extends BaseElement {
 	
 	public static boolean canBuild(int farm, int wood, int iron) {
 		return 
-			farm >= 0 &&
-			wood >= 0 &&
-			iron >= 0;
+			farm >= 5 &&
+			wood >= 150 &&
+			iron >= 100;
 	}
 
 	@Override
 	public void upgrade(int level) {
 		level++;
 		if(level <= maxLevel) {
-			this.fullHp += 0;
-			this.currentHp += 0;
-			this.woodRequire += 0;
-			this.ironRequire += 0;
+			this.fullHp += 10;
+			this.currentHp += 10;
+			this.woodRequire +=230;
+			this.ironRequire += 200;
 			this.giveFarm += 0;
 			this.giveWood += 0;
-			this.giveIron += 0;
+			this.giveIron += 10;
 		} else {
 			level = maxLevel;
 		}

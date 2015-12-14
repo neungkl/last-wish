@@ -7,36 +7,34 @@ public class Warehouse extends BaseResourceLimit {
 		super("base_warehouse", ratio);
 		setPhysicalRadius(30);
 		
-		this.fullHp = 0;
-		this.farmRequire = 0;
-		this.woodRequire = 0;
-		this.ironRequire = 0;
-		this.maximumWood = 0;
-		this.maximumIron = 0;
-		this.farmPer = 0;
-		this.maxLevel = 0;
+		this.fullHp = 120;
+		this.woodRequire = 360;
+		this.ironRequire = 320;
+		this.maximumWood = this.maximumIron =300;
+		
+		this.farmPer = 5;
+		this.maxLevel = 20;
 		
 		this.currentHp = this.fullHp;
 	}
 	
 	public static boolean canBuild(int farm, int wood, int iron) {
 		return 
-			farm >= 0 &&
-			wood >= 0 &&
-			iron >= 0;
+			farm >= 5&&
+			wood >= 170 &&
+			iron >= 150;
 	}
 
 	@Override
 	public void upgrade(int level) {
 		level++;
 		if(level <= maxLevel) {
-			this.fullHp += 0;
-			this.currentHp += 0;
-			this.farmRequire += 0;
-			this.woodRequire += 0;
-			this.ironRequire += 0;
-			this.maximumWood += 0;
-			this.maximumIron += 0;
+			this.fullHp += 20;
+			this.currentHp += 20;
+			this.woodRequire += 190;
+			this.ironRequire += 170;
+			this.maximumWood += 200;
+			this.maximumIron += 200;
 		} else {
 			level = maxLevel;
 		}

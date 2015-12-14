@@ -4,13 +4,15 @@ import render.RenderHelper;
 import render.rendable.StaticImageRendable;
 import essential.ZIndex;
 
-public abstract class BaseElement extends Base implements IBaseElement, IStat {
+public abstract class BaseElement extends Base implements IBaseElement, ILive, IStat {
 	
 	protected int giveWood;
 	protected int giveFarm;
 	protected int giveIron;
 	
 	private int currentTimeStamp = 0;
+	
+	private boolean isDestroy;
 	
 	protected BaseElement(String file, int x, int y, float ratio) {
 		super();
@@ -20,6 +22,7 @@ public abstract class BaseElement extends Base implements IBaseElement, IStat {
 		image.setName(file);
 		
 		giveFarm = giveWood = giveIron = 0;
+		isDestroy = false;
 	}
 
 	@Override
@@ -44,6 +47,17 @@ public abstract class BaseElement extends Base implements IBaseElement, IStat {
 
 	protected int getCurrentTime() {
 		return currentTimeStamp;
+	}
+	
+	@Override
+	public boolean isDestroy() {
+		return isDestroy;
+	}
+	
+	@Override
+	public void destroy() {
+		image.destroy();
+		isDestroy = true;
 	}
 	
 	@Override

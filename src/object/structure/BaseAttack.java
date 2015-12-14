@@ -9,9 +9,8 @@ public abstract class BaseAttack extends Base implements IAttackable, ILive, ISt
 	protected int damage;
 	protected int fireRate;
 	protected int rang;
-		
-	protected int fullHp, currentHp;
 	
+	private boolean isDestroy;
 	private int currentTimeStamp;
 	
 	public BaseAttack(String file, float ratio) {
@@ -21,18 +20,10 @@ public abstract class BaseAttack extends Base implements IAttackable, ILive, ISt
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
 		image.setName(file);
 		
-		damage = fullHp = currentHp = 0;
+		damage = rang = 0;
 		fireRate = 1;
-	}
-	
-	protected void setup(int hp, int damage, int fireRate, int woodRequire, int farmRequire, int ironRequire, int rang) {
-		currentHp = fullHp = hp;
-		this.damage = damage;
-		this.fireRate = fireRate;
-		this.woodRequire = woodRequire;
-		this.farmRequire = farmRequire;
-		this.ironRequire = ironRequire;
-		this.rang = rang;
+		isDestroy = false;
+		currentTimeStamp = 0;
 	}
 
 	@Override
@@ -59,26 +50,16 @@ public abstract class BaseAttack extends Base implements IAttackable, ILive, ISt
 	public boolean isAttack() {
 		return currentTimeStamp%fireRate == 0;
 	}
-
+	
 	@Override
-	public int getFullHp() {
-		return fullHp;
+	public boolean isDestroy() {
+		return isDestroy;
 	}
-
+	
 	@Override
-	public int getCurrentHp() {
-		return currentHp;
-	}
-
-	@Override
-	public void decreaseHp(int hp) {
-		currentHp -= hp;
-		currentHp = Math.max(0, Math.min(currentHp, fullHp));
-	}
-
-	@Override
-	public boolean isDie() {
-		return currentHp <= 0;
+	public void destroy() {
+		image.destroy();
+		isDestroy = true;
 	}
 	
 	@Override
@@ -88,5 +69,5 @@ public abstract class BaseAttack extends Base implements IAttackable, ILive, ISt
 		txt += "Rang : " + rang;
 		return txt;
 	}
-
+	
 }

@@ -48,8 +48,6 @@ public class Resource {
 		image.put("base_tank", read("game/base/tank.png"));
 		image.put("base_warehouse", read("game/base/warehouse.png"));
 		
-		image.put("wall_corner", read("game/wall/corner.png"));
-		
 		image.put("icon_shooter1", read("game/icon/tmp.jpg"));
 		image.put("icon_shooter2", read("game/icon/tmp.jpg"));
 		image.put("icon_shooter3", read("game/icon/tmp.jpg"));
@@ -68,6 +66,7 @@ public class Resource {
 		
 		
 		image.put("test", read("test.gif"));
+		image.put("test2", read("test3.gif"));
 		
 		try {
 			font.put("roboto", Font.createFont(Font.TRUETYPE_FONT, Resource.class.getClassLoader().getResourceAsStream("assets/roboto.ttf")));

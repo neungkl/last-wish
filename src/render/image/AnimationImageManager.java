@@ -94,7 +94,7 @@ public class AnimationImageManager implements Cloneable {
 		currentSpeed -= speed;
 		if (isPlay || isLoop) {
 			frame++;
-			if (frame >= images.length) {
+			if (frame >= images.length - 1) {
 				isPlay = false;
 				isFinish = true;
 				frame = 0;

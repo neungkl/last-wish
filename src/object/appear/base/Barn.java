@@ -6,7 +6,14 @@ public class Barn extends BaseResourceLimit {
 	public Barn(float ratio) {
 		super("base_barn", ratio);
 		
-		this.maxLevel = 1;
+		this.fullHp = 0;
+		this.farmRequire = 0;
+		this.woodRequire = 0;
+		this.ironRequire = 0;
+		this.maximumFarm = 0;
+		this.maxLevel = 0;
+		
+		this.currentHp = this.fullHp;
 	}
 	
 	public static boolean canBuild(int farm, int wood, int iron) {
@@ -18,6 +25,17 @@ public class Barn extends BaseResourceLimit {
 
 	@Override
 	public void upgrade(int level) {
-		// TODO 
+		level++;
+		if(level <= maxLevel) {
+			this.fullHp += 0;
+			this.currentHp += 0;
+			this.farmRequire += 0;
+			this.woodRequire += 0;
+			this.ironRequire += 0;
+			this.maximumFarm += 0;
+		} else {
+			level = maxLevel;
+		}
+		this.currentLevel = level;
 	}
 }

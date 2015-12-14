@@ -1,15 +1,22 @@
 package object.appear.base;
 
 import object.structure.BaseAttack;
+import frame.GameFrame;
 
 public class Light extends BaseAttack {
 
 	public Light(float ratio) {
 		super("base_light", ratio);
 		
-		maxLevel = 3;
-		upgrade(0);
+		this.fullHp = 0;
+		this.fireRate = 0;
+		this.farmRequire = 0;
+		this.woodRequire = 0;
+		this.ironRequire = 0;
+		this.rang = 0;
+		this.maxLevel = 0;
 		
+		this.currentHp = this.fullHp;
 	}
 	
 	public static boolean canBuild(int farm, int wood, int iron) {
@@ -22,12 +29,14 @@ public class Light extends BaseAttack {
 	@Override
 	public void upgrade(int level) {
 		level++;
-		if(level == 1) {
-			setup(120, 10, 2, 600, 750, 150, 170);
-		} else if(level == 2) {
-			setup(120, 10, 2, 600, 750, 150, 170);
-		} else if(level == 3) {
-			setup(120, 10, 2, 600, 750, 150, 170);
+		if(level <= maxLevel) {
+			this.fullHp += 0;
+			this.currentHp += 0;
+			this.fireRate += 0;
+			this.farmRequire += 0;
+			this.woodRequire += 0;
+			this.ironRequire += 0;
+			this.rang += 0;
 		} else {
 			level = maxLevel;
 		}
@@ -35,7 +44,7 @@ public class Light extends BaseAttack {
 	}
 	
 	@Override
-	public void attack() {
+	public void attack(GameFrame gameFrame) {
 		//System.out.println("shooter1 attack");
 	}
 	

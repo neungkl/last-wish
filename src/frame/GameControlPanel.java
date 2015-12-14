@@ -188,7 +188,7 @@ public class GameControlPanel {
 		RendableHolder.remove(rightObj);
 		rightObj.clear();
 		
-		String name = base.getImage().getName();
+		String name = base.getSingleRendable().getName();
 		name = name.split("_")[1];
 		name = Character.toString(name.charAt(0)).toUpperCase()+name.substring(1);
 		

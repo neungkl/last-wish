@@ -4,6 +4,7 @@ import input.BaseListener;
 import input.InputFlag;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import object.appear.MainBase;
 import object.appear.TileBackground;
@@ -21,10 +22,12 @@ import object.appear.base.Sniper;
 import object.appear.base.Tank;
 import object.appear.base.Warehouse;
 import object.structure.Base;
+import object.structure.Bullet;
 import object.structure.IAttackable;
 import object.structure.IObjectOnScreen;
 import object.structure.IShooter;
 import render.RendableHolder;
+import render.rendable.AnimationRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 import essential.GameScreen;
@@ -38,10 +41,12 @@ public class GameFrame implements Frame {
 	
 	private MainBase mainBase;
 	private ArrayList<Base> baseList;
+	private ArrayList<Bullet> bulletList;
 	
 	private Base currentShowingStat = null;
-	
 	private Base dragAndDropObj = null;
+	
+	private AnimationRendable a;
 	
 	public GameFrame() {
 		RendableHolder.add(new TileBackground("game_bg"));
@@ -50,10 +55,15 @@ public class GameFrame implements Frame {
 		centerY = (GameScreen.HEIGHT - bottomHeight) / 2;
 		
 		baseList = new ArrayList<>();
+		bulletList = new ArrayList<>();
 		
 		initializeRendableObject();
 		
 		controlPanel = new GameControlPanel(this, GameScreen.HEIGHT - bottomHeight, bottomHeight);
+		
+		a = new AnimationRendable("test2");
+		a.loop(8);
+		RendableHolder.add(a);
 	}
 	
 	private void initializeRendableObject() {
@@ -139,19 +149,47 @@ public class GameFrame implements Frame {
 			
 		dragAndDropObj = obj;
 	}
+	
+	public ArrayList<Bullet> getBulletList() {
+		return bulletList;
+	}
+	
+	private void clearDestroyedObject() {
+		for(Iterator<Base> it = baseList.iterator(); it.hasNext(); ) {
+			Base cur = it.next();
+			if(cur.isDestroy()) {
+				cur.destroy();
+				it.remove();
+				cur = null;
+			}
+		}
+		
+		for(Iterator<Bullet> it = bulletList.iterator(); it.hasNext(); ) {
+			Bullet cur = it.next();
+			if(cur.isDestroy()) {
+				cur.destroy();
+				it.remove();
+				cur = null;
+			}
+		}
+	}
 
 	@Override
 	public void update() {
 		
+		a.update();
+		
+		clearDestroyedObject();
+		
 		if(dragAndDropObj != null) {
-			dragAndDropObj.getImage().setPos(InputFlag.getMouseX(), InputFlag.getMouseY());
+			dragAndDropObj.getSingleRendable().setPos(InputFlag.getMouseX(), InputFlag.getMouseY());
 			
 			if(InputFlag.getTrigger(InputFlag.MOUSE_LEFT)) {
 				for(Rendable each : RendableHolder.getInstance().getRendableList()) {
 					each.setListen(true);
 				}
 				
-				dragAndDropObj.getImage().addMouseInteractiveListener(new BaseListener(dragAndDropObj){
+				dragAndDropObj.getSingleRendable().addMouseInteractiveListener(new BaseListener(dragAndDropObj){
 
 					@Override
 					public void onClick(StaticImageRendable object, Base parent) {
@@ -173,15 +211,22 @@ public class GameFrame implements Frame {
 			controlPanel.showStat(currentShowingStat);
 		}
 		
-		
-		
 		for(Base base : baseList) {
 			if(base instanceof IShooter) {
 				((IShooter) base).rotateTo(InputFlag.getMouseX(), InputFlag.getMouseY());
 			}
+			
 			if(base instanceof IAttackable) {
-				IAttackable atk = ((IAttackable) base); 
+				IAttackable atk = (IAttackable) base;
+				atk.increaseTime();
+				if(atk.isAttack()) {
+					atk.attack(this);
+				}
 			}
+		}
+		
+		for(Bullet bullet : bulletList) {
+			bullet.update();
 		}
 	}
 

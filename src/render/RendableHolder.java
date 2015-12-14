@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 import essential.GameState;
 import object.structure.IObjectOnScreen;
-import object.structure.IObjectWithSingleImage;
+import object.structure.IObjectWithSingleRendable;
 import render.effect.IHoverEffect;
 import render.rendable.Rendable;
 
@@ -29,8 +29,8 @@ public class RendableHolder {
 		getInstance().collections.add(obj);
 	}
 	public static void add(IObjectOnScreen obj) {
-		if(obj instanceof IObjectWithSingleImage) {
-			getInstance().collections.add(((IObjectWithSingleImage) obj).getImage());
+		if(obj instanceof IObjectWithSingleRendable) {
+			getInstance().collections.add(((IObjectWithSingleRendable) obj).getSingleRendable());
 		} else {
 			getInstance().collections.addAll(obj.getRendable());
 		}

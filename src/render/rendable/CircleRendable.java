@@ -25,6 +25,7 @@ public class CircleRendable extends Rendable {
 	public CircleRendable(int x, int y, int radius, Color color, int z) {
 		super(x, y, z, radius * 2, radius * 2);
 		setAlign(RenderHelper.CENTER_MIDDLE);
+		this.radius = radius;
 		this.color = color;
 	}
 	

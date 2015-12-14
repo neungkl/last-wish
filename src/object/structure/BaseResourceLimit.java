@@ -6,7 +6,7 @@ import essential.ZIndex;
 
 public abstract class BaseResourceLimit extends Base implements IBaseResourceLimit, IStat {
 	
-	private int maximumIron, maximumWood, maximumFarm;
+	protected int maximumIron, maximumWood, maximumFarm;
 	
 	public BaseResourceLimit(String file, float ratio) {
 		super();

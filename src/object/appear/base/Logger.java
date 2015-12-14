@@ -7,8 +7,16 @@ public class Logger extends BaseElement {
 	public Logger(float ratio) {
 		super("base_logger", -1000, -1000, ratio);
 		
-		maxLevel = 5;
-		upgrade(0);
+		this.fullHp = 0;
+		this.woodRequire = 0;
+		this.farmRequire = 0;
+		this.ironRequire = 0;
+		this.giveFarm = 0;
+		this.giveWood = 0;
+		this.giveIron = 0;
+		this.maxLevel = 0;
+		
+		this.currentHp = this.fullHp;
 	}
 	
 	@Override
@@ -26,31 +34,15 @@ public class Logger extends BaseElement {
 	@Override
 	public void upgrade(int level) {
 		level++;
-		if(level == 1) {
-			giveWood = 20;
-			woodRequire = 150;
-			ironRequire = 220;
-			farmRequire = 100;
-		} else if(level == 2) {
-			giveFarm = 60;
-			woodRequire = 500;
-			ironRequire = 740;
-			farmRequire = 70;
-		} else if(level == 3) {
-			giveFarm = 120;
-			woodRequire = 900;
-			ironRequire = 1200;
-			farmRequire = 80;
-		} else if(level == 4) {
-			giveFarm = 150;
-			woodRequire = 1200;
-			ironRequire = 1400;
-			farmRequire = 110;
-		} else if(level == 5) {
-			giveFarm = 200;
-			woodRequire = 999999;
-			ironRequire = 999999;
-			farmRequire = 999999;
+		if(level <= maxLevel) {
+			this.fullHp += 0;
+			this.currentHp += 0;
+			this.woodRequire += 0;
+			this.farmRequire += 0;
+			this.ironRequire += 0;
+			this.giveFarm += 0;
+			this.giveWood += 0;
+			this.giveIron += 0;
 		} else {
 			level = maxLevel;
 		}

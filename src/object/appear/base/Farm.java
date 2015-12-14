@@ -7,8 +7,16 @@ public class Farm extends BaseElement {
 	public Farm(float ratio) {
 		super("base_farm", -1000, -1000, ratio);
 		
-		maxLevel = 5;
-		upgrade(0);
+		this.fullHp = 0;
+		this.woodRequire = 0;
+		this.farmRequire = 0;
+		this.ironRequire = 0;
+		this.giveFarm = 0;
+		this.giveWood = 0;
+		this.giveIron = 0;
+		this.maxLevel = 0;
+		
+		this.currentHp = this.fullHp;
 	}
 	
 	@Override
@@ -26,31 +34,15 @@ public class Farm extends BaseElement {
 	@Override
 	public void upgrade(int level) {
 		level++;
-		if(level == 1) {
-			giveFarm = 50;
-			woodRequire = 340;
-			ironRequire = 420;
-			farmRequire = 40; 
-		} else if(level == 2) {
-			giveFarm = 100;
-			woodRequire = 570;
-			ironRequire = 680;
-			farmRequire = 60;
-		} else if(level == 3) {
-			giveFarm = 240;
-			woodRequire = 1400;
-			ironRequire = 1700;
-			farmRequire = 70;
-		} else if(level == 4) {
-			giveFarm = 500;
-			woodRequire = 2400;
-			ironRequire = 2500;
-			farmRequire = 110;
-		} else if(level == 5) {
-			giveFarm = 800;
-			woodRequire = 999999;
-			ironRequire = 999999;
-			farmRequire = 999999;
+		if(level <= maxLevel) {
+			this.fullHp += 0;
+			this.currentHp += 0;
+			this.woodRequire += 0;
+			this.farmRequire += 0;
+			this.ironRequire += 0;
+			this.giveFarm += 0;
+			this.giveWood += 0;
+			this.giveIron += 0;
 		} else {
 			level = maxLevel;
 		}

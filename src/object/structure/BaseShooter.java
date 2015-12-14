@@ -9,6 +9,6 @@ public abstract class BaseShooter extends BaseAttack implements IShooter {
 
 	@Override
 	public void rotateTo(int x, int y) {
-		this.getImage().rotateTo(x, y);
+		this.getSingleRendable().rotateTo(x, y);
 	}
 }

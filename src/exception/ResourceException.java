@@ -1,8 +1,7 @@
 package exception;
 
+@SuppressWarnings("serial")
 public class ResourceException extends RuntimeException {
-
-	private static final long serialVersionUID = 3593891638366707588L;
 
 	public static final int FILE_NOT_FOUND = 0;
 	public static final int EXTENSION_INCORRECT = 1;

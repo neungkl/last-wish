@@ -19,7 +19,7 @@ public abstract class BaseElement extends Base implements IBaseElement, IStat {
 		image = new StaticImageRendable(file, x, y, ratio);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
-		image.setName(file);
+		this.setName(file.split("_")[1]);
 		
 		giveFarm = giveWood = giveIron = 0;
 		isDestroy = false;

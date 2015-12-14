@@ -1,7 +1,6 @@
 package render.rendable;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 
 import render.RenderHelper;
 import render.image.AnimationImageManager;
@@ -23,8 +22,15 @@ public class AnimationRendable extends StaticImageRendable {
 		this(Resource.getImageAnimation(file), x, y, ratio);
 		
 	}
+	public AnimationRendable(String file, int x, int y, float ratio, int z) {
+		this(Resource.getImageAnimation(file), x, y, ratio, z);
+		
+	}
 	private AnimationRendable(AnimationImageManager animation, int x, int y, float ratio) {
-		super(x, y, 0, animation.getWidth(), animation.getHeight());
+		this(animation, x, y, ratio, 0);
+	}
+	private AnimationRendable(AnimationImageManager animation, int x, int y, float ratio, int z) {
+		super(x, y, z, animation.getWidth(), animation.getHeight());
 		this.animation = animation;
 		setRatio(ratio);
 		setOrigin(getWidth() / 2, getHeight() / 2);

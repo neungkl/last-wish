@@ -5,9 +5,10 @@ import input.MouseInteractiveListener;
 
 import java.awt.Graphics2D;
 
+import object.structure.IName;
 import render.RenderHelper;
 
-public abstract class Rendable implements Comparable<Rendable> {
+public abstract class Rendable implements Comparable<Rendable>, IName {
 	
 	private int x,y;
 	private int originX, originY;
@@ -17,7 +18,7 @@ public abstract class Rendable implements Comparable<Rendable> {
 	private boolean visible;
 	private boolean pausable;
 	private int align;
-	private int angle;
+	private float angle;
 	private boolean isPale;
 	
 	private String name;
@@ -75,7 +76,7 @@ public abstract class Rendable implements Comparable<Rendable> {
 	public final boolean isPale() {
 		return isPale;
 	}
-	public final int getAngle() {
+	public final float getAngle() {
 		return angle;
 	}
 	public final int getOriginX() {
@@ -89,15 +90,15 @@ public abstract class Rendable implements Comparable<Rendable> {
 		return name;
 	}
 	
+	public final void setPos(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	public final void setPosX(int x) {
 		this.x = x;
 	}
 	public final void setPosY(int y) {
-		this.y = y;
-	}
-	
-	public final void setPos(int x, int y) {
-		this.x = x;
 		this.y = y;
 	}
 	
@@ -111,7 +112,7 @@ public abstract class Rendable implements Comparable<Rendable> {
 	public final void setPale(boolean isPale) {
 		this.isPale = isPale;
 	}
-	public final void setAngle(int angle) {
+	public final void setAngle(float angle) {
 		this.angle = angle;
 	}
 	
@@ -154,7 +155,7 @@ public abstract class Rendable implements Comparable<Rendable> {
 	}
 	
 	public final void rotateTo(int x, int y) {
-		this.angle = (int) (Math.atan2(y - this.y, x - this.x) * 360);
+		this.angle = (float) Math.atan2(y - this.y, x - this.x);
 	}
 	
 	public final void addMouseInteractiveListener(MouseInteractiveListener mouseListener) {

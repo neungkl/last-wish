@@ -1,18 +1,16 @@
 package frame;
 
 import input.HighlightObjectListener;
-import input.MouseInteractiveListener;
 
 import javax.swing.JOptionPane;
 
-import essential.GameScreen;
-import essential.GameState;
-import essential.ZIndex;
 import main.Main;
 import render.RendableHolder;
 import render.RenderHelper;
-import render.effect.IHoverEffect;
 import render.rendable.StaticImageRendable;
+import essential.GameScreen;
+import essential.GameState;
+import essential.ZIndex;
 
 public class MenuFrame implements Frame {
 	public MenuFrame() {

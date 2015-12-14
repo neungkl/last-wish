@@ -19,7 +19,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 		image = new StaticImageRendable(file, -1000, -1000, ratio);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
-		image.setName(file);
+		this.setName(file.split("_")[1]);
 		
 		damage = rang = 0;
 		fireRate = 1;

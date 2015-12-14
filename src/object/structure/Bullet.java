@@ -12,7 +12,7 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	protected IAttackable parent;
 	
 	private int damage;
-	private int angle;
+	private float angle;
 	private float realX, realY;
 	private int x,y;
 	
@@ -24,7 +24,7 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	
 	protected static final Color colBullet = new Color(40, 40, 40);
 	
-	protected Bullet(int damage, int x, int y, int angle, float speed, int radiusExplode) {
+	protected Bullet(int damage, int x, int y, float angle, float speed, int radiusExplode) {
 		this.damage = damage;
 		this.realX = this.x = x;
 		this.realY = this.y = y;
@@ -35,8 +35,8 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	}
 	
 	public void update() {
-		this.realX += Math.cos(angle / 1144f * Math.PI) * (float) speed;
-		this.realY += Math.sin(angle / 1144f * Math.PI) * (float) speed;
+		this.realX += Math.cos(angle) * speed;
+		this.realY += Math.sin(angle) * speed;
 		this.x = (int) this.realX;
 		this.y = (int) this.realY;
 		render.setPos(x, y);

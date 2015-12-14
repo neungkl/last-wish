@@ -18,8 +18,6 @@ public class Main {
 
 		frame.setPreferredSize(new Dimension(1366, 768));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//frame.setUndecorated(true);
-		//frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		frame.setResizable(false);
 		frame.add(gameScreen);
 		frame.pack();
@@ -31,7 +29,7 @@ public class Main {
 
 		while (true) {
 			try {
-				Thread.sleep((long) (1000f / GameScreen.FRAMERATE));
+				Thread.sleep(1000 / GameScreen.FRAMERATE);
 			} catch (InterruptedException e) {
 			}
 			

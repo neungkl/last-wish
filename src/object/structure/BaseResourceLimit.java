@@ -13,7 +13,7 @@ public abstract class BaseResourceLimit extends Base implements IBaseResourceLim
 		image = new StaticImageRendable(file, -1000, -1000, ratio);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
-		image.setName(file);
+		this.setName(file.split("_")[1]);
 		
 		maximumIron = maximumWood = maximumFarm = 0;
 	}
@@ -36,9 +36,9 @@ public abstract class BaseResourceLimit extends Base implements IBaseResourceLim
 	@Override
 	public String getStatString() {
 		String txt = "";
-		if(maximumFarm > 0) txt += "Maximum farm capacity : " + maximumFarm + "\n";
-		if(maximumWood > 0) txt += "Maximum wood capacity : " + maximumWood + "\n";
-		if(maximumIron > 0) txt += "Maximum iron capacity : " + maximumIron + "\n";
+		if(maximumFarm > 0) txt += "Farm capacity : " + maximumFarm + "\n";
+		if(maximumWood > 0) txt += "Wood capacity : " + maximumWood + "\n";
+		if(maximumIron > 0) txt += "Iron capacity : " + maximumIron + "\n";
 		return txt;
 	}
 }

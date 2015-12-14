@@ -9,7 +9,6 @@ import java.util.Iterator;
 
 import object.appear.MainBase;
 import object.appear.TileBackground;
-import object.appear.base.Barn;
 import object.appear.base.Bazuka;
 import object.appear.base.Farm;
 import object.appear.base.Ironworks;
@@ -22,18 +21,21 @@ import object.appear.base.Shooter4;
 import object.appear.base.Sniper;
 import object.appear.base.Tank;
 import object.appear.base.Warehouse;
+import object.appear.zombie.OdinaryZombie;
 import object.structure.Base;
 import object.structure.Bullet;
 import object.structure.IAttackable;
 import object.structure.IObjectOnScreen;
 import object.structure.IPhysical;
 import object.structure.IShooter;
+import object.structure.Zombie;
 import render.RendableHolder;
-import render.rendable.AnimationRendable;
 import render.rendable.CircleRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
+import essential.Config;
 import essential.GameScreen;
+import frame.logic.SpawnZombie;
 
 public class GameFrame implements Frame {
 	
@@ -45,17 +47,19 @@ public class GameFrame implements Frame {
 	private MainBase mainBase;
 	private ArrayList<Base> baseList;
 	private ArrayList<Bullet> bulletList;
+	private ArrayList<Zombie> zombieList;
 	
 	private Base currentShowingStat = null;
 	private Base dragAndDropObj = null;
 	
-	private AnimationRendable a;
-	
 	public void test(IPhysical sss) {
-		RendableHolder.add(new CircleRendable(mainBase.getPosX(), mainBase.getPosY(), 32, Color.RED, 10000));
+		//RendableHolder.add(new CircleRendable(mainBase.getPosX(), mainBase.getPosY(), 32, Color.RED, 10000));
 	}
 	
 	public GameFrame() {
+		
+		SpawnZombie.start();
+		
 		RendableHolder.add(new TileBackground("game_bg"));
 		
 		centerX = GameScreen.WIDTH / 2;
@@ -63,19 +67,16 @@ public class GameFrame implements Frame {
 		
 		baseList = new ArrayList<>();
 		bulletList = new ArrayList<>();
+		zombieList = new ArrayList<>();
 		
 		initializeRendableObject();
 		
 		controlPanel = new GameControlPanel(this, GameScreen.HEIGHT - bottomHeight, bottomHeight);
-		
-		a = new AnimationRendable("zombie_normal_death");
-		a.loop(8);
-		RendableHolder.add(a);
 	}
 	
 	private void initializeRendableObject() {
 		mainBase = new MainBase(centerX, centerY, 0.2f);
-		mainBase.getSingleRendable().setName("_Main Base");
+		mainBase.setName("Main Base");
 		mainBase.getSingleRendable().addMouseInteractiveListener(
 			new BaseListener(mainBase){
 				@Override
@@ -107,9 +108,6 @@ public class GameFrame implements Frame {
 			break;
 		case "warehouse" : 
 			obj = new Warehouse(0.8f);
-			break;
-		case "barn" :
-			obj = new Barn(0.8f);
 			break;
 		case "shooter1" :
 			obj = new Shooter1(0.8f);
@@ -177,8 +175,6 @@ public class GameFrame implements Frame {
 	@Override
 	public void update() {
 		
-		a.update();
-		
 		clearDestroyedObject();
 		
 		if(dragAndDropObj != null) {
@@ -197,6 +193,16 @@ public class GameFrame implements Frame {
 					}
 					
 				});
+				
+				if(Config.DEBUG) {
+					RendableHolder.add(new CircleRendable(
+						dragAndDropObj.getPosX(), 
+						dragAndDropObj.getPosY(), 
+						dragAndDropObj.getPhysicalRadius(), 
+						Color.RED, 
+						Integer.MAX_VALUE
+					));
+				}
 				
 				baseList.add(dragAndDropObj);
 				
@@ -232,9 +238,25 @@ public class GameFrame implements Frame {
 					bullet.destroy();
 				}
 			}
+			for(Zombie zombie : zombieList) {
+				if(bullet.isHitTest(zombie)) {
+					zombie.decreaseHp(Integer.MAX_VALUE);
+				}
+			}
+		}
+		
+		for(Zombie zombie : zombieList) {
+			zombie.update(baseList);
+		}
+		
+		if(SpawnZombie.shouldSpawnZombie()) {
+			Zombie zombie = new OdinaryZombie();
+			zombieList.add(zombie);
+			RendableHolder.add(zombie);
+			SpawnZombie.setShouldSpawnZombie(false);
 		}
 	}
-
+	
 	@Override
 	public void pause() {
 	}

@@ -1,9 +1,10 @@
 package object.structure;
 
+import render.rendable.CircleRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 
-public abstract class Base implements IUpgradable, IObjectWithSingleRendable, ILive, IPhysical {
+public abstract class Base implements IUpgradable, IObjectWithSingleRendable, ILive, IPhysical, IName {
 	
 	protected StaticImageRendable image;
 	
@@ -12,11 +13,14 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	protected int ironRequire;
 	protected int farmPer;
 	
+	private CircleRendable debug;
+	
 	protected int currentLevel;
 	protected int maxLevel;
 	
 	protected int fullHp, currentHp;
 	
+	private String name;
 	private int physicalRadius;
 	private boolean isDestroy; 
 	
@@ -75,7 +79,7 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	
 	@Override
 	public boolean isDie() {
-		return currentHp <= fullHp;
+		return currentHp <= 0;
 	}
 	
 	@Override
@@ -106,6 +110,16 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	@Override
 	public boolean isDestroy() {
 		return isDestroy;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
+	}
+	
+	@Override
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	@Override

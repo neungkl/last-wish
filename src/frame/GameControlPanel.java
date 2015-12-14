@@ -11,6 +11,8 @@ import java.util.HashMap;
 import object.appear.IconSelector;
 import object.structure.Base;
 import object.structure.ILive;
+import object.structure.IName;
+import object.structure.IObjectOnScreen;
 import object.structure.IStat;
 import render.RendableHolder;
 import render.rendable.BoxRendable;
@@ -29,7 +31,9 @@ public class GameControlPanel {
 	
 	private boolean isSelectBase;
 	
-	private Color bgCol, bgNonActiveCol;
+	private static final Color bgCol = new Color(44, 49, 51);
+	private static final Color bgNonActiveCol = new Color(162, 172, 176);
+	private static final Color bgHp = new Color(237, 12, 12);
 	
 	private HashMap<String, IconSelector> baseObj;
 	private HashMap<String, IconSelector> defenseObj;
@@ -44,9 +48,6 @@ public class GameControlPanel {
 		this.height = height;
 		
 		roboto = Resource.getFont("roboto");
-		
-		bgCol = new Color(44, 49, 51);
-		bgNonActiveCol = new Color(162, 172, 176);
 		
 		RendableHolder.add(new BoxRendable(0, y, GameScreen.WIDTH, height, bgCol, ZIndex.CONTROL_BAR));
 		
@@ -124,7 +125,7 @@ public class GameControlPanel {
 		baseObj = new HashMap<>();
 		defenseObj = new HashMap<>();
 		
-		String[] fileList = {"farm","logger","ironworks","barn","warehouse"};
+		String[] fileList = {"farm","logger","ironworks","warehouse"};
 		
 		HighlightObjectListener<StaticImageRendable> baseListener = new HighlightObjectListener<StaticImageRendable>() {
 			
@@ -175,7 +176,7 @@ public class GameControlPanel {
 		}
 	}
 	
-	public void showStat(Base base) {
+	public void showStat(IObjectOnScreen obj) {
 		
 		int px = GameScreen.WIDTH - 300;
 		int py = y - 80;
@@ -188,31 +189,29 @@ public class GameControlPanel {
 		RendableHolder.remove(rightObj);
 		rightObj.clear();
 		
-		String name = base.getSingleRendable().getName();
-		name = name.split("_")[1];
-		name = Character.toString(name.charAt(0)).toUpperCase()+name.substring(1);
-		
-		rightObj.add(
-			new StringRendable(
-				name,
-				Resource.getFont("roboto", Font.BOLD, 18f), 
-				px + 10, py + 22, Color.WHITE, null, 
-				ZIndex.CONTROL_BAR_OBJECT
-			)
-		);
-		
-		py += 20;
-		
-		if(base instanceof ILive) {
+		if(obj instanceof IName) {
+			rightObj.add(
+				new StringRendable(
+					((IName) obj).getName(),
+					Resource.getFont("roboto", Font.BOLD, 18f), 
+					px + 10, py + 25, Color.WHITE, null, 
+					ZIndex.CONTROL_BAR_OBJECT
+				)
+			);
 			
-			ILive live = (ILive) base;
+			py += 30;
+		}
+		
+		if(obj instanceof ILive) {
+			
+			ILive live = (ILive) obj;
 			
 			
 			rightObj.add(
 				new StringRendable(
 					"HP", 
 					Resource.getFont("roboto", Font.PLAIN, 16f), 
-					px + 10, py + 25, Color.WHITE, null, 
+					px + 13, py + 25, Color.WHITE, null, 
 					ZIndex.CONTROL_BAR_OBJECT
 				)
 			);
@@ -220,7 +219,7 @@ public class GameControlPanel {
 				new StringRendable(
 					live.getCurrentHp()+"/"+live.getFullHp(), 
 					Resource.getFont("roboto", Font.PLAIN, 14f), 
-					px + 45, py + 45, Color.WHITE, null, 
+					px + 48, py + 45, Color.WHITE, null, 
 					ZIndex.CONTROL_BAR_OBJECT
 				)
 			);
@@ -231,9 +230,9 @@ public class GameControlPanel {
 			py += 38;
 		}
 		
-		if(base instanceof IStat) {
+		if(obj instanceof IStat) {
 			hold = new StringRendable(
-				((IStat) base).getStatString(), 
+				((IStat) obj).getStatString(), 
 				Resource.getFont("roboto", Font.PLAIN, 15f), 
 				px + 12, py + 32, new Color(250, 250, 250), null,
 				ZIndex.CONTROL_BAR_OBJECT
@@ -241,20 +240,24 @@ public class GameControlPanel {
 			rightObj.add(hold);
 		}
 		
-		String[] seq = {
-			"Wood : " + base.getWoodRequire(),
-			"Iron : " + base.getIronRequire()
-		};
-		
-		
-		for(int i=0; i<seq.length; i++) {
-			hold = new StringRendable(
-				seq[i], 
-				Resource.getFont("roboto", Font.PLAIN, 12f), 
-				ex, ey + 15 * i, new Color(250, 250, 250), null,
-				ZIndex.CONTROL_BAR_OBJECT
-			);
-			rightObj.add(hold);
+		if(obj instanceof Base) {
+			Base base = (Base) obj;
+			
+			String[] seq = {
+				"Wood : " + base.getWoodRequire(),
+				"Iron : " + base.getIronRequire()
+			};
+			
+			
+			for(int i=0; i<seq.length; i++) {
+				hold = new StringRendable(
+					seq[i], 
+					Resource.getFont("roboto", Font.PLAIN, 12f), 
+					ex, ey + 15 * i, new Color(250, 250, 250), null,
+					ZIndex.CONTROL_BAR_OBJECT
+				);
+				rightObj.add(hold);
+			}
 		}
 		
 		RendableHolder.add(rightObj);

@@ -58,9 +58,9 @@ public class RendableHolder {
 				cur = null;
 			}
 		}
-		
+	
 		Collections.sort(collections);
-		
+	
 		for(int i=0; i<collections.size(); i++) {
 			Rendable render = collections.get(i);
 			if(!GameState.IS_PAUSING || render.isPausable()) {

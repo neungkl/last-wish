@@ -38,7 +38,7 @@ public class RenderHelper {
 		return y;
 	}
 	
-	public static void draw(Graphics2D g, BufferedImage img, int x, int y, int width, int height, boolean isPale, int angle, int originX, int originY, int align) {
+	public static void draw(Graphics2D g, BufferedImage img, int x, int y, int width, int height, boolean isPale, float angle, int originX, int originY, int align) {
 		x = getOffsetX(x, width, align);
 		y = getOffsetY(y, height, align);
 		
@@ -53,7 +53,7 @@ public class RenderHelper {
 			AffineTransform tmp = g.getTransform();
 			AffineTransform trans = new AffineTransform();
 			
-			trans.rotate(angle / 360f, x + originX, y + originY);
+			trans.rotate(angle, x + originX, y + originY);
 			g.transform(trans);
 			g.drawImage(img, x, y, width, height, null);
 			g.setTransform(tmp);
@@ -66,7 +66,7 @@ public class RenderHelper {
 		}
 	}
 	
-	public static void drawHoverEffect(Graphics2D g, BufferedImage img, int x, int y, int width, int height, int angle, int originX, int originY, int align) {
+	public static void drawHoverEffect(Graphics2D g, BufferedImage img, int x, int y, int width, int height, float angle, int originX, int originY, int align) {
 		x = getOffsetX(x, width, align);
 		y = getOffsetY(y, height, align);
 		
@@ -82,7 +82,7 @@ public class RenderHelper {
 			AffineTransform tmp = g.getTransform();
 			AffineTransform trans = new AffineTransform();
 			
-			trans.rotate(angle / 360f, x + originX, y + originY);
+			trans.rotate(angle, x + originX, y + originY);
 			g.transform(trans);
 			g.drawImage(newImg, x, y, width, height, null);
 			g.setTransform(tmp);

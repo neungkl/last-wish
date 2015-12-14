@@ -8,36 +8,34 @@ public class Shooter2 extends BaseShooter {
 	public Shooter2(float ratio) {
 		super("base_shooter2", ratio);
 		
-		this.fullHp = 0;
-		this.fireRate = 0;
-		this.farmRequire = 0;
-		this.woodRequire = 0;
-		this.ironRequire = 0;
-		this.rang = 0;
-		this.farmPer = 0;
-		this.maxLevel = 0;
+		this.fullHp = 170;
+		this.fireRate = 5;
+		this.woodRequire = 1400;
+		this.ironRequire = 1600;
+		this.rang = Integer.MAX_VALUE;
+		this.farmPer = 10;
+		this.damage= 30;
+		this.maxLevel = 10;
 		
 		this.currentHp = this.fullHp;
 	}
 	
 	public static boolean canBuild(int farm, int wood, int iron) {
 		return 
-			farm >= 0 &&
-			wood >= 0 &&
-			iron >= 0;
+			farm >=10 &&
+			wood >= 1000 &&
+			iron >= 1400;
 	}
 
 	@Override
 	public void upgrade(int level) {
 		level++;
 		if(level <= maxLevel) {
-			this.fullHp += 0;
-			this.currentHp += 0;
-			this.fireRate += 0;
-			this.farmRequire += 0;
-			this.woodRequire += 0;
-			this.ironRequire += 0;
-			this.rang += 0;
+			this.fullHp += 60;
+			this.currentHp += 60;
+			this.woodRequire += 500;
+			this.ironRequire +=400;
+			this.damage +=20;
 		} else {
 			level = maxLevel;
 		}

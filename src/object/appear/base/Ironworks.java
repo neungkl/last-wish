@@ -9,7 +9,6 @@ public class Ironworks extends BaseElement {
 		
 		this.fullHp = 0;
 		this.woodRequire = 0;
-		this.farmRequire = 0;
 		this.ironRequire = 0;
 		this.giveFarm = 0;
 		this.giveWood = 0;
@@ -39,7 +38,6 @@ public class Ironworks extends BaseElement {
 			this.fullHp += 0;
 			this.currentHp += 0;
 			this.woodRequire += 0;
-			this.farmRequire += 0;
 			this.ironRequire += 0;
 			this.giveFarm += 0;
 			this.giveWood += 0;

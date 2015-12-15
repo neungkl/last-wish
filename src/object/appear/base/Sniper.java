@@ -15,7 +15,7 @@ public class Sniper extends BaseAttack {
 		this.woodRequire = 1500;
 		this.ironRequire =1100;
 		this.rang = 300;
-		this.damage= 30;
+		this.damage= 25;
 		this.farmPer = 3;
 		this.maxLevel = 5;
 		
@@ -24,9 +24,9 @@ public class Sniper extends BaseAttack {
 	
 	public static boolean canBuild(int farm, int wood, int iron) {
 		return 
-			farm >= 3 &&
-			wood >= 1000 &&
-			iron >= 800;
+			farm >= 5 &&
+			wood >= 1300 &&
+			iron >= 1200;
 	}
 
 	@Override

@@ -23,16 +23,14 @@ import object.appear.base.Tank;
 import object.appear.base.Warehouse;
 import object.appear.bullet.BazukaBullet;
 import object.appear.bullet.FastBullet;
-import object.appear.zombie.OdinaryZombie;
+import object.appear.zombie.ArcherZombie;
 import object.structure.Base;
 import object.structure.BaseAttack;
 import object.structure.BaseShooter;
 import object.structure.Bullet;
 import object.structure.IAttackable;
-import object.structure.ILive;
 import object.structure.IObjectOnScreen;
 import object.structure.IPhysical;
-import object.structure.IShooter;
 import object.structure.Zombie;
 import render.RendableHolder;
 import render.rendable.CircleRendable;
@@ -40,8 +38,8 @@ import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 import essential.Config;
 import essential.GameScreen;
-import essential.Pair;
 import essential.ZIndex;
+import frame.logic.GameStat;
 import frame.logic.TimeCounter;
 
 public class GameFrame implements Frame {
@@ -50,7 +48,7 @@ public class GameFrame implements Frame {
 	private static int centerX, centerY;
 
 	private GameControlPanel controlPanel;
-	
+
 	private MainBase mainBase;
 	private ArrayList<Base> baseList;
 	private ArrayList<Bullet> bulletList;
@@ -71,6 +69,7 @@ public class GameFrame implements Frame {
 	public GameFrame() {
 		
 		TimeCounter.start();
+		GameStat.instance.reset();
 		
 		RendableHolder.add(new TileBackground("game_bg"));
 		
@@ -234,6 +233,7 @@ public class GameFrame implements Frame {
 					));
 				}
 				
+				dragAndDropObj.statIncrease();
 				baseList.add(dragAndDropObj);
 				
 				dragAndDropObj = null;
@@ -259,8 +259,8 @@ public class GameFrame implements Frame {
 		}
 		
 		for(Base base : baseList) {
-			if(base instanceof IShooter) {
-				((IShooter) base).rotateTo(InputFlag.getMouseX(), InputFlag.getMouseY());
+			if(base instanceof BaseShooter) {
+				((BaseShooter) base).rotateTo(InputFlag.getMouseX(), InputFlag.getMouseY());
 			}
 			
 			if(base instanceof IAttackable) {
@@ -288,7 +288,7 @@ public class GameFrame implements Frame {
 		}
 		
 		if(TimeCounter.shouldSpawnZombie()) {
-			Zombie zombie = new OdinaryZombie(1);
+			Zombie zombie = new ArcherZombie(1);
 			zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
 
 				@Override
@@ -318,6 +318,13 @@ public class GameFrame implements Frame {
 
 	@Override
 	public void destroy() {
+		
+		TimeCounter.stop();
+		
+		baseList.clear();
+		bulletList.clear();
+		zombieList.clear();
+		mainBase.destroy();
 	}
 
 }

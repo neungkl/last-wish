@@ -8,7 +8,6 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	protected StaticImageRendable image;
 	
 	protected int woodRequire;
-	protected int farmRequire;
 	protected int ironRequire;
 	protected int farmPer;
 	
@@ -26,7 +25,7 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	
 	protected Base(int radius) {
 		physicalRadius = radius;
-		woodRequire = farmRequire = ironRequire = farmPer = 0;
+		woodRequire = ironRequire = farmPer = 0;
 		currentLevel = maxLevel = 1;
 		
 		woodRefund = ironRefund = 0;
@@ -50,9 +49,6 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	}
 	public int getIronRequire() {
 		return ironRequire;
-	}
-	public int getFarmRequire() {
-		return farmRequire;
 	}
 	
 	@Override
@@ -143,7 +139,7 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 		this.currentLevel = level;
 	}
 	
-	public int getFarmRefund() {
+	public int getFarmPer() {
 		return farmPer;
 	}
 	

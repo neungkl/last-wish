@@ -13,20 +13,13 @@ public class Light extends BaseAttack {
 		this.fullHp = 50;
 		this.damage = 7;
 		this.fireRate = 0.85f;
-		this.woodRequire = 450;
-		this.ironRequire =420;
+		this.woodRequire = 350;
+		this.ironRequire =320;
 		this.rang = 80;
 		this.farmPer = 2;
 		this.maxLevel = 5;
 		
 		this.currentHp = this.fullHp;
-	}
-	
-	public static boolean canBuild(int farm, int wood, int iron) {
-		return 
-			farm >= 2&&
-			wood >= 350 &&
-			iron >= 300;
 	}
 
 	@Override

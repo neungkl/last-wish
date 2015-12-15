@@ -12,21 +12,14 @@ public class Sniper extends BaseAttack {
 		
 		this.fullHp =35;
 		this.fireRate = 4;
-		this.woodRequire = 1500;
-		this.ironRequire =1100;
+		this.woodRequire = 1300;
+		this.ironRequire = 1200;
 		this.rang = 300;
 		this.damage= 25;
 		this.farmPer = 3;
 		this.maxLevel = 5;
 		
 		this.currentHp = this.fullHp;
-	}
-	
-	public static boolean canBuild(int farm, int wood, int iron) {
-		return 
-			farm >= 5 &&
-			wood >= 1300 &&
-			iron >= 1200;
 	}
 
 	@Override

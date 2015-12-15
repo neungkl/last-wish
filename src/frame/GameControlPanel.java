@@ -314,7 +314,7 @@ public class GameControlPanel {
 			
 			String[] seq = {
 				"\n" + base.getWoodRequire() + "\n" + base.getIronRequire(),
-				base.getFarmRefund() + "\n" + base.getWoodRefund() + "\n" + base.getIronRefund()
+				base.getFarmPer() + "\n" + base.getWoodRefund() + "\n" + base.getIronRefund()
 			};
 			
 			final int space = 115;

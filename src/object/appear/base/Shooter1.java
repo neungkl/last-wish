@@ -11,20 +11,14 @@ public class Shooter1 extends BaseShooter {
 
 		this.fullHp = 120;
 		this.fireRate = 2;
-		this.woodRequire = 1700;
-		this.ironRequire = 1800;
+		this.woodRequire = 600;
+		this.ironRequire = 750;
 		this.rang = Integer.MAX_VALUE;
 		this.damage = 10;
 		this.farmPer = 5;
 		this.maxLevel = 10;
 
 		this.currentHp = this.fullHp;
-	}
-
-	public static boolean canBuild(int farm, int wood, int iron) {
-		return farm >= 10 && 
-				wood >= 600 && 
-				iron >= 750;
 	}
 
 	@Override

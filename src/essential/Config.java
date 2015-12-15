@@ -1,5 +1,5 @@
 package essential;
 
 public class Config {
-	public final static boolean DEBUG = true;
+	public final static boolean DEBUG = false;
 }

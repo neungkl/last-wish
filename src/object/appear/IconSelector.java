@@ -14,9 +14,14 @@ import resource.Resource;
 
 public class IconSelector implements IObjectOnScreen {
 
-	StaticImageRendable icon;
-	StringRendable text;
-	BoxRendable box;
+	private StaticImageRendable icon;
+	private StringRendable text;
+	private BoxRendable box;
+	
+	private static final Color boxCol = new Color(232, 232, 232);
+	private static final Color boxColFade = new Color(126, 126, 126);
+	
+	private boolean isAvailable;
 	
 	public IconSelector(String file, int x, int y, int width) {
 		icon = new StaticImageRendable(file, x, y);
@@ -24,12 +29,23 @@ public class IconSelector implements IObjectOnScreen {
 		icon.setZ(ZIndex.CONTROL_BAR_OBJECT);
 		icon.setName(file);
 		
-		box = new BoxRendable(x, y + width - 8, width, 18, new Color(232, 232, 232));
+		box = new BoxRendable(x, y + width - 8, width, 18, boxCol);
 		box.setZ(ZIndex.CONTROL_BAR_OBJECT);
 		
 		text = new StringRendable(file.split("_")[1], Resource.getFont("roboto", Font.BOLD, 10f), Color.BLACK, null);
 		text.setPos(x + 5, y + width + 5);
 		text.setZ(ZIndex.CONTROL_BAR_OBJECT);
+		
+		setAvailable(false);
+	}
+	
+	public void setAvailable(boolean available) {
+		icon.setListen(available);
+		icon.setPale(!available);
+		
+		box.setColor(available ? boxCol : boxColFade);
+		
+		this.isAvailable = available;
 	}
 	
 	public StaticImageRendable getIcon() {

@@ -8,8 +8,8 @@ public class Logger extends BaseElement {
 		super("base_logger", -1000, -1000, ratio);
 		
 		this.fullHp = 70;
-		this.woodRequire = 300;
-		this.ironRequire = 370;
+		this.woodRequire = 100;
+		this.ironRequire = 150;
 		this.giveFarm =0 ;
 		this.giveWood = 20;
 		this.giveIron = 0;
@@ -17,18 +17,6 @@ public class Logger extends BaseElement {
 		this.maxLevel = 20;
 		
 		this.currentHp = this.fullHp;
-	}
-	
-	@Override
-	public boolean isGivable() {
-		return true;
-	}
-	
-	public static boolean canBuild(int farm, int wood, int iron) {
-		return 
-			farm >= 5 &&
-			wood >= 100 &&
-			iron >= 150;
 	}
 
 	@Override

@@ -12,21 +12,14 @@ public class Bazuka extends BaseAttack {
 		
 		this.fullHp = 65;
 		this.fireRate = 3;
-		this.woodRequire = 1600;
-		this.ironRequire = 1700;
+		this.woodRequire = 1400;
+		this.ironRequire = 1400;
 		this.rang = 100;
 		this.damage= 40;
 		this.farmPer = 5;
-		this.maxLevel =5;
+		this.maxLevel = 5;
 		
 		this.currentHp = this.fullHp;
-	}
-	
-	public static boolean canBuild(int farm, int wood, int iron) {
-		return 
-			farm >= 5 &&
-			wood >= 1400 &&
-			iron >= 1400;
 	}
 
 	@Override

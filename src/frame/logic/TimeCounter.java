@@ -10,6 +10,7 @@ public class TimeCounter implements Runnable {
 	
 	private boolean shouldSpawnZombie = false;
 	private boolean isNewSecond = false;
+	private boolean isStop = false;
 	
 	private final int deltaTime = 1000 / GameScreen.FRAMERATE; 
 	
@@ -21,6 +22,10 @@ public class TimeCounter implements Runnable {
 		t.start();
 	}
 	
+	public static void stop() {
+		instance.isStop = true;
+	}
+	
 	public static void start()  {
 		if(instance == null) {
 			instance = new TimeCounter();
@@ -30,6 +35,9 @@ public class TimeCounter implements Runnable {
 	@Override
 	public void run() {
 		while(true) {
+			
+			if(isStop) break;
+			
 			try {
 				Thread.sleep(deltaTime);
 			} catch(InterruptedException e) {}

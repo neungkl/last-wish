@@ -8,8 +8,8 @@ public class Ironworks extends BaseElement {
 		super("base_ironworks", -1000, -1000, ratio);
 		
 		this.fullHp = 70;
-		this.woodRequire = 370;
-		this.ironRequire = 300;
+		this.woodRequire = 150;
+		this.ironRequire = 100;
 		this.giveFarm = 0;
 		this.giveWood = 0;
 		this.giveIron = 20;
@@ -17,18 +17,6 @@ public class Ironworks extends BaseElement {
 		this.maxLevel = 20;
 		
 		this.currentHp = this.fullHp;
-	}
-	
-	@Override
-	public boolean isGivable() {
-		return true;
-	}
-	
-	public static boolean canBuild(int farm, int wood, int iron) {
-		return 
-			farm >= 5 &&
-			wood >= 150 &&
-			iron >= 100;
 	}
 
 	@Override

@@ -8,27 +8,13 @@ public class Farm extends BaseElement {
 		super("base_farm", -1000, -1000, ratio);
 		
 		this.fullHp = 90;
-		this.woodRequire = 350;
-		this.ironRequire = 360;
+		this.woodRequire = 150;
+		this.ironRequire = 150;
 		this.giveFarm = 20;
-		this.giveWood = 0;
-		this.giveIron = 0;
 		this.farmPer = 0;
 		this.maxLevel = 30;
 		
 		this.currentHp = this.fullHp;
-	}
-	
-	@Override
-	public boolean isGivable() {
-		return true;
-	}
-	
-	public static boolean canBuild(int farm, int wood, int iron) {
-		return 
-			farm >= 0 &&
-			wood >= 150 &&
-			iron >= 150;
 	}
 
 	@Override

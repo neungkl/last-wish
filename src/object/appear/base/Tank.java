@@ -11,21 +11,14 @@ public class Tank extends BaseAttack {
 		
 		this.fullHp = 80;
 		this.fireRate = 2;
-		this.woodRequire = 1500;
-		this.ironRequire = 1200;
+		this.woodRequire = 1100;
+		this.ironRequire = 830;
 		this.rang = 140;
 		this.damage= 8;
 		this.farmPer = 4;
 		this.maxLevel = 5;
 		
 		this.currentHp = this.fullHp;
-	}
-	
-	public static boolean canBuild(int farm, int wood, int iron) {
-		return 
-			farm >= 4 &&
-			wood >= 1100 &&
-			iron >=830;
 	}
 
 	@Override

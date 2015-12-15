@@ -4,13 +4,11 @@ import render.RenderHelper;
 import render.rendable.StaticImageRendable;
 import essential.ZIndex;
 
-public abstract class BaseElement extends Base implements IBaseElement, IStat {
+public abstract class BaseElement extends Base implements IStat {
 	
 	protected int giveWood;
 	protected int giveFarm;
 	protected int giveIron;
-	
-	private int currentTimeStamp = 0;
 	
 	private boolean isDestroy;
 	
@@ -25,28 +23,16 @@ public abstract class BaseElement extends Base implements IBaseElement, IStat {
 		isDestroy = false;
 	}
 
-	@Override
 	public int getGiveWood() {
 		return giveWood;
 	}
 
-	@Override
 	public int getGiveIron() {
 		return giveIron;
 	}
 
-	@Override
 	public int getGiveFarm() {
 		return giveFarm;
-	}
-
-	@Override
-	public void increaseTime() {
-		currentTimeStamp++;
-	}
-
-	protected int getCurrentTime() {
-		return currentTimeStamp;
 	}
 	
 	@Override

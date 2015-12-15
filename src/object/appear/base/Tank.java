@@ -23,8 +23,8 @@ public class Tank extends BaseAttack {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 70;
-		this.currentHp +=70;
+		this.fullHp += 80;
+		this.currentHp +=100;
 		this.damage +=3;
 		this.woodRequire += 500;
 		this.ironRequire += 450;

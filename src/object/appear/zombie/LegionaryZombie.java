@@ -8,8 +8,8 @@ public class LegionaryZombie extends Zombie {
 		super("legionary", 15, 0.6f);
 		setName("Legionary Skeleton (level " + level + ")");
 		
-		this.fullHp = this.currentHp = 12 + 4 * level;
-		this.damage = 15 + 3 * level;
+		this.fullHp = this.currentHp = 12 + 4* level;
+		this.damage = 15 + 5 * level;
 		this.speed = 0.75f;
 	}
 	

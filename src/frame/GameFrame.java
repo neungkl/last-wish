@@ -254,17 +254,19 @@ public class GameFrame implements Frame {
 		
 		if(InputFlag.getTrigger(InputFlag.KEYBOARD, KeyEvent.VK_C)) {
 			String cheatText = JOptionPane.showInputDialog("Enter cheat : ");
-			if(cheatText.equals("iloveprogmeth")) {
-				GameResource.instance.cheatEnable();
-			} else if(cheatText.equals("ilovezombie")) {
-				System.out.println("5555");
-				String[] name = {"normal","legionary","warrior"};
-				for(int i=0; i<20; i++) {
-					spawnZombie(name[RandUtil.rand(3)]);
+			if(cheatText != null) {
+				if(cheatText.equals("iloveprogmeth")) {
+					GameResource.instance.cheatEnable();
+				} else if(cheatText.equals("ilovezombie")) {
+					System.out.println("5555");
+					String[] name = {"normal","legionary","warrior"};
+					for(int i=0; i<20; i++) {
+						spawnZombie(name[RandUtil.rand(3)]);
+					}
 				}
+				pause();
+				return ;
 			}
-			pause();
-			return ;
 		}
 		
 		

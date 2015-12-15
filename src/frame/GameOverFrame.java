@@ -16,7 +16,10 @@ public class GameOverFrame implements Frame {
 
 	@Override
 	public void update() {
-		String name = JOptionPane.showInputDialog("Enter you name : ");
+		String name = null;
+		while(name == null) {
+			name = JOptionPane.showInputDialog("Enter you name : ");
+		}
 		
 		HighScore.instance.add(name);
 		HighScore.instance.showDialog();

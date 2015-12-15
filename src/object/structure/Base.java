@@ -134,6 +134,7 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 			ironRefund += ironRequire;
 			woodRefund += woodRequire;
 			statIncrease();
+			this.currentHp = Math.max(0, Math.min(this.currentHp, this.fullHp));
 		} else {
 			level = maxLevel;
 		}

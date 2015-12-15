@@ -161,7 +161,7 @@ public class GameControlPanel {
 		timeCounter.setAlign(RenderHelper.CENTER_MIDDLE);
 		RendableHolder.add(timeCounter);
 		
-		waveCounter = new StringRendable("Wave : 1", roboto.deriveFont(Font.BOLD, 16f), GameScreen.WIDTH / 2, 80, bgHp, null, ZIndex.CONTROL_BAR_OBJECT);
+		waveCounter = new StringRendable("Spawning...", roboto.deriveFont(Font.BOLD, 16f), GameScreen.WIDTH / 2, 80, bgHp, null, ZIndex.CONTROL_BAR_OBJECT);
 		waveCounter.setAlign(RenderHelper.CENTER_MIDDLE);
 		RendableHolder.add(waveCounter);
 		

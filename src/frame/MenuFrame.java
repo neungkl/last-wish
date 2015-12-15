@@ -69,6 +69,9 @@ public class MenuFrame implements Frame {
 
 	@Override
 	public void pause() {}
+	
+	@Override
+	public void resume() {}
 
 	@Override
 	public void destroy() {}

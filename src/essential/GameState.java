@@ -33,6 +33,8 @@ public class GameState {
 	public void changeStage(int stageIndex) {
 
 		RendableHolder.getInstance().clear();
+		GameState.IS_PAUSING = false;
+
 		if (currentFrame != null)
 			currentFrame.destroy();
 

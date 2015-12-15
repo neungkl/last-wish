@@ -70,6 +70,11 @@ public class Resource {
 		image.put("btn_upgrade", read("game/ui/upgrade_btn.png"));
 		image.put("btn_sell", read("game/ui/sell_btn.png"));
 		
+		image.put("btn_pause", read("game/ui/pause_btn.png"));
+		image.put("pause_header", read("game/ui/pause_header.png"));
+		image.put("pause_resume", read("game/ui/resume_btn.png"));
+		image.put("pause_exit", read("game/ui/exit_btn.png"));
+		
 		String[] zombieList = {"normal","legionary","archer","warrior"};
 		
 		for(int i=0; i<zombieList.length; i++) {

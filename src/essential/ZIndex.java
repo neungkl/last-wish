@@ -8,6 +8,8 @@ public class ZIndex {
 	public static final int EXTERNAL_INFO = OBJECT_IN_GAME - 1;
 	public static final int BULLET = OBJECT_IN_GAME + 1;
 	
-	public static final int CONTROL_BAR = 1000000;
+	public static final int CONTROL_BAR = 1000;
 	public static final int CONTROL_BAR_OBJECT = CONTROL_BAR + 1;
+	
+	public static final int PAUSE_SCREEN = 10000;
 }

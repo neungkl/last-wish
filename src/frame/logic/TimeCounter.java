@@ -4,12 +4,13 @@ import essential.Config;
 import essential.GameScreen;
 
 public class TimeCounter implements Runnable {
-	private static TimeCounter instance = null;
+	public static TimeCounter instance = null;
 	
 	private int currentTimeStamp;
 	private int currentTimeInSecond;
 	private int currentWave;
 	
+	public boolean isWait;
 	private boolean isNewSecond;
 	private boolean isStop;
 	
@@ -20,6 +21,7 @@ public class TimeCounter implements Runnable {
 		currentTimeStamp = currentTimeInSecond = 0;
 		currentWave = 0;
 		isNewSecond = isStop = false;
+		isWait = false;
 		
 		Thread t = new Thread(this);
 		t.start();
@@ -38,6 +40,14 @@ public class TimeCounter implements Runnable {
 		while(true) {
 			
 			if(isStop) break;
+			if(isWait) {
+				synchronized (this) {
+					try {
+						wait();
+						isWait = false;
+					} catch(InterruptedException e) {}
+				}
+			}
 			
 			try {
 				Thread.sleep(deltaTime);
@@ -63,7 +73,6 @@ public class TimeCounter implements Runnable {
 							SpawnZombie.instance.notifyAll();
 						}
 					}
-					System.out.println(currentWave);
 					currentWave++;
 				}
 				
@@ -76,10 +85,6 @@ public class TimeCounter implements Runnable {
 		synchronized (instance) {
 			return instance.currentTimeInSecond;
 		}
-	}
-	
-	public static synchronized TimeCounter getInstance() {
-		return instance;
 	}
 	
 	public static synchronized void setNewSecond(boolean isNewSecond) {

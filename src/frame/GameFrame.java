@@ -1,26 +1,19 @@
 package frame;
 
+import input.HighlightObjectListener;
 import input.InputFlag;
 import input.MapParentListener;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
+
+import main.Main;
 import object.appear.TileBackground;
-import object.appear.base.Bazuka;
-import object.appear.base.Farm;
-import object.appear.base.Ironworks;
-import object.appear.base.Light;
-import object.appear.base.Logger;
 import object.appear.base.MainBase;
-import object.appear.base.Shooter1;
-import object.appear.base.Shooter2;
-import object.appear.base.Shooter3;
-import object.appear.base.Shooter4;
-import object.appear.base.Sniper;
-import object.appear.base.Tank;
-import object.appear.base.Warehouse;
 import object.appear.bullet.BazukaBullet;
 import object.appear.bullet.FastBullet;
 import object.appear.zombie.LegionaryZombie;
@@ -36,11 +29,14 @@ import object.structure.IObjectOnScreen;
 import object.structure.IPhysical;
 import object.structure.Zombie;
 import render.RendableHolder;
+import render.RenderHelper;
+import render.rendable.BoxRendable;
 import render.rendable.CircleRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 import essential.Config;
 import essential.GameScreen;
+import essential.GameState;
 import essential.ZIndex;
 import frame.logic.GameResource;
 import frame.logic.SpawnZombie;
@@ -57,6 +53,7 @@ public class GameFrame implements Frame {
 	private ArrayList<Base> baseList;
 	private ArrayList<Bullet> bulletList;
 	private ArrayList<Zombie> zombieList;
+	private ArrayList<Rendable> pauseShow;
 	
 	private CircleRendable showRange;
 	private static final Color showRangeCol = new Color(7, 230, 226, 50);
@@ -79,6 +76,7 @@ public class GameFrame implements Frame {
 		baseList = new ArrayList<>();
 		bulletList = new ArrayList<>();
 		zombieList = new ArrayList<>();
+		pauseShow = new ArrayList<>();
 		
 		initializeRendableObject();
 		
@@ -105,6 +103,58 @@ public class GameFrame implements Frame {
 		showRange = new CircleRendable(0, 0, 0, showRangeCol, ZIndex.EXTERNAL_INFO);
 		showRange.setVisible(false);
 		RendableHolder.add(showRange);
+		
+		Rendable pause = new StaticImageRendable("btn_pause", 10, 10, 0.35f, ZIndex.CONTROL_BAR_OBJECT);
+		pause.addMouseInteractiveListener(new HighlightObjectListener<Rendable>() {
+			@Override
+			public void onClick(Rendable object) {
+				pause();
+			}
+		});
+		pause.setPausable(true);
+		RendableHolder.add(pause);
+		
+		pause = new BoxRendable(0, 0, GameScreen.WIDTH, GameScreen.HEIGHT, new Color(0, 0, 0, 150), ZIndex.PAUSE_SCREEN);
+		pauseShow.add(pause);
+		
+		pause = new StaticImageRendable("pause_header", GameScreen.WIDTH / 2, GameScreen.HEIGHT / 2 - 100, 1.5f, ZIndex.PAUSE_SCREEN);
+		pause.setAlign(RenderHelper.CENTER_MIDDLE);
+		pauseShow.add(pause);
+		
+		pause = new StaticImageRendable("pause_resume", GameScreen.WIDTH / 2, GameScreen.HEIGHT / 2 + 50, 1.2f, ZIndex.PAUSE_SCREEN);
+		pause.setAlign(RenderHelper.CENTER_MIDDLE);
+		pause.addMouseInteractiveListener(new HighlightObjectListener<Rendable>() {
+			@Override
+			public void onClick(Rendable object) {
+				resume();
+			}
+		});
+		pauseShow.add(pause);
+		
+		pause = new StaticImageRendable("pause_exit", GameScreen.WIDTH / 2, GameScreen.HEIGHT / 2 + 120, 1.2f, ZIndex.PAUSE_SCREEN);
+		pause.setAlign(RenderHelper.CENTER_MIDDLE);
+		pause.addMouseInteractiveListener(new HighlightObjectListener<Rendable>() {
+			@Override
+			public void onClick(Rendable object) {
+				int dialogResult = JOptionPane.showConfirmDialog(
+					Main.getFrame(), 
+					"Are you sure to exit level to main screen ?",
+					"Exit level ?",
+					JOptionPane.YES_NO_OPTION
+				);
+				
+				if(dialogResult == JOptionPane.YES_OPTION) {
+					GameState.getInstance().changeStage(GameState.MENU_STAGE);
+				}
+			}
+		});
+		pauseShow.add(pause);
+		
+		for(Rendable each : pauseShow) {
+			each.setVisible(false);
+			each.setPausable(true);
+			RendableHolder.add(each);
+		}
 	}
 	
 	public void spawnNewBase(String name) {
@@ -181,6 +231,17 @@ public class GameFrame implements Frame {
 	
 	@Override
 	public void update() {
+		
+		if(InputFlag.getTrigger(InputFlag.KEYBOARD, KeyEvent.VK_P)) {
+			if(GameState.IS_PAUSING) {
+				resume();
+			} else {
+				pause();
+			}
+			return ;
+		}
+		if(GameState.IS_PAUSING) return ;
+		
 		
 		clearDestroyedObject();
 		
@@ -329,6 +390,27 @@ public class GameFrame implements Frame {
 	
 	@Override
 	public void pause() {
+		GameState.IS_PAUSING = true;
+
+		TimeCounter.instance.isWait = true;
+		
+		for(Rendable each : pauseShow) {
+			each.setVisible(true);
+		}
+	}
+	
+	@Override
+	public void resume() {
+		
+		synchronized (TimeCounter.instance) {
+			TimeCounter.instance.notifyAll();
+		}
+		
+		for(Rendable each : pauseShow) {
+			each.setVisible(false);
+		}
+		
+		GameState.IS_PAUSING = false;
 	}
 
 	@Override

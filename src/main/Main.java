@@ -25,7 +25,7 @@ public class Main {
 		frame.setTitle("The Last Wish");
 
 		gameScreen.updateScreenSize();
-
+		
 		InputFlag.reset();
 
 		while (true) {
@@ -38,6 +38,8 @@ public class Main {
 			gameScreen.repaint();
 			
 			InputFlag.clearTrigger();
+			
+			gameScreen.requestFocus();
 		}
 	}
 	

@@ -25,7 +25,7 @@ public class Resource {
 	}
 
 	private Resource() {
-		image.put("game_bg", read("game/bg1.png"));
+		image.put("game_bg", read("game/bg4.jpg"));
 		image.put("menu_bg", read("menu/bg.jpg"));
 		image.put("exit_btn", read("menu/exit.png"));
 		image.put("start_btn", read("menu/start.png"));

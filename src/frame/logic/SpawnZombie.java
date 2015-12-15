@@ -83,7 +83,10 @@ public class SpawnZombie implements Runnable {
 				}
 				currentZombie = maximumZombie;
 			}
-		}
-		
+		}	
+	}
+	
+	public synchronized static void increaseMaximumZombie() {
+		instance.maximumZombie++;
 	}
 }

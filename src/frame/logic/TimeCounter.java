@@ -57,23 +57,19 @@ public class TimeCounter implements Runnable {
 			if(currentTimeStamp / 1000 != currentTimeInSecond) {
 				currentTimeInSecond = currentTimeStamp / 1000;
 				
-				if(currentTimeInSecond == Config.FIRST_SPAWN_TIME) {
+				if(currentTimeInSecond == Config.FIRST_SPAWN_TIME || 
+					(currentTimeInSecond > Config.FIRST_SPAWN_TIME && 
+					(currentTimeInSecond - Config.FIRST_SPAWN_TIME) % Config.SPAWN_TIME_EACH_WAVE == 0)) {
 					synchronized (SpawnZombie.instance) {
 						if(SpawnZombie.instance.isWait) {
 							SpawnZombie.instance.notifyAll();
 						}
 					}
 					currentWave++;
-				} else if(
-					currentTimeInSecond > Config.FIRST_SPAWN_TIME && 
-					(currentTimeInSecond - Config.FIRST_SPAWN_TIME) % Config.SPAWN_TIME_EACH_WAVE == 0
-				) {
-					synchronized (SpawnZombie.instance) {
-						if(SpawnZombie.instance.isWait) {
-							SpawnZombie.instance.notifyAll();
-						}
+					
+					if(currentWave%Config.SPAWN_TIME_EACH_WAVE == 0) {
+						SpawnZombie.increaseMaximumZombie();
 					}
-					currentWave++;
 				}
 				
 				isNewSecond = true;

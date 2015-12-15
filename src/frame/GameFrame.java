@@ -396,6 +396,8 @@ public class GameFrame implements Frame {
 			TimeCounter.setNewSecond(false);
 			
 			if(TimeCounter.getCurrentWave() >= Config.MAX_LEVEL) {
+				HighScore.prevLevelData = TimeCounter.getCurrentWave();
+				HighScore.prevTimeData = TimeCounter.getSecond();
 				GameState.getInstance().changeStage(GameState.GAME_WIN);
 				return ;
 			}

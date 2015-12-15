@@ -4,10 +4,17 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
+import object.appear.base.Bazuka;
 import object.appear.base.Farm;
 import object.appear.base.Ironworks;
 import object.appear.base.Light;
 import object.appear.base.Logger;
+import object.appear.base.Shooter1;
+import object.appear.base.Shooter2;
+import object.appear.base.Shooter3;
+import object.appear.base.Shooter4;
+import object.appear.base.Sniper;
+import object.appear.base.Tank;
 import object.appear.base.Warehouse;
 import object.structure.Base;
 import render.RendableHolder;

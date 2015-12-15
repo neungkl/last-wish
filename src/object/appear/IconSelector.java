@@ -40,7 +40,6 @@ public class IconSelector implements IObjectOnScreen {
 	}
 	
 	public void setAvailable(boolean available) {
-		icon.setListen(available);
 		icon.setPale(!available);
 		
 		box.setColor(available ? boxCol : boxColFade);

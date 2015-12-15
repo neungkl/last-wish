@@ -154,6 +154,7 @@ public class GameControlPanel {
 		initialLeftPanel();
 		initialRightPanel();
 	}
+
 	
 	private void initialLeftPanel() {
 		
@@ -163,19 +164,11 @@ public class GameControlPanel {
 		
 		String[] fileList = {"farm","logger","ironworks","warehouse"};
 		
-		HighlightObjectListener<StaticImageRendable> baseListener = new HighlightObjectListener<StaticImageRendable>() {
-			
-			@Override
-			public void onClick(StaticImageRendable icon) {
-				gameFrame.spawnNewBase(icon.getName().split("_")[1]);
-			}
-		}; 
-		
 		for(int i=0; i<fileList.length; i++) {
 			IconSelector s = new IconSelector("icon_" + fileList[i], 10 + 80 * i, this.y + 10, 70);
 			
 			StaticImageRendable icon = s.getIcon();
-			icon.addMouseInteractiveListener(baseListener);
+			icon.addMouseInteractiveListener(generateIconHoverListener(fileList[i]));
 
 			iconList.put(fileList[i], s);
 			baseObj.put(fileList[i], s);
@@ -186,7 +179,7 @@ public class GameControlPanel {
 			IconSelector s = new IconSelector("icon_" + fileList[i], 10 + 80 * i, this.y + 10, 70);
 			
 			StaticImageRendable icon = s.getIcon();
-			icon.addMouseInteractiveListener(baseListener);
+			icon.addMouseInteractiveListener(generateIconHoverListener(fileList[i]));
 			icon.setVisible(false);
 			
 			iconList.put(fileList[i], s);
@@ -304,6 +297,69 @@ public class GameControlPanel {
 		RendableHolder.add(rightObj.values());
 	}
 	
+	public Base generateBase(String name) {
+		switch(name) {
+		case "farm" :
+			return new Farm(1f);
+		case "ironworks" :
+			return new Ironworks(0.8f);
+		case "logger" :
+			return new Logger(0.8f);
+		case "warehouse" : 
+			return new Warehouse(0.8f);
+		case "shooter1" :
+			return new Shooter1(0.8f);
+		case "shooter2" :
+			return new Shooter2(0.8f);
+		case "shooter3" :
+			return new Shooter3(0.8f);
+		case "shooter4" :
+			return new Shooter4(0.8f);
+		case "bazuka" :
+			return new Bazuka(0.4f);
+		case "sniper" :
+			return new Sniper(0.35f);
+		case "light" :
+			return new Light(0.65f);
+		case "tank" :
+			return new Tank(0.3f);
+		}
+		throw new RuntimeException("Base name not found");
+	}
+	
+	public MouseInteractiveListener<StaticImageRendable> generateIconHoverListener(String name) {
+		
+		for(int i=0; i<baseList.length; i++) {
+			if(baseList[i].getClass().getSimpleName().toLowerCase().equals(name)) {
+				Base b = baseList[i];
+				
+				return new HighlightObjectListener<StaticImageRendable>() {
+					
+					@Override
+					public void onEnter(StaticImageRendable object) {
+						if(GameResource.instance.canBuild(b, gameFrame.getBaseList())) {
+							object.setHoverEffect(true);
+						}
+						gameFrame.setHoverShowingStat(b);
+					}
+					
+					@Override
+					public void onLeave(StaticImageRendable object) {
+						object.setHoverEffect(false);
+						gameFrame.setHoverShowingStat(null);
+					}
+					
+					@Override
+					public void onClick(StaticImageRendable icon) {
+						gameFrame.spawnNewBase(icon.getName().split("_")[1]);
+					}
+				};
+			}
+		}
+		
+		throw new RuntimeException("Can't generate icon hover listener : " + name);
+	}
+	
 	private void switchSelectBase(boolean isSelectBase) {
 		this.isSelectBase = isSelectBase;
 		
@@ -315,7 +371,7 @@ public class GameControlPanel {
 		}
 	}
 	
-	public void showStat(IObjectOnScreen obj) {
+	public void showStat(IObjectOnScreen obj, boolean isPreview) {
 		
 		if(obj == null) return ;
 		
@@ -394,11 +450,25 @@ public class GameControlPanel {
 			} 
 			rightObj.get("sell_btn").setPos(px + 130, ey - 15);
 			
+			if(isPreview) {
+				rightObj.get("upgrade_btn").setVisible(false);
+				rightObj.get("sell_btn").setVisible(false);
+				rightObj.get("require1").setVisible(false);
+				rightObj.get("icon_wood1").setVisible(false);
+				rightObj.get("icon_farm1").setVisible(false);
+				rightObj.get("icon_iron1").setVisible(false);
+				px -= 35;
+			}
+			
 			for(int i=0; i<seq.length; i++) {
 				
 				if(i == 0) {
-					ey -= 12;
-					rightObj.get("icon_farm0").setVisible(false);
+					if(isPreview) {
+						seq[i] = base.getFarmPer() + seq[i];
+					} else {
+						ey -= 12;
+						rightObj.get("icon_farm0").setVisible(false);
+					}
 				}
 				
 				txtHold = (StringRendable) rightObj.get("require"+i);

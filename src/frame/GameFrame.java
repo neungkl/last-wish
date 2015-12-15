@@ -109,50 +109,7 @@ public class GameFrame implements Frame {
 	
 	public void spawnNewBase(String name) {
 		
-		Base obj = null;
-		
-		switch(name) {
-		case "farm" :
-			obj = new Farm(1f);
-			break;
-		case "ironworks" :
-			obj = new Ironworks(0.8f);
-			break;
-		case "logger" :
-			obj = new Logger(0.8f);
-			break;
-		case "warehouse" : 
-			obj = new Warehouse(0.8f);
-			break;
-		case "shooter1" :
-			obj = new Shooter1(0.8f);
-			break;
-		case "shooter2" :
-			obj = new Shooter2(0.8f);
-			break;
-		case "shooter3" :
-			obj = new Shooter3(0.8f);
-			break;
-		case "shooter4" :
-			obj = new Shooter4(0.8f);
-			break;
-		case "bazuka" :
-			obj = new Bazuka(0.4f);
-			break;
-		case "sniper" :
-			obj = new Sniper(0.35f);
-			break;
-		case "light" :
-			obj = new Light(0.65f);
-			break;
-		case "tank" :
-			obj = new Tank(0.3f);
-		}
-		
-		if(obj == null) {
-			System.out.println("no name found in spawnNewBase : " + name);
-			return ;
-		}
+		Base obj = controlPanel.generateBase(name);
 		
 		for(Rendable each : RendableHolder.getInstance().getRendableList()) {
 			each.setListen(false);
@@ -161,6 +118,10 @@ public class GameFrame implements Frame {
 		RendableHolder.add((IObjectOnScreen) obj);
 			
 		dragAndDropObj = obj;
+	}
+	
+	public void setHoverShowingStat(Base hoverShowingStat) {
+		this.hoverShowingStat = hoverShowingStat;
 	}
 	
 	public ArrayList<Base> getBaseList() {
@@ -267,7 +228,7 @@ public class GameFrame implements Frame {
 		if(hoverShowingStat != null) {
 			
 			showRang.setVisible(false);
-			controlPanel.showStat(hoverShowingStat);
+			controlPanel.showStat(hoverShowingStat, true);
 			
 		} else if(currentShowingStat != null) {
 			if(currentShowingStat instanceof IPhysical && ((IPhysical) currentShowingStat).isDestroy()) {
@@ -275,7 +236,7 @@ public class GameFrame implements Frame {
 				showRang.setVisible(false);
 				controlPanel.statClear();
 			} else {
-				controlPanel.showStat(currentShowingStat);
+				controlPanel.showStat(currentShowingStat, false);
 			
 				if(currentShowingStat instanceof BaseAttack && !(currentShowingStat instanceof BaseShooter)) {
 					BaseAttack ba = (BaseAttack) currentShowingStat;

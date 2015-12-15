@@ -14,7 +14,7 @@ public class Bazuka extends BaseAttack {
 		this.fireRate = 3;
 		this.woodRequire = 1400;
 		this.ironRequire = 1400;
-		this.rang = 100;
+		this.range = 100;
 		this.damage= 40;
 		this.farmPer = 5;
 		this.maxLevel = 5;
@@ -29,7 +29,7 @@ public class Bazuka extends BaseAttack {
 		this.damage +=20;
 		this.woodRequire += 400;
 		this.ironRequire += 500;
-		this.rang += 2;
+		this.range += 2;
 	}
 	
 	@Override

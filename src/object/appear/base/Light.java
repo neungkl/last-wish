@@ -15,7 +15,7 @@ public class Light extends BaseAttack {
 		this.fireRate = 0.85f;
 		this.woodRequire = 350;
 		this.ironRequire =320;
-		this.rang =100;
+		this.range =100;
 		this.farmPer = 2;
 		this.maxLevel = 5;
 		
@@ -29,7 +29,7 @@ public class Light extends BaseAttack {
 		this.damage += 4;
 		this.woodRequire += 210;
 		this.ironRequire += 230;
-		this.rang += 3;
+		this.range += 3;
 	}
 	
 	@Override

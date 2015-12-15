@@ -58,8 +58,8 @@ public class GameFrame implements Frame {
 	private ArrayList<Bullet> bulletList;
 	private ArrayList<Zombie> zombieList;
 	
-	private CircleRendable showRang;
-	private static final Color showRangCol = new Color(7, 230, 226, 50);
+	private CircleRendable showRange;
+	private static final Color showRangeCol = new Color(7, 230, 226, 50);
 	
 	private IObjectOnScreen hoverShowingStat = null;
 	private IObjectOnScreen currentShowingStat = null;
@@ -102,9 +102,9 @@ public class GameFrame implements Frame {
 		baseList.add(mainBase);
 		RendableHolder.add(mainBase);
 		
-		showRang = new CircleRendable(0, 0, 0, showRangCol, ZIndex.EXTERNAL_INFO);
-		showRang.setVisible(false);
-		RendableHolder.add(showRang);
+		showRange = new CircleRendable(0, 0, 0, showRangeCol, ZIndex.EXTERNAL_INFO);
+		showRange.setVisible(false);
+		RendableHolder.add(showRange);
 	}
 	
 	public void spawnNewBase(String name) {
@@ -227,26 +227,26 @@ public class GameFrame implements Frame {
 		
 		if(hoverShowingStat != null) {
 			
-			showRang.setVisible(false);
+			showRange.setVisible(false);
 			controlPanel.showStat(hoverShowingStat, true);
 			
 		} else if(currentShowingStat != null) {
 			if(currentShowingStat instanceof IPhysical && ((IPhysical) currentShowingStat).isDestroy()) {
 				currentShowingStat = null;
-				showRang.setVisible(false);
+				showRange.setVisible(false);
 				controlPanel.statClear();
 			} else {
 				controlPanel.showStat(currentShowingStat, false);
 			
 				if(currentShowingStat instanceof BaseAttack && !(currentShowingStat instanceof BaseShooter)) {
 					BaseAttack ba = (BaseAttack) currentShowingStat;
-					if(ba.getRang() != Integer.MAX_VALUE) {
-						showRang.setVisible(true);
-						showRang.setPos(ba.getPosX(), ba.getPosY());
-						showRang.setRadius(ba.getRang());
+					if(ba.getRange() != Integer.MAX_VALUE) {
+						showRange.setVisible(true);
+						showRange.setPos(ba.getPosX(), ba.getPosY());
+						showRange.setRadius(ba.getRange());
 					}
 				} else {
-					showRang.setVisible(false);
+					showRange.setVisible(false);
 				}
 			}
 		}

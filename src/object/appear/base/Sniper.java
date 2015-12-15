@@ -14,7 +14,7 @@ public class Sniper extends BaseAttack {
 		this.fireRate = 4;
 		this.woodRequire = 1600;
 		this.ironRequire = 1500;
-		this.rang = 250;
+		this.range = 250;
 		this.damage= 45;
 		this.farmPer = 3;
 		this.maxLevel = 5;
@@ -29,7 +29,7 @@ public class Sniper extends BaseAttack {
 		this.woodRequire += 600;
 		this.ironRequire += 600;
 		this.damage +=35;
-		this.rang += 20;
+		this.range += 20;
 	}
 	
 	@Override

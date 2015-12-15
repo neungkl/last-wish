@@ -14,7 +14,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 
 	protected float damage;
 	protected float fireRate;
-	protected int rang;
+	protected int range;
 	
 	private boolean isDestroy;
 	private int currentTimeStamp;
@@ -26,7 +26,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
 		this.setName(file.split("_")[1]);
 		
-		damage = rang = 0;
+		damage = range = 0;
 		fireRate = 1;
 		isDestroy = false;
 		currentTimeStamp = 0;
@@ -45,8 +45,8 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 	}
 	
 	@Override
-	public int getRang() {
-		return rang;
+	public int getRange() {
+		return range;
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 		
 		for(Zombie zombie : zombieList) {
 			double dist = zombie.getDistance(this);
-			if(dist <= getRang()) {
+			if(dist <= getRange()) {
 				if(best == null || dist <= minDist) {
 					if(dist < minDist || best == null || zombie.getCurrentHp() < best.getCurrentHp()) {
 						best = zombie;
@@ -106,7 +106,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 	public String getStatString() {
 		String txt = "Damage : " + damage + "     ";
 		txt += "Firerate : " + fireRate + "\n";
-		txt += "Rang : " + (rang == Integer.MAX_VALUE ? "MAX" : rang);
+		txt += "Range : " + (range == Integer.MAX_VALUE ? "MAX" : range);
 		txt += "     Farm size : " + farmPer; 
 		return txt;
 	}

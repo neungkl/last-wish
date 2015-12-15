@@ -158,6 +158,8 @@ public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen
 		int priority = Integer.MAX_VALUE;
 		int minDiff = Integer.MAX_VALUE;
 		
+		int range = 200;
+		
 		for(int i=0; i<list.size(); i++) {
 			
 			Base b = list.get(i);
@@ -167,6 +169,8 @@ public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen
 			int delX = b.getPosX() - this.getPosX();
 			int delY = b.getPosY() - this.getPosY();
 			int diff = delX * delX + delY * delY;
+			
+			//if(diff > range * range) continue;
 			
 			if(b instanceof BaseAttack && priority >= 1) {
 				if(priority > 1 || diff < minDiff) {

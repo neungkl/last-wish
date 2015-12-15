@@ -13,7 +13,7 @@ public class Tank extends BaseAttack {
 		this.fireRate = 2;
 		this.woodRequire = 1100;
 		this.ironRequire = 830;
-		this.rang = 140;
+		this.range = 140;
 		this.damage= 8;
 		this.farmPer = 4;
 		this.maxLevel = 5;
@@ -28,7 +28,7 @@ public class Tank extends BaseAttack {
 		this.damage +=3;
 		this.woodRequire += 500;
 		this.ironRequire += 450;
-		this.rang += 3;
+		this.range += 3;
 	}
 	
 	@Override

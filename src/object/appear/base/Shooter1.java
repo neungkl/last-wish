@@ -13,7 +13,7 @@ public class Shooter1 extends BaseShooter {
 		this.fireRate = 2;
 		this.woodRequire = 600;
 		this.ironRequire = 750;
-		this.rang = Integer.MAX_VALUE;
+		this.range = Integer.MAX_VALUE;
 		this.damage = 20;
 		this.farmPer = 5;
 		this.maxLevel = 10;

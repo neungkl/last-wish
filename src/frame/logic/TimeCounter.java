@@ -67,7 +67,7 @@ public class TimeCounter implements Runnable {
 					}
 					currentWave++;
 					
-					if(currentWave%Config.SPAWN_TIME_EACH_WAVE == 0) {
+					if(currentWave%Config.INCREASE_ZOMBIE_EACH_LEVEL == 0) {
 						SpawnZombie.increaseMaximumZombie();
 					}
 				}

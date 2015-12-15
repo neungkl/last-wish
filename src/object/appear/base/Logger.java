@@ -11,7 +11,7 @@ public class Logger extends BaseElement {
 		this.woodRequire = 100;
 		this.ironRequire = 150;
 		this.giveFarm =0 ;
-		this.giveWood = 20;
+		this.giveWood = 30;
 		this.giveIron = 0;
 		this.farmPer = 0;
 		this.maxLevel = 20;
@@ -21,12 +21,12 @@ public class Logger extends BaseElement {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 10;
-		this.currentHp += 10;
-		this.woodRequire += 200;
-		this.ironRequire += 230;
+		this.fullHp += 25;
+		this.currentHp += 30;
+		this.woodRequire += 240;
+		this.ironRequire += 330;
 		this.giveFarm += 0;
-		this.giveWood += 10;
+		this.giveWood += 35;
 		this.giveIron += 0;
 	}
 

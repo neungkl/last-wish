@@ -10,12 +10,12 @@ public class Light extends BaseAttack {
 	public Light(float ratio) {
 		super("base_light", ratio);
 		
-		this.fullHp = 50;
+		this.fullHp = 80;
 		this.damage = 7;
 		this.fireRate = 0.85f;
 		this.woodRequire = 350;
 		this.ironRequire =320;
-		this.rang = 80;
+		this.rang =100;
 		this.farmPer = 2;
 		this.maxLevel = 5;
 		
@@ -24,12 +24,12 @@ public class Light extends BaseAttack {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 20;
-		this.currentHp += 20;
-		this.damage += 3;
-		this.woodRequire += 200;
-		this.ironRequire += 220;
-		this.rang += 1;
+		this.fullHp += 40;
+		this.currentHp += 50;
+		this.damage += 4;
+		this.woodRequire += 210;
+		this.ironRequire += 230;
+		this.rang += 3;
 	}
 	
 	@Override

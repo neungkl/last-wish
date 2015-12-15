@@ -14,7 +14,7 @@ public class Shooter1 extends BaseShooter {
 		this.woodRequire = 600;
 		this.ironRequire = 750;
 		this.rang = Integer.MAX_VALUE;
-		this.damage = 10;
+		this.damage = 20;
 		this.farmPer = 5;
 		this.maxLevel = 10;
 
@@ -23,11 +23,11 @@ public class Shooter1 extends BaseShooter {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 30;
-		this.currentHp += 30;
-		this.woodRequire += 300;
-		this.ironRequire += 320;
-		this.damage += 10;
+		this.fullHp += 50;
+		this.currentHp += 60;
+		this.woodRequire += 310;
+		this.ironRequire += 350;
+		this.damage += 20;
 	}
 
 	@Override

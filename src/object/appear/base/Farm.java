@@ -19,8 +19,8 @@ public class Farm extends BaseElement {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 15;
-		this.currentHp += 15;
+		this.fullHp += 20;
+		this.currentHp += 30;
 		this.woodRequire += 220;
 		this.ironRequire += 230;
 		this.giveFarm += 15;

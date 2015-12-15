@@ -24,8 +24,8 @@ public class Bazuka extends BaseAttack {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 30;
-		this.currentHp += 30;
+		this.fullHp += 45;
+		this.currentHp += 55;
 		this.damage +=20;
 		this.woodRequire += 400;
 		this.ironRequire += 500;

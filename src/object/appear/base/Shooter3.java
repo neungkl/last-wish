@@ -26,9 +26,9 @@ public class Shooter3 extends BaseShooter {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 30;
-		this.currentHp += 30;
-		this.damage += 15;
+		this.fullHp += 50;
+		this.currentHp += 60;
+		this.damage += 25;
 		this.woodRequire += 500;
 		this.ironRequire += 450;
 	}

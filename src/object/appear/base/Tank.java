@@ -9,7 +9,7 @@ public class Tank extends BaseAttack {
 	public Tank(float ratio) {
 		super("base_tank", ratio);
 		
-		this.fullHp = 80;
+		this.fullHp = 160;
 		this.fireRate = 2;
 		this.woodRequire = 1100;
 		this.ironRequire = 830;
@@ -23,12 +23,12 @@ public class Tank extends BaseAttack {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 40;
-		this.currentHp +=40;
+		this.fullHp += 70;
+		this.currentHp +=70;
 		this.damage +=3;
 		this.woodRequire += 500;
 		this.ironRequire += 450;
-		this.rang += 2;
+		this.rang += 3;
 	}
 	
 	@Override

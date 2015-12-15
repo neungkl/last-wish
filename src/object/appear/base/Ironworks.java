@@ -12,7 +12,7 @@ public class Ironworks extends BaseElement {
 		this.ironRequire = 100;
 		this.giveFarm = 0;
 		this.giveWood = 0;
-		this.giveIron = 20;
+		this.giveIron = 30;
 		this.farmPer = 5;
 		this.maxLevel = 20;
 		
@@ -21,13 +21,13 @@ public class Ironworks extends BaseElement {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 10;
-		this.currentHp += 10;
-		this.woodRequire +=230;
-		this.ironRequire += 200;
+		this.fullHp += 25;
+		this.currentHp += 35;
+		this.woodRequire +=350;
+		this.ironRequire += 250;
 		this.giveFarm += 0;
 		this.giveWood += 0;
-		this.giveIron += 10;
+		this.giveIron += 35;
 	}
 
 }

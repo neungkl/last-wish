@@ -13,7 +13,7 @@ public class MainBase extends Base {
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		
-		this.fullHp = this.currentHp = 500;
+		this.fullHp = this.currentHp = 1000;
 		this.woodRequire = 2000;
 		this.ironRequire = 1200;
 		this.farmPer = 0;
@@ -22,8 +22,8 @@ public class MainBase extends Base {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 250;
-		this.currentHp += 250;
+		this.fullHp += 500;
+		this.currentHp += 550;
 		this.ironRequire += 1500;
 		this.woodRequire += 1500;
 	}

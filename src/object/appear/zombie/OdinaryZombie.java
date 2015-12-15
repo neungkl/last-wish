@@ -8,8 +8,8 @@ public class OdinaryZombie extends Zombie {
 		super("normal", 15, 0.6f);
 		setName("Skeleton (level " + level + ")");
 		
-		this.fullHp = this.currentHp = 9 + 3 * level;
-		this.damage = 7 + 2 * level;
+		this.fullHp = this.currentHp = 9 + 2 * level;
+		this.damage = 7 + 1* level;
 		this.speed = 1f;
 	}
 	

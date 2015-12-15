@@ -7,7 +7,7 @@ public class Warehouse extends BaseResourceLimit {
 		super("base_warehouse", ratio);
 		setPhysicalRadius(30);
 		
-		this.fullHp = 120;
+		this.fullHp = 150;
 		this.woodRequire = 170;
 		this.ironRequire = 150;
 		this.maximumWood = this.maximumIron = 300;
@@ -20,11 +20,11 @@ public class Warehouse extends BaseResourceLimit {
 
 	@Override
 	public void statIncrease() {
-		this.fullHp += 20;
-		this.currentHp += 20;
-		this.woodRequire += 190;
-		this.ironRequire += 170;
-		this.maximumWood += 200;
-		this.maximumIron += 200;
+		this.fullHp +=55;
+		this.currentHp += 70;
+		this.woodRequire +=400;
+		this.ironRequire += 350;
+		this.maximumWood += 500;
+		this.maximumIron += 500;
 	}
 }

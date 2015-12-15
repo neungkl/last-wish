@@ -109,6 +109,11 @@ public abstract class Rendable implements Comparable<Rendable>, IName {
 	public final void setAlign(int align) {
 		this.align = align;
 	}
+	
+	public final void setWidth(int width) {
+		this.width = width;
+	}
+	
 	public final void setPale(boolean isPale) {
 		this.isPale = isPale;
 	}

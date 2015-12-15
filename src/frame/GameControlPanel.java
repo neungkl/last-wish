@@ -5,7 +5,6 @@ import input.MouseInteractiveListener;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import object.appear.IconSelector;
@@ -34,10 +33,12 @@ public class GameControlPanel {
 	private static final Color bgCol = new Color(44, 49, 51);
 	private static final Color bgNonActiveCol = new Color(162, 172, 176);
 	private static final Color bgHp = new Color(237, 12, 12);
+	private static final Color fontGreyCol = new Color(250, 250, 250);
 	
 	private HashMap<String, IconSelector> baseObj;
 	private HashMap<String, IconSelector> defenseObj;
-	private ArrayList<Rendable> rightObj;
+	
+	private HashMap<String, Rendable> rightObj;
 	
 	private GameFrame gameFrame;
 	
@@ -161,8 +162,61 @@ public class GameControlPanel {
 	}
 	
 	private void initialRightPanel() {
-		rightObj = new ArrayList<>();
+		rightObj = new HashMap<>();
 		RendableHolder.add(new BoxRendable(GameScreen.WIDTH - 300, y - 80, 300, height + 75, bgCol, ZIndex.CONTROL_BAR));
+		
+		rightObj.put("name", new StringRendable(
+			"",
+			Resource.getFont("roboto", Font.BOLD, 18f), 
+			0, 0, Color.WHITE, null, 
+			ZIndex.CONTROL_BAR_OBJECT
+		));
+		
+		rightObj.put("hpText", new StringRendable(
+			"HP", 
+			Resource.getFont("roboto", Font.PLAIN, 16f), 
+			0, 0, Color.WHITE, null, 
+			ZIndex.CONTROL_BAR_OBJECT
+		));
+		
+		rightObj.put("hpStat", new StringRendable(
+			"", 
+			Resource.getFont("roboto", Font.PLAIN, 16f), 
+			0, 0, Color.WHITE, null, 
+			ZIndex.CONTROL_BAR_OBJECT
+		));
+		
+		rightObj.put("hpBox", new BoxRendable(0, 0, 0, 18, Color.RED, ZIndex.CONTROL_BAR_OBJECT));
+		
+		rightObj.put("stat", new StringRendable(
+			"", 
+			Resource.getFont("roboto", Font.PLAIN, 15f), 
+			0, 0, new Color(250, 250, 250), null,
+			ZIndex.CONTROL_BAR_OBJECT
+		));
+		
+		rightObj.put("require0", new StringRendable(
+			"", 
+			Resource.getFont("roboto", Font.PLAIN, 12f), 
+			0, 0, fontGreyCol, null,
+			ZIndex.CONTROL_BAR_OBJECT
+		));
+		
+		rightObj.put("icon_wood", new StaticImageRendable("icon_mini_wood", 0, 0, 0.3f, ZIndex.CONTROL_BAR_OBJECT));
+		rightObj.put("icon_iron", new StaticImageRendable("icon_mini_iron", 0, 0, 0.3f, ZIndex.CONTROL_BAR_OBJECT));
+		
+		rightObj.put("require1", new StringRendable(
+			"", 
+			Resource.getFont("roboto", Font.PLAIN, 12f), 
+			0, 0, fontGreyCol, null,
+			ZIndex.CONTROL_BAR_OBJECT
+		));
+		
+		for(Rendable right : rightObj.values()) {
+			right.setVisible(false);
+		}
+		
+		RendableHolder.add(rightObj.values());
 	}
 	
 	private void switchSelectBase(boolean isSelectBase) {
@@ -184,20 +238,17 @@ public class GameControlPanel {
 		int ex = GameScreen.WIDTH - 80;
 		int ey = GameScreen.HEIGHT - 50;
 		
-		Rendable hold;
+		for(Rendable right : rightObj.values()) {
+			right.setVisible(true);
+		}
 		
-		RendableHolder.remove(rightObj);
-		rightObj.clear();
+		StringRendable txtHold;
 		
 		if(obj instanceof IName) {
-			rightObj.add(
-				new StringRendable(
-					((IName) obj).getName(),
-					Resource.getFont("roboto", Font.BOLD, 18f), 
-					px + 10, py + 25, Color.WHITE, null, 
-					ZIndex.CONTROL_BAR_OBJECT
-				)
-			);
+			StringRendable txt = (StringRendable) rightObj.get("name");
+			
+			txt.setPos(px + 10, py + 25);
+			txt.setText(((IName) obj).getName());
 			
 			py += 30;
 		}
@@ -206,62 +257,46 @@ public class GameControlPanel {
 			
 			ILive live = (ILive) obj;
 			
+			txtHold =  (StringRendable) rightObj.get("hpText");
+			txtHold.setPos(px + 13, py + 25);
 			
-			rightObj.add(
-				new StringRendable(
-					"HP", 
-					Resource.getFont("roboto", Font.PLAIN, 16f), 
-					px + 13, py + 25, Color.WHITE, null, 
-					ZIndex.CONTROL_BAR_OBJECT
-				)
-			);
-			rightObj.add(
-				new StringRendable(
-					live.getCurrentHp()+"/"+live.getFullHp(), 
-					Resource.getFont("roboto", Font.PLAIN, 14f), 
-					px + 48, py + 45, Color.WHITE, null, 
-					ZIndex.CONTROL_BAR_OBJECT
-				)
-			);
+			txtHold = (StringRendable) rightObj.get("hpStat");
+			txtHold.setPos(px + 48, py + 45);
+			txtHold.setText(live.getCurrentHp()+"/"+live.getFullHp());
 			
 			int width = (int) (220f * live.getCurrentHp() / live.getFullHp());
 			
-			hold = new BoxRendable(px + 50, py + 10, width, 18, Color.RED, ZIndex.CONTROL_BAR_OBJECT);
-			rightObj.add(hold);
+			BoxRendable hpBox = (BoxRendable) rightObj.get("hpBox");
+			hpBox.setPos(px + 48, py + 10);
+			hpBox.setWidth(width);
 			
 			py += 38;
 		}
 		
 		if(obj instanceof IStat) {
-			hold = new StringRendable(
-				((IStat) obj).getStatString(), 
-				Resource.getFont("roboto", Font.PLAIN, 15f), 
-				px + 12, py + 32, new Color(250, 250, 250), null,
-				ZIndex.CONTROL_BAR_OBJECT
-			);
-			rightObj.add(hold);
+			txtHold = (StringRendable) rightObj.get("stat");
+			txtHold.setPos(px + 12, py + 32);
+			txtHold.setText(((IStat) obj).getStatString());
 		}
 		
 		if(obj instanceof Base) {
 			Base base = (Base) obj;
 			
 			String[] seq = {
-				"Wood : " + base.getWoodRequire(),
-				"Iron : " + base.getIronRequire()
+				base.getWoodRequire() + "",
+				base.getIronRequire() + ""
 			};
 			
+			final int space = 15;
+			
+			rightObj.get("icon_wood").setPos(ex, ey - space + 3);
+			rightObj.get("icon_iron").setPos(ex, ey + 3);
 			
 			for(int i=0; i<seq.length; i++) {
-				hold = new StringRendable(
-					seq[i], 
-					Resource.getFont("roboto", Font.PLAIN, 12f), 
-					ex, ey + 15 * i, new Color(250, 250, 250), null,
-					ZIndex.CONTROL_BAR_OBJECT
-				);
-				rightObj.add(hold);
+				txtHold = (StringRendable) rightObj.get("require"+i);
+				txtHold.setText(seq[i]);
+				txtHold.setPos(ex + 20, ey + space * i);
 			}
 		}
-		
-		RendableHolder.add(rightObj);
 	}
 }

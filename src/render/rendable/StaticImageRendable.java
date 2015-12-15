@@ -25,15 +25,18 @@ public class StaticImageRendable extends Rendable implements IHoverEffect {
 
 	public StaticImageRendable(String file, int x, int y) {
 		this(file, x, y, 1);
-
 	}
-
+	
 	public StaticImageRendable(String file, int x, int y, float ratio) {
-		this(Resource.getImage(file)[0].getBufferedImg(), x, y, ratio);
+		this(file, x, y, ratio, 0);
 	}
 
-	private StaticImageRendable(BufferedImage image, int x, int y, float ratio) {
-		super(x, y, 0, image.getWidth(), image.getHeight());
+	public StaticImageRendable(String file, int x, int y, float ratio, int z) {
+		this(Resource.getImage(file)[0].getBufferedImg(), x, y, ratio, z);
+	}
+
+	private StaticImageRendable(BufferedImage image, int x, int y, float ratio, int z) {
+		super(x, y, z, image.getWidth(), image.getHeight());
 		this.image = image;
 		this.realWidth = image.getWidth();
 		this.realHeight = image.getHeight();

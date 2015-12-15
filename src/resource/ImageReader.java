@@ -54,7 +54,7 @@ public class ImageReader {
 			    throw new ResourceException(ResourceException.FILE_NOT_FOUND, url);
 			}
 			
-		} else if(extension.equals("png") || extension.equals("jpg")) {
+		} else if(extension.equals("png") || extension.equals("jpg") || extension.equals("jpeg")) {
 			frame = new ImageData[1];
 			
 			try {

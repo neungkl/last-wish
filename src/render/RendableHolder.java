@@ -2,14 +2,15 @@ package render;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
-import essential.GameState;
 import object.structure.IObjectOnScreen;
 import object.structure.IObjectWithSingleRendable;
 import render.effect.IHoverEffect;
 import render.rendable.Rendable;
+import essential.GameState;
 
 public class RendableHolder {
 	private static final RendableHolder instance = new RendableHolder();
@@ -35,7 +36,7 @@ public class RendableHolder {
 			getInstance().collections.addAll(obj.getRendable());
 		}
 	}
-	public static void add(ArrayList<Rendable> list) {
+	public static void add(Collection<Rendable> list) {
 		getInstance().collections.addAll(list);
 	}
 	

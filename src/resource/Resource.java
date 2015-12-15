@@ -63,6 +63,10 @@ public class Resource {
 		image.put("icon_tank", read("game/icon/tank.jpg"));
 		image.put("icon_warehouse", read("game/icon/warehouse.jpg"));
 		
+		image.put("icon_mini_farm", read("game/icon/farm.png"));
+		image.put("icon_mini_wood", read("game/icon/wood.png"));
+		image.put("icon_mini_iron", read("game/icon/iron.png"));
+		
 		String[] zombieList = {"normal","legionary","archer","warrior"};
 		
 		for(int i=0; i<zombieList.length; i++) {

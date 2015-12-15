@@ -370,7 +370,9 @@ public class GameControlPanel {
 					
 					@Override
 					public void onClick(StaticImageRendable icon) {
-						gameFrame.spawnNewBase(icon.getName().split("_")[1]);
+						if(GameResource.instance.canBuild(b, gameFrame.getBaseList())) {
+							gameFrame.spawnNewBase(icon.getName().split("_")[1]);
+						}
 					}
 				};
 			}

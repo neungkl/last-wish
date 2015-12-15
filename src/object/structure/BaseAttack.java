@@ -12,7 +12,7 @@ import frame.GameFrame;
 
 public abstract class BaseAttack extends Base implements IAttackable, IStat {
 
-	protected int damage;
+	protected float damage;
 	protected float fireRate;
 	protected int rang;
 	
@@ -35,7 +35,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 	}
 
 	@Override
-	public int getDamage() {
+	public float getDamage() {
 		return damage;
 	}
 

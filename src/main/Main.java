@@ -22,6 +22,7 @@ public class Main {
 		frame.add(gameScreen);
 		frame.pack();
 		frame.setVisible(true);
+		frame.setTitle("The Last Wish");
 
 		gameScreen.updateScreenSize();
 

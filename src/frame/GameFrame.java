@@ -312,11 +312,15 @@ public class GameFrame implements Frame {
 				}
 			}
 			
+			controlPanel.updateTimeRender(TimeCounter.getSecond());
+			
 			GameResource.instance.updateStatRender(baseList);
 			controlPanel.updateAvailable(baseList);
 			
 			TimeCounter.setNewSecond(false);
 		}
+		
+		controlPanel.updateHpMainBaseRender(mainBase);
 	}
 	
 	@Override

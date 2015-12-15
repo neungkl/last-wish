@@ -12,7 +12,7 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	protected Rendable render;
 	protected IAttackable parent;
 	
-	private int damage;
+	private float damage;
 	private float angle;
 	private float realX, realY;
 	private int x,y;
@@ -27,7 +27,7 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	
 	protected static final Color colBullet = new Color(40, 40, 40);
 	
-	protected Bullet(int damage, int x, int y, float angle, float speed, int radiusExplode) {
+	protected Bullet(float damage, int x, int y, float angle, float speed, int radiusExplode) {
 		this.damage = damage;
 		this.realX = this.x = x;
 		this.realY = this.y = y;
@@ -56,7 +56,7 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 		return delX * delX + delY * delY <= radius * radius;
 	}
 	
-	public int getDamage() {
+	public float getDamage() {
 		return damage;
 	}
 	
@@ -114,7 +114,7 @@ public abstract class Bullet implements IPhysical, IObjectWithSingleRendable {
 	
 	public void attack(ILive live) {
 		if(everAttack.contains(live)) return ;
-		live.decreaseHp(damage);
+		live.decreaseHp((int) damage);
 		everAttack.add(live);
 	}
 	

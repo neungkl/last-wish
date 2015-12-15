@@ -15,6 +15,7 @@ import object.appear.base.Farm;
 import object.appear.base.Ironworks;
 import object.appear.base.Light;
 import object.appear.base.Logger;
+import object.appear.base.MainBase;
 import object.appear.base.Shooter1;
 import object.appear.base.Shooter2;
 import object.appear.base.Shooter3;
@@ -29,6 +30,7 @@ import object.structure.IObjectOnScreen;
 import object.structure.IStat;
 import object.structure.IUpgradable;
 import render.RendableHolder;
+import render.RenderHelper;
 import render.rendable.BoxRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
@@ -50,6 +52,9 @@ public class GameControlPanel {
 	private static final Color bgNonActiveCol = new Color(162, 172, 176);
 	private static final Color bgHp = new Color(237, 12, 12);
 	private static final Color fontGreyCol = new Color(250, 250, 250);
+	
+	private StringRendable timeCounter;
+	private BoxRendable hpMainBase;
 	
 	private HashMap<String, IconSelector> baseObj;
 	private HashMap<String, IconSelector> defenseObj;
@@ -151,11 +156,20 @@ public class GameControlPanel {
 		RendableHolder.add(panelDefense);
 		RendableHolder.add(textPanelDefense);
 		
+		timeCounter = new StringRendable("00:00", roboto.deriveFont(Font.BOLD, 36f), GameScreen.WIDTH / 2, 65, bgHp, null, ZIndex.CONTROL_BAR_OBJECT);
+		timeCounter.setAlign(RenderHelper.CENTER_MIDDLE);
+		RendableHolder.add(timeCounter);
+		
+		RendableHolder.add(new BoxRendable(GameScreen.WIDTH / 2 - 70, 0, 140, 60, Color.WHITE, ZIndex.CONTROL_BAR_OBJECT));
+		
+		hpMainBase = new BoxRendable(0, 0, GameScreen.WIDTH, 10, bgHp, ZIndex.CONTROL_BAR_OBJECT);
+		hpMainBase.setAlign(RenderHelper.CENTER_MIDDLE);
+		RendableHolder.add(hpMainBase);
+		
 		initialLeftPanel();
 		initialRightPanel();
 	}
 
-	
 	private void initialLeftPanel() {
 		
 		baseObj = new HashMap<>();
@@ -503,6 +517,20 @@ public class GameControlPanel {
 		for(Rendable obj : rightObj.values()) {
 			obj.setVisible(false);
 		}
+	}
+	
+	public void updateTimeRender(int timeInSecond) {
+		String min = (timeInSecond / 60)+"";
+		String second = (timeInSecond % 60)+"";
+		if(min.length() == 0) min = "00";
+		else if(min.length() == 1) min = "0" + min;
+		if(second.length() == 0) second = "00";
+		else if(second.length() == 1) second = "0" + second;
+		timeCounter.setText(min+":"+second);
+	}
+	
+	public void updateHpMainBaseRender(MainBase b) {
+		hpMainBase.setWidth(GameScreen.WIDTH *  b.getCurrentHp() / b.getFullHp());
 	}
 	
 	public void updateAvailable(ArrayList<Base> allBase) {

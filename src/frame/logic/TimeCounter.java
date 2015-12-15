@@ -49,7 +49,10 @@ public class TimeCounter implements Runnable {
 				
 				if(currentTimeInSecond == Config.FIRST_SPAWN_TIME) {
 					setShouldSpawnZombie(true);
-				} else if(currentTimeInSecond > Config.FIRST_SPAWN_TIME && currentTimeInSecond % Config.SPAWN_TIME_EACH_WAVE == 0) {
+				} else if(
+					currentTimeInSecond > Config.FIRST_SPAWN_TIME && 
+					(currentTimeInSecond - Config.SPAWN_TIME_EACH_WAVE) % Config.SPAWN_TIME_EACH_WAVE == 0
+				) {
 					setShouldSpawnZombie(true);
 				}
 				

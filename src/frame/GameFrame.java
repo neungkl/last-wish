@@ -26,6 +26,7 @@ import object.appear.bullet.FastBullet;
 import object.appear.zombie.OdinaryZombie;
 import object.structure.Base;
 import object.structure.BaseAttack;
+import object.structure.BaseElement;
 import object.structure.BaseShooter;
 import object.structure.Bullet;
 import object.structure.IAttackable;
@@ -60,11 +61,7 @@ public class GameFrame implements Frame {
 	private IObjectOnScreen currentShowingStat = null;
 	private Base dragAndDropObj = null;
 	
-	
-	
-	public void test(IPhysical sss) {
-		//RendableHolder.add(new CircleRendable(mainBase.getPosX(), mainBase.getPosY(), 32, Color.RED, 10000));
-	}
+	private int zombieLevel;
 	
 	public GameFrame() {
 		
@@ -83,7 +80,9 @@ public class GameFrame implements Frame {
 		initializeRendableObject();
 		
 		controlPanel = new GameControlPanel(this, GameScreen.HEIGHT - bottomHeight, bottomHeight);
-		controlPanel.updateAvailable();
+		controlPanel.updateAvailable(baseList);
+		
+		zombieLevel = 1;
 	}
 	
 	private void initializeRendableObject() {
@@ -98,7 +97,6 @@ public class GameFrame implements Frame {
 				
 			}
 		);
-		test(mainBase);
 		
 		baseList.add(mainBase);
 		RendableHolder.add(mainBase);
@@ -217,7 +215,7 @@ public class GameFrame implements Frame {
 		GameResource.instance.updateBaseStat(baseList);
 		GameResource.instance.updateStatRender();
 		
-		controlPanel.updateAvailable();
+		controlPanel.updateAvailable(baseList);
 	}
 	
 	@Override
@@ -229,10 +227,6 @@ public class GameFrame implements Frame {
 			dragAndDropObj.getSingleRendable().setPos(InputFlag.getMouseX(), InputFlag.getMouseY());
 			
 			if(InputFlag.getTrigger(InputFlag.MOUSE_LEFT)) {
-				for(Rendable each : RendableHolder.getInstance().getRendableList()) {
-					each.setListen(true);
-				}
-				
 				dragAndDropObj.getSingleRendable().addMouseInteractiveListener(
 					new MapParentListener<Base>(dragAndDropObj){
 						@Override
@@ -257,18 +251,25 @@ public class GameFrame implements Frame {
 				GameResource.instance.addIron(-dragAndDropObj.getIronRequire());
 				GameResource.instance.addWood(-dragAndDropObj.getWoodRequire());
 				
-				updateStat();
+				
 				
 				dragAndDropObj = null;
 			} else if(InputFlag.getTrigger(InputFlag.MOUSE_RIGHT)) {
 				RendableHolder.remove(dragAndDropObj);
 				dragAndDropObj = null;
 			}
+			
+			for(Rendable each : RendableHolder.getInstance().getRendableList()) {
+				each.setListen(true);
+			}
+			
+			updateStat();
 		}
 		
 		if(currentShowingStat != null) {
 			if(currentShowingStat instanceof IPhysical && ((IPhysical) currentShowingStat).isDestroy()) {
 				currentShowingStat = null;
+				showRang.setVisible(false);
 				controlPanel.statClear();
 			} else {
 				controlPanel.showStat(currentShowingStat);
@@ -316,24 +317,36 @@ public class GameFrame implements Frame {
 		}
 		
 		if(TimeCounter.shouldSpawnZombie()) {
-			Zombie zombie = new OdinaryZombie(1);
-			zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
-
-				@Override
-				public void onClick(StaticImageRendable object, Zombie parent) {
-					currentShowingStat = parent;
-				}
-				
-			});
-			zombieList.add(zombie);
-			RendableHolder.add(zombie);
-			TimeCounter.setShouldSpawnZombie(false);
+			for(int i=0; i<5; i++) {
+				Zombie zombie = new OdinaryZombie(zombieLevel);
+				zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
+	
+					@Override
+					public void onClick(StaticImageRendable object, Zombie parent) {
+						currentShowingStat = parent;
+					}
+					
+				});
+				zombieList.add(zombie);
+				RendableHolder.add(zombie);
+				TimeCounter.setShouldSpawnZombie(false);
+			}
+			
+			zombieLevel++;
 		}
 		
 		if(TimeCounter.isNewSecond()) {
 			
 			for(Zombie zombie : zombieList) {
 				zombie.updateCombatStatus();
+			}
+			
+			for(Base base : baseList) {
+				if(base instanceof BaseElement) {
+					GameResource.instance.addIron(base.getIronRequire());
+					GameResource.instance.addWood(base.getWoodRequire());
+					GameResource.instance.updateStatRender();
+				}
 			}
 			
 			TimeCounter.setNewSecond(false);

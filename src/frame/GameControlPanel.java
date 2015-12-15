@@ -5,6 +5,7 @@ import input.MouseInteractiveListener;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -200,7 +201,7 @@ public class GameControlPanel {
 			each.setVisible(false);
 		}
 		
-		updateAvailable();
+		updateAvailable(gameFrame.getBaseList());
 	}
 	
 	private void initialRightPanel() {
@@ -243,7 +244,7 @@ public class GameControlPanel {
 			
 			@Override
 			public void onEnter(StaticImageRendable object) {
-				if(GameResource.instance.canBuild(waitingForActionObj)) {
+				if(GameResource.instance.canUpgrade(waitingForActionObj)) {
 					object.setHoverEffect(true);
 				} else {
 					object.setPale(true);
@@ -258,7 +259,7 @@ public class GameControlPanel {
 			
 			@Override
 			public void onClick(StaticImageRendable object) {
-				if(GameResource.instance.canBuild(waitingForActionObj)) {
+				if(GameResource.instance.canUpgrade(waitingForActionObj)) {
 					GameResource.instance.addIron(-waitingForActionObj.getIronRequire());
 					GameResource.instance.addWood(-waitingForActionObj.getWoodRequire());
 					waitingForActionObj.upgrade(waitingForActionObj.getCurrentLevel());
@@ -437,12 +438,12 @@ public class GameControlPanel {
 		}
 	}
 	
-	public void updateAvailable() {
+	public void updateAvailable(ArrayList<Base> allBase) {
 		HashMap<String, Boolean> baseAvailable = new HashMap<>();
 		for(int i=0; i<baseList.length; i++) {
 			baseAvailable.put(
 				baseList[i].getClass().getSimpleName().toLowerCase(),
-				GameResource.instance.canBuild(baseList[i])
+				GameResource.instance.canBuild(baseList[i], gameFrame.getBaseList())
 			);
 		}
 		

@@ -5,8 +5,11 @@ import java.awt.Font;
 import java.util.ArrayList;
 
 import object.appear.base.Farm;
+import object.appear.base.Ironworks;
+import object.appear.base.Logger;
 import object.appear.base.Warehouse;
 import object.structure.Base;
+import object.structure.BaseElement;
 import render.RendableHolder;
 import render.rendable.BoxRendable;
 import render.rendable.StaticImageRendable;
@@ -111,7 +114,17 @@ public class GameResource {
 		}
 	}
 	
-	public boolean canBuild(Base b) {
+	public boolean canBuild(Base b, ArrayList<Base> baseList) {
+		for(Base each : baseList) {
+			if(each instanceof Farm && b instanceof Farm) return false;
+			if(each instanceof Ironworks && b instanceof Ironworks) return false;
+			if(each instanceof Logger && b instanceof Logger) return false;
+			if(each instanceof Warehouse && b instanceof Warehouse) return false;
+		}
+		return canUpgrade(b);
+	}
+	
+	public boolean canUpgrade(Base b) {
 		if(getFarm() >= b.getFarmPer() && getWood() >= b.getWoodRequire() && getIron() >= b.getIronRequire()) {
 			return true;
 		}

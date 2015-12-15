@@ -1,5 +1,6 @@
 package frame.logic;
 
+import essential.Config;
 import essential.GameScreen;
 
 public class TimeCounter implements Runnable {
@@ -46,10 +47,11 @@ public class TimeCounter implements Runnable {
 			if(currentTimeStamp / 1000 != currentTimeInSecond) {
 				currentTimeInSecond = currentTimeStamp / 1000;
 				
-				if(currentTimeInSecond%2 == 0) {
+				if(currentTimeInSecond % Config.SPAWN_TIME_EACH_WAVE == 0) {
 					setShouldSpawnZombie(true);
-					isNewSecond = true;
 				}
+				
+				isNewSecond = true;
 			}
 		}
 	}

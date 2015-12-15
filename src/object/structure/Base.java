@@ -106,6 +106,7 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	
 	@Override
 	public void destroy() {
+		getSingleRendable().destroy();
 		isDestroy = true;
 	}
 	

@@ -463,6 +463,12 @@ public class GameControlPanel {
 			
 			rightObj.get("upgrade_btn").setPos(px + 15, ey - 15);
 			
+			if(GameResource.instance.canUpgrade(base)) {
+				rightObj.get("upgrade_btn").setPale(false);
+			} else {
+				rightObj.get("upgrade_btn").setPale(true);
+			}
+			
 			if(base.isMaxLevel()) {
 				rightObj.get("upgrade_btn").setVisible(false);
 				rightObj.get("require0").setVisible(false);

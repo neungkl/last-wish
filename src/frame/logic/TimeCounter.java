@@ -10,9 +10,8 @@ public class TimeCounter implements Runnable {
 	private int currentTimeInSecond;
 	private int currentWave;
 	
-	private boolean shouldSpawnZombie = false;
-	private boolean isNewSecond = false;
-	private boolean isStop = false;
+	private boolean isNewSecond;
+	private boolean isStop;
 	
 	private final int deltaTime = 1000 / GameScreen.FRAMERATE; 
 	
@@ -20,6 +19,7 @@ public class TimeCounter implements Runnable {
 		
 		currentTimeStamp = currentTimeInSecond = 0;
 		currentWave = 0;
+		isNewSecond = isStop = false;
 		
 		Thread t = new Thread(this);
 		t.start();
@@ -30,9 +30,7 @@ public class TimeCounter implements Runnable {
 	}
 	
 	public static void start()  {
-		if(instance == null) {
-			instance = new TimeCounter();
-		}
+		instance = new TimeCounter();
 	}
 
 	@Override
@@ -50,13 +48,22 @@ public class TimeCounter implements Runnable {
 				currentTimeInSecond = currentTimeStamp / 1000;
 				
 				if(currentTimeInSecond == Config.FIRST_SPAWN_TIME) {
-					setShouldSpawnZombie(true);
+					synchronized (SpawnZombie.instance) {
+						if(SpawnZombie.instance.isWait) {
+							SpawnZombie.instance.notifyAll();
+						}
+					}
 					currentWave++;
 				} else if(
 					currentTimeInSecond > Config.FIRST_SPAWN_TIME && 
-					(currentTimeInSecond - Config.SPAWN_TIME_EACH_WAVE) % Config.SPAWN_TIME_EACH_WAVE == 0
+					(currentTimeInSecond - Config.FIRST_SPAWN_TIME) % Config.SPAWN_TIME_EACH_WAVE == 0
 				) {
-					setShouldSpawnZombie(true);
+					synchronized (SpawnZombie.instance) {
+						if(SpawnZombie.instance.isWait) {
+							SpawnZombie.instance.notifyAll();
+						}
+					}
+					System.out.println(currentWave);
 					currentWave++;
 				}
 				
@@ -85,13 +92,5 @@ public class TimeCounter implements Runnable {
 	
 	public static synchronized int getCurrentWave() {
 		return instance.currentWave;
-	}
-	
-	public static synchronized void setShouldSpawnZombie(boolean shouldSpawnZombie) {
-		instance.shouldSpawnZombie = shouldSpawnZombie;
-	}
-	
-	public static synchronized boolean shouldSpawnZombie() {
-		return instance.shouldSpawnZombie;
 	}
 }

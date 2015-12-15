@@ -23,7 +23,9 @@ import object.appear.base.Tank;
 import object.appear.base.Warehouse;
 import object.appear.bullet.BazukaBullet;
 import object.appear.bullet.FastBullet;
+import object.appear.zombie.LegionaryZombie;
 import object.appear.zombie.OdinaryZombie;
+import object.appear.zombie.WarriorZombie;
 import object.structure.Base;
 import object.structure.BaseAttack;
 import object.structure.BaseElement;
@@ -41,6 +43,7 @@ import essential.Config;
 import essential.GameScreen;
 import essential.ZIndex;
 import frame.logic.GameResource;
+import frame.logic.SpawnZombie;
 import frame.logic.TimeCounter;
 
 public class GameFrame implements Frame {
@@ -62,11 +65,10 @@ public class GameFrame implements Frame {
 	private IObjectOnScreen currentShowingStat = null;
 	private Base dragAndDropObj = null;
 	
-	private int zombieLevel;
-	
 	public GameFrame() {
 		
 		TimeCounter.start();
+		SpawnZombie.start();
 		GameResource.instance.reset();
 		
 		RendableHolder.add(new TileBackground("game_bg"));
@@ -82,8 +84,6 @@ public class GameFrame implements Frame {
 		
 		controlPanel = new GameControlPanel(this, GameScreen.HEIGHT - bottomHeight, bottomHeight);
 		controlPanel.updateAvailable(baseList);
-		
-		zombieLevel = 1;
 	}
 	
 	private void initializeRendableObject() {
@@ -280,23 +280,26 @@ public class GameFrame implements Frame {
 			zombie.update(baseList);
 		}
 		
-		if(TimeCounter.shouldSpawnZombie()) {
-			for(int i=0; i<1; i++) {
-				Zombie zombie = new OdinaryZombie(zombieLevel);
-				zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
-	
-					@Override
-					public void onClick(StaticImageRendable object, Zombie parent) {
-						currentShowingStat = parent;
-					}
-					
-				});
-				zombieList.add(zombie);
-				RendableHolder.add(zombie);
-				TimeCounter.setShouldSpawnZombie(false);
-			}
+		String nextZombie = SpawnZombie.getZombieSpawnName();
+		
+		if(nextZombie != null) {
 			
-			zombieLevel++;
+			int level = TimeCounter.getCurrentWave();
+			Zombie zombie = new OdinaryZombie(level);
+			
+			if(nextZombie.equals("legionary")) zombie = new LegionaryZombie(level);
+			else if(nextZombie.equals("warrior")) zombie = new WarriorZombie(level);
+			
+			zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
+	
+				@Override
+				public void onClick(StaticImageRendable object, Zombie parent) {
+					currentShowingStat = parent;
+				}
+				
+			});
+			zombieList.add(zombie);
+			RendableHolder.add(zombie);
 		}
 		
 		if(TimeCounter.isNewSecond()) {

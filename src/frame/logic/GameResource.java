@@ -4,17 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
-import object.appear.base.Bazuka;
 import object.appear.base.Farm;
 import object.appear.base.Ironworks;
-import object.appear.base.Light;
 import object.appear.base.Logger;
-import object.appear.base.Shooter1;
-import object.appear.base.Shooter2;
-import object.appear.base.Shooter3;
-import object.appear.base.Shooter4;
-import object.appear.base.Sniper;
-import object.appear.base.Tank;
 import object.appear.base.Warehouse;
 import object.structure.Base;
 import render.RendableHolder;
@@ -29,9 +21,9 @@ public class GameResource {
 	public static GameResource instance = new GameResource();
 	private int farm, wood, iron;
 	
-	private static final int defaultFarm = 20;
-	private static final int defaultWood = 500;
-	private static final int defaultIron = 500;
+	private static int defaultFarm = 20;
+	private static int defaultWood = 500;
+	private static int defaultIron = 500;
 	
 	private static final Color bgCol = new Color(44, 49, 51);
 	private static final Font font = Resource.getFont("roboto", Font.PLAIN, 14f);
@@ -132,6 +124,12 @@ public class GameResource {
 			if(each instanceof Warehouse && b instanceof Warehouse) return false;
 		}
 		return canUpgrade(b);
+	}
+	
+	public void cheatEnable() {
+		maximumFarm = farm = defaultFarm = 10000;
+		maximumWood = wood = defaultWood = 10000;
+		maximumIron = iron = defaultIron = 10000;
 	}
 	
 	public boolean canUpgrade(Base b) {

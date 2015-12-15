@@ -37,6 +37,7 @@ import render.rendable.StaticImageRendable;
 import essential.Config;
 import essential.GameScreen;
 import essential.GameState;
+import essential.RandUtil;
 import essential.ZIndex;
 import frame.logic.GameResource;
 import frame.logic.SpawnZombie;
@@ -242,6 +243,21 @@ public class GameFrame implements Frame {
 		}
 		if(GameState.IS_PAUSING) return ;
 		
+		if(InputFlag.getTrigger(InputFlag.KEYBOARD, KeyEvent.VK_C)) {
+			String cheatText = JOptionPane.showInputDialog("Enter cheat : ");
+			if(cheatText.equals("iloveprogmeth")) {
+				GameResource.instance.cheatEnable();
+			} else if(cheatText.equals("ilovezombie")) {
+				System.out.println("5555");
+				String[] name = {"normal","legionary","warrior"};
+				for(int i=0; i<20; i++) {
+					spawnZombie(name[RandUtil.rand(3)]);
+				}
+			}
+			pause();
+			return ;
+		}
+		
 		
 		clearDestroyedObject();
 		
@@ -344,23 +360,7 @@ public class GameFrame implements Frame {
 		String nextZombie = SpawnZombie.getZombieSpawnName();
 		
 		if(nextZombie != null) {
-			
-			int level = TimeCounter.getCurrentWave();
-			Zombie zombie = new OdinaryZombie(level);
-			
-			if(nextZombie.equals("legionary")) zombie = new LegionaryZombie(level);
-			else if(nextZombie.equals("warrior")) zombie = new WarriorZombie(level);
-			
-			zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
-	
-				@Override
-				public void onClick(StaticImageRendable object, Zombie parent) {
-					currentShowingStat = parent;
-				}
-				
-			});
-			zombieList.add(zombie);
-			RendableHolder.add(zombie);
+			spawnZombie(nextZombie);
 		}
 		
 		if(TimeCounter.isNewSecond()) {
@@ -386,6 +386,25 @@ public class GameFrame implements Frame {
 		}
 		
 		controlPanel.updateHpMainBaseRender(mainBase);
+	}
+	
+	private void spawnZombie(String name) {
+		int level = TimeCounter.getCurrentWave();
+		Zombie zombie = new OdinaryZombie(level);
+		
+		if(name.equals("legionary")) zombie = new LegionaryZombie(level);
+		else if(name.equals("warrior")) zombie = new WarriorZombie(level);
+		
+		zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
+
+			@Override
+			public void onClick(StaticImageRendable object, Zombie parent) {
+				currentShowingStat = parent;
+			}
+			
+		});
+		zombieList.add(zombie);
+		RendableHolder.add(zombie);
 	}
 	
 	@Override

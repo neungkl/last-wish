@@ -55,6 +55,7 @@ public class GameControlPanel {
 	
 	private StringRendable timeCounter;
 	private BoxRendable hpMainBase;
+	private StringRendable waveCounter;
 	
 	private HashMap<String, IconSelector> baseObj;
 	private HashMap<String, IconSelector> defenseObj;
@@ -160,9 +161,13 @@ public class GameControlPanel {
 		timeCounter.setAlign(RenderHelper.CENTER_MIDDLE);
 		RendableHolder.add(timeCounter);
 		
-		RendableHolder.add(new BoxRendable(GameScreen.WIDTH / 2 - 70, 0, 140, 60, Color.WHITE, ZIndex.CONTROL_BAR_OBJECT));
+		waveCounter = new StringRendable("Wave : 1", roboto.deriveFont(Font.BOLD, 16f), GameScreen.WIDTH / 2, 80, bgHp, null, ZIndex.CONTROL_BAR_OBJECT);
+		waveCounter.setAlign(RenderHelper.CENTER_MIDDLE);
+		RendableHolder.add(waveCounter);
 		
-		hpMainBase = new BoxRendable(0, 0, GameScreen.WIDTH, 10, bgHp, ZIndex.CONTROL_BAR_OBJECT);
+		RendableHolder.add(new BoxRendable(GameScreen.WIDTH / 2 - 70, 0, 140, 84, Color.WHITE, ZIndex.CONTROL_BAR_OBJECT));
+		
+		hpMainBase = new BoxRendable(GameScreen.WIDTH / 2, 0, GameScreen.WIDTH, 10, bgHp, ZIndex.CONTROL_BAR_OBJECT);
 		hpMainBase.setAlign(RenderHelper.CENTER_MIDDLE);
 		RendableHolder.add(hpMainBase);
 		
@@ -517,6 +522,11 @@ public class GameControlPanel {
 		for(Rendable obj : rightObj.values()) {
 			obj.setVisible(false);
 		}
+	}
+	
+	public void updateCurrentWave(int currentWave) {
+		if(currentWave == 0) waveCounter.setText("Spawning...");
+		else waveCounter.setText("Wave : " + currentWave);
 	}
 	
 	public void updateTimeRender(int timeInSecond) {

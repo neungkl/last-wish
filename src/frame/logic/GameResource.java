@@ -55,17 +55,17 @@ public class GameResource {
 		
 		int x = GameScreen.WIDTH - 150;
 		
-		RendableHolder.add(new BoxRendable(x, 0, 210, 90, bgCol, ZIndex.CONTROL_BAR_OBJECT));
-		RendableHolder.add(new StaticImageRendable("icon_mini_farm", x + 10, 20, 0.5f, ZIndex.CONTROL_BAR_OBJECT));
-		RendableHolder.add(new StaticImageRendable("icon_mini_wood", x + 10, 40, 0.5f, ZIndex.CONTROL_BAR_OBJECT));
-		RendableHolder.add(new StaticImageRendable("icon_mini_iron", x + 10, 60, 0.5f, ZIndex.CONTROL_BAR_OBJECT));
+		RendableHolder.add(new BoxRendable(x, 0, 210, 85, bgCol, ZIndex.CONTROL_BAR_OBJECT));
+		RendableHolder.add(new StaticImageRendable("icon_mini_farm", x + 10, 15, 0.5f, ZIndex.CONTROL_BAR_OBJECT));
+		RendableHolder.add(new StaticImageRendable("icon_mini_wood", x + 10, 35, 0.5f, ZIndex.CONTROL_BAR_OBJECT));
+		RendableHolder.add(new StaticImageRendable("icon_mini_iron", x + 10, 55, 0.5f, ZIndex.CONTROL_BAR_OBJECT));
 		
 		if(font != null) {
-			farmRender = new StringRendable("", font, x + 46, 33, Color.WHITE, null, ZIndex.CONTROL_BAR_OBJECT);
+			farmRender = new StringRendable("", font, x + 46, 28, Color.WHITE, null, ZIndex.CONTROL_BAR_OBJECT);
 			RendableHolder.add(farmRender);
-			woodRender = new StringRendable("", font, x + 46, 56, Color.WHITE, null, ZIndex.CONTROL_BAR_OBJECT);
+			woodRender = new StringRendable("", font, x + 46, 51, Color.WHITE, null, ZIndex.CONTROL_BAR_OBJECT);
 			RendableHolder.add(woodRender);
-			ironRender = new StringRendable("", font, x + 46, 79, Color.WHITE, null, ZIndex.CONTROL_BAR_OBJECT);
+			ironRender = new StringRendable("", font, x + 46, 74, Color.WHITE, null, ZIndex.CONTROL_BAR_OBJECT);
 			RendableHolder.add(ironRender);
 			updateStatRender(null);
 		}

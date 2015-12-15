@@ -3,6 +3,8 @@ package render.rendable;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import render.RenderHelper;
+
 public class BoxRendable extends Rendable {
 	
 	private Color color;
@@ -30,8 +32,11 @@ public class BoxRendable extends Rendable {
 
 	@Override
 	public void draw(Graphics2D g) {
+		int posX = RenderHelper.getOffsetX(getPosX(), getWidth(), getAlign());
+		int posY = RenderHelper.getOffsetY(getPosY(), getHeight(), getAlign());
+		
 		g.setColor(color);
-		g.fillRect(getPosX(), getPosY(), getWidth(), getHeight());
+		g.fillRect(posX, posY, getWidth(), getHeight());
 	}
 	@Override
 	public void update() {}

@@ -40,7 +40,7 @@ public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen
 	protected boolean isDestroy = false;
 	
 	protected float speed;
-	protected int damage;
+	protected float damage;
 	
 	private String name;
 	private CircleRendable debug;
@@ -271,7 +271,7 @@ public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen
 	
 	public void updateCombatStatus() {
 		for(ILive live : attackList) {
-			live.decreaseHp(damage);
+			live.decreaseHp((int) damage);
 		}
 		attackList.clear();
 	}

@@ -281,7 +281,7 @@ public class GameFrame implements Frame {
 		}
 		
 		if(TimeCounter.shouldSpawnZombie()) {
-			for(int i=0; i<5; i++) {
+			for(int i=0; i<1; i++) {
 				Zombie zombie = new OdinaryZombie(zombieLevel);
 				zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
 	
@@ -312,6 +312,7 @@ public class GameFrame implements Frame {
 				}
 			}
 			
+			controlPanel.updateCurrentWave(TimeCounter.getCurrentWave());
 			controlPanel.updateTimeRender(TimeCounter.getSecond());
 			
 			GameResource.instance.updateStatRender(baseList);

@@ -20,7 +20,7 @@ public class RenderHelper {
 	private static final RescaleOp rescaleOp = new RescaleOp(1.5f, 0, null);
 	private static final Composite translucent = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
 	
-	private static final int getOffsetX(int x, int width, int align) {
+	public static final int getOffsetX(int x, int width, int align) {
 		if((align & CENTER) != 0) {
 			x -= width / 2;
 		} else if((align & RIGHT) != 0) {
@@ -29,7 +29,7 @@ public class RenderHelper {
 		return x;
 	}
 	
-	private static final int getOffsetY(int y, int height, int align) {
+	public static final int getOffsetY(int y, int height, int align) {
 		if((align & MIDDLE) != 0) {
 			y -= height / 2;
 		} else if((align & BOTTOM) != 0) {

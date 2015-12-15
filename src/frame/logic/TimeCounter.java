@@ -8,6 +8,7 @@ public class TimeCounter implements Runnable {
 	
 	private int currentTimeStamp;
 	private int currentTimeInSecond;
+	private int currentWave;
 	
 	private boolean shouldSpawnZombie = false;
 	private boolean isNewSecond = false;
@@ -18,6 +19,7 @@ public class TimeCounter implements Runnable {
 	private TimeCounter() {
 		
 		currentTimeStamp = currentTimeInSecond = 0;
+		currentWave = 0;
 		
 		Thread t = new Thread(this);
 		t.start();
@@ -49,11 +51,13 @@ public class TimeCounter implements Runnable {
 				
 				if(currentTimeInSecond == Config.FIRST_SPAWN_TIME) {
 					setShouldSpawnZombie(true);
+					currentWave++;
 				} else if(
 					currentTimeInSecond > Config.FIRST_SPAWN_TIME && 
 					(currentTimeInSecond - Config.SPAWN_TIME_EACH_WAVE) % Config.SPAWN_TIME_EACH_WAVE == 0
 				) {
 					setShouldSpawnZombie(true);
+					currentWave++;
 				}
 				
 				isNewSecond = true;
@@ -77,6 +81,10 @@ public class TimeCounter implements Runnable {
 	
 	public static synchronized boolean isNewSecond() {
 		return instance.isNewSecond;
+	}
+	
+	public static synchronized int getCurrentWave() {
+		return instance.currentWave;
 	}
 	
 	public static synchronized void setShouldSpawnZombie(boolean shouldSpawnZombie) {

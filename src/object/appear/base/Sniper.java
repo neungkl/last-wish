@@ -26,8 +26,8 @@ public class Sniper extends BaseAttack {
 	public void statIncrease() {
 		this.fullHp +=35;
 		this.currentHp += 55;
-		this.woodRequire += 600;
-		this.ironRequire += 600;
+		this.woodRequire += 650;
+		this.ironRequire += 650;
 		this.damage +=35;
 		this.range += 20;
 	}

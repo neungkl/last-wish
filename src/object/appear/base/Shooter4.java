@@ -12,7 +12,7 @@ public class Shooter4 extends BaseShooter {
 		super("base_shooter4", ratio);
 		
 		this.fullHp = 170;
-		this.fireRate = 5;
+		this.fireRate = 3;
 		this.woodRequire = 1000;
 		this.ironRequire = 1400;
 		this.range = Integer.MAX_VALUE;

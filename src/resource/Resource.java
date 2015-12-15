@@ -12,6 +12,7 @@ import exception.ResourceException;
 public class Resource {
 	
 	ClassLoader loader = Resource.class.getClassLoader();
+	private HashMap<String,String> imageList = new HashMap<>();
 	private HashMap<String,ImageData[]> image = new HashMap<>();
 	private HashMap<String,Font> font = new HashMap<>();
 	private static Resource instance = new Resource();
@@ -20,71 +21,71 @@ public class Resource {
 		return instance;
 	}
 	
-	private ImageData[] read(String url) throws ResourceException {
+	private static ImageData[] read(String url) throws ResourceException {
 		return ImageReader.get("assets/" + url);
 	}
 
 	private Resource() {
-		image.put("game_bg", read("game/bg4.jpg"));
-		image.put("menu_bg", read("menu/bg.jpg"));
-		image.put("exit_btn", read("menu/exit.png"));
-		image.put("start_btn", read("menu/start.png"));
-		image.put("highscore_btn", read("menu/highscore.png"));
-		image.put("logo", read("menu/logo.png"));
+		imageList.put("game_bg", "game/bg4.jpg");
+		imageList.put("menu_bg", "menu/bg.jpg");
+		imageList.put("exit_btn", "menu/exit.png");
+		imageList.put("start_btn", "menu/start.png");
+		imageList.put("highscore_btn", "menu/highscore.png");
+		imageList.put("logo", "menu/logo.png");
 		
-		image.put("base_main", read("game/base/main.png"));
-		image.put("base_shooter1", read("game/base/shooter1.png"));
-		image.put("base_shooter2", read("game/base/shooter2.png"));
-		image.put("base_shooter3", read("game/base/shooter3.png"));
-		image.put("base_shooter4", read("game/base/shooter4.png"));
+		imageList.put("base_main", "game/base/main.png");
+		imageList.put("base_shooter1", "game/base/shooter1.png");
+		imageList.put("base_shooter2", "game/base/shooter2.png");
+		imageList.put("base_shooter3", "game/base/shooter3.png");
+		imageList.put("base_shooter4", "game/base/shooter4.png");
 		
-		image.put("base_barn", read("game/base/barn.png"));
-		image.put("base_bazuka", read("game/base/bazuka.png"));
-		image.put("base_farm", read("game/base/farm.png"));
-		image.put("base_ironworks", read("game/base/ironworks.png"));
-		image.put("base_light", read("game/base/light.png"));
-		image.put("base_logger", read("game/base/logger.png"));
-		image.put("base_sniper", read("game/base/sniper.png"));
-		image.put("base_tank", read("game/base/tank.png"));
-		image.put("base_warehouse", read("game/base/warehouse.png"));
+		imageList.put("base_barn", "game/base/barn.png");
+		imageList.put("base_bazuka", "game/base/bazuka.png");
+		imageList.put("base_farm", "game/base/farm.png");
+		imageList.put("base_ironworks", "game/base/ironworks.png");
+		imageList.put("base_light", "game/base/light.png");
+		imageList.put("base_logger", "game/base/logger.png");
+		imageList.put("base_sniper", "game/base/sniper.png");
+		imageList.put("base_tank", "game/base/tank.png");
+		imageList.put("base_warehouse", "game/base/warehouse.png");
 		
-		image.put("icon_shooter1", read("game/icon/shooter1.jpg"));
-		image.put("icon_shooter2", read("game/icon/shooter2.jpg"));
-		image.put("icon_shooter3", read("game/icon/shooter3.jpg"));
-		image.put("icon_shooter4", read("game/icon/shooter4.jpg"));
+		imageList.put("icon_shooter1", "game/icon/shooter1.jpg");
+		imageList.put("icon_shooter2", "game/icon/shooter2.jpg");
+		imageList.put("icon_shooter3", "game/icon/shooter3.jpg");
+		imageList.put("icon_shooter4", "game/icon/shooter4.jpg");
 		
-		image.put("icon_barn", read("game/icon/barn.jpg"));
-		image.put("icon_bazuka", read("game/icon/bazuka.jpg"));
-		image.put("icon_farm", read("game/icon/farm.jpg"));
-		image.put("icon_ironworks", read("game/icon/ironworks.jpg"));
-		image.put("icon_light", read("game/icon/light.jpg"));
-		image.put("icon_logger", read("game/icon/logger.jpg"));
-		image.put("icon_sniper", read("game/icon/sniper.jpg"));
-		image.put("icon_tank", read("game/icon/tank.jpg"));
-		image.put("icon_warehouse", read("game/icon/warehouse.jpg"));
+		imageList.put("icon_barn", "game/icon/barn.jpg");
+		imageList.put("icon_bazuka", "game/icon/bazuka.jpg");
+		imageList.put("icon_farm", "game/icon/farm.jpg");
+		imageList.put("icon_ironworks", "game/icon/ironworks.jpg");
+		imageList.put("icon_light", "game/icon/light.jpg");
+		imageList.put("icon_logger", "game/icon/logger.jpg");
+		imageList.put("icon_sniper", "game/icon/sniper.jpg");
+		imageList.put("icon_tank", "game/icon/tank.jpg");
+		imageList.put("icon_warehouse", "game/icon/warehouse.jpg");
 		
-		image.put("icon_mini_farm", read("game/icon/farm.png"));
-		image.put("icon_mini_wood", read("game/icon/wood.png"));
-		image.put("icon_mini_iron", read("game/icon/iron.png"));
+		imageList.put("icon_mini_farm", "game/icon/farm.png");
+		imageList.put("icon_mini_wood", "game/icon/wood.png");
+		imageList.put("icon_mini_iron", "game/icon/iron.png");
 		
-		image.put("btn_upgrade", read("game/ui/upgrade_btn.png"));
-		image.put("btn_sell", read("game/ui/sell_btn.png"));
+		imageList.put("btn_upgrade", "game/ui/upgrade_btn.png");
+		imageList.put("btn_sell", "game/ui/sell_btn.png");
 		
-		image.put("btn_pause", read("game/ui/pause_btn.png"));
-		image.put("pause_header", read("game/ui/pause_header.png"));
-		image.put("pause_resume", read("game/ui/resume_btn.png"));
-		image.put("pause_exit", read("game/ui/exit_btn.png"));
+		imageList.put("btn_pause", "game/ui/pause_btn.png");
+		imageList.put("pause_header", "game/ui/pause_header.png");
+		imageList.put("pause_resume", "game/ui/resume_btn.png");
+		imageList.put("pause_exit", "game/ui/exit_btn.png");
+		
+		imageList.put("bg_game_over", "game/ui/game_over_bg.jpg");
+		imageList.put("bg_game_win", "game/ui/win_game_bg.jpg");
 		
 		String[] zombieList = {"normal","legionary","archer","warrior"};
 		
 		for(int i=0; i<zombieList.length; i++) {
-			image.put("zombie_"+zombieList[i]+"_attack", read("game/zombie/"+zombieList[i]+"/attack.gif"));
-			image.put("zombie_"+zombieList[i]+"_move", read("game/zombie/"+zombieList[i]+"/move.gif"));
-			image.put("zombie_"+zombieList[i]+"_death", read("game/zombie/"+zombieList[i]+"/death.gif"));
+			imageList.put("zombie_"+zombieList[i]+"_attack", "game/zombie/"+zombieList[i]+"/attack.gif");
+			imageList.put("zombie_"+zombieList[i]+"_move", "game/zombie/"+zombieList[i]+"/move.gif");
+			imageList.put("zombie_"+zombieList[i]+"_death", "game/zombie/"+zombieList[i]+"/death.gif");
 		}
-		
-		
-		image.put("test", read("test.gif"));
 		
 		try {
 			font.put("roboto", Font.createFont(Font.TRUETYPE_FONT, Resource.class.getClassLoader().getResourceAsStream("assets/roboto.ttf")));
@@ -96,8 +97,15 @@ public class Resource {
 	}
 	
 	public static ImageData[] getImage(String key) {
-		if(getInstance().image.containsKey(key)) {
-			return getInstance().image.get(key);
+		if(getInstance().imageList.containsKey(key)) {
+			HashMap<String,ImageData[]> img = getInstance().image;
+			if(img.containsKey(key)) {
+				return img.get(key);
+			} else {
+				ImageData[] seq = read(getInstance().imageList.get(key));
+				img.put(key, seq);
+				return seq;
+			}
 		}
 		throw new ResourceException(ResourceException.KEY_NOT_FOUND, key);
 	}
@@ -116,9 +124,6 @@ public class Resource {
 	}
 	
 	public static AnimationImageManager getImageAnimation(String key) {
-		if(getInstance().image.containsKey(key)) {
-			return new AnimationImageManager(getInstance().image.get(key));
-		}
-		throw new ResourceException(ResourceException.KEY_NOT_FOUND, key);
+		return new AnimationImageManager(getImage(key));
 	}
 }

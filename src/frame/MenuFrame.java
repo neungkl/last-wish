@@ -11,6 +11,7 @@ import render.rendable.StaticImageRendable;
 import essential.GameScreen;
 import essential.GameState;
 import essential.ZIndex;
+import frame.logic.HighScore;
 
 public class MenuFrame implements Frame {
 	public MenuFrame() {
@@ -52,6 +53,8 @@ public class MenuFrame implements Frame {
 						if(dialogResult == JOptionPane.YES_OPTION) {
 							System.exit(0);
 						}
+					} else if(currentBtnName.equals("highscore_btn")) {
+						HighScore.instance.showDialog();
 					}
 				}
 			});

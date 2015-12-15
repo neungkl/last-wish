@@ -40,6 +40,7 @@ import essential.GameState;
 import essential.RandUtil;
 import essential.ZIndex;
 import frame.logic.GameResource;
+import frame.logic.HighScore;
 import frame.logic.SpawnZombie;
 import frame.logic.TimeCounter;
 
@@ -233,6 +234,14 @@ public class GameFrame implements Frame {
 	@Override
 	public void update() {
 		
+		if(mainBase.isDie() || mainBase.isDestroy()) {
+			HighScore.prevLevelData = TimeCounter.getCurrentWave();
+			HighScore.prevTimeData = TimeCounter.getSecond();
+			GameState.getInstance().changeStage(GameState.GAME_OVER_STAGE);
+			return ;
+		}
+		
+		
 		if(InputFlag.getTrigger(InputFlag.KEYBOARD, KeyEvent.VK_P)) {
 			if(GameState.IS_PAUSING) {
 				resume();
@@ -383,6 +392,11 @@ public class GameFrame implements Frame {
 			controlPanel.updateAvailable(baseList);
 			
 			TimeCounter.setNewSecond(false);
+			
+			if(TimeCounter.getCurrentWave() >= Config.MAX_LEVEL) {
+				GameState.getInstance().changeStage(GameState.GAME_WIN);
+				return ;
+			}
 		}
 		
 		controlPanel.updateHpMainBaseRender(mainBase);

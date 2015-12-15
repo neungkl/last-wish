@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import essential.GameScreen;
+import frame.logic.HighScore;
 
 public class Main {
 	

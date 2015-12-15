@@ -3,6 +3,8 @@ package essential;
 import render.RendableHolder;
 import frame.Frame;
 import frame.GameFrame;
+import frame.GameOverFrame;
+import frame.GameWin;
 import frame.MenuFrame;
 
 public class GameState {
@@ -12,6 +14,8 @@ public class GameState {
 
 	public static final int MENU_STAGE = 0;
 	public static final int GAME_STAGE = 1;
+	public static final int GAME_OVER_STAGE = 2;
+	public static final int GAME_WIN = 3;
 
 	private Frame currentFrame;
 
@@ -22,7 +26,7 @@ public class GameState {
 	}
 
 	public GameState() {
-		changeStage(GAME_STAGE);
+		changeStage(MENU_STAGE);
 	}
 
 	public void update() {
@@ -44,6 +48,12 @@ public class GameState {
 			break;
 		case GAME_STAGE:
 			currentFrame = new GameFrame();
+			break;
+		case GAME_OVER_STAGE :
+			currentFrame = new GameOverFrame();
+			break;
+		case GAME_WIN :
+			currentFrame = new GameWin();
 			break;
 		}
 	}

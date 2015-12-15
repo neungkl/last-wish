@@ -7,13 +7,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import object.appear.MainBase;
 import object.appear.TileBackground;
 import object.appear.base.Bazuka;
 import object.appear.base.Farm;
 import object.appear.base.Ironworks;
 import object.appear.base.Light;
 import object.appear.base.Logger;
+import object.appear.base.MainBase;
 import object.appear.base.Shooter1;
 import object.appear.base.Shooter2;
 import object.appear.base.Shooter3;
@@ -343,8 +343,8 @@ public class GameFrame implements Frame {
 			
 			for(Base base : baseList) {
 				if(base instanceof BaseElement) {
-					GameResource.instance.addIron(base.getIronRequire());
-					GameResource.instance.addWood(base.getWoodRequire());
+					GameResource.instance.addIron(((BaseElement) base).getGiveIron());
+					GameResource.instance.addWood(((BaseElement) base).getGiveWood());
 					GameResource.instance.updateStatRender();
 				}
 			}

@@ -1,4 +1,4 @@
-package object.appear;
+package object.appear.base;
 
 import object.structure.Base;
 import render.RenderHelper;

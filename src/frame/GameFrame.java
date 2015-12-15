@@ -23,7 +23,7 @@ import object.appear.base.Tank;
 import object.appear.base.Warehouse;
 import object.appear.bullet.BazukaBullet;
 import object.appear.bullet.FastBullet;
-import object.appear.zombie.ArcherZombie;
+import object.appear.zombie.OdinaryZombie;
 import object.structure.Base;
 import object.structure.BaseAttack;
 import object.structure.BaseShooter;
@@ -39,7 +39,7 @@ import render.rendable.StaticImageRendable;
 import essential.Config;
 import essential.GameScreen;
 import essential.ZIndex;
-import frame.logic.GameStat;
+import frame.logic.GameResource;
 import frame.logic.TimeCounter;
 
 public class GameFrame implements Frame {
@@ -69,7 +69,7 @@ public class GameFrame implements Frame {
 	public GameFrame() {
 		
 		TimeCounter.start();
-		GameStat.instance.reset();
+		GameResource.instance.reset();
 		
 		RendableHolder.add(new TileBackground("game_bg"));
 		
@@ -83,6 +83,7 @@ public class GameFrame implements Frame {
 		initializeRendableObject();
 		
 		controlPanel = new GameControlPanel(this, GameScreen.HEIGHT - bottomHeight, bottomHeight);
+		controlPanel.updateAvailable();
 	}
 	
 	private void initializeRendableObject() {
@@ -163,6 +164,10 @@ public class GameFrame implements Frame {
 		dragAndDropObj = obj;
 	}
 	
+	public ArrayList<Base> getBaseList() {
+		return baseList;
+	}
+	
 	public ArrayList<Bullet> getBulletList() {
 		return bulletList;
 	}
@@ -172,13 +177,21 @@ public class GameFrame implements Frame {
 	}
 	
 	private void clearDestroyedObject() {
+		
+		boolean isBaseRemove = false;
+		
 		for(Iterator<Base> it = baseList.iterator(); it.hasNext(); ) {
 			Base cur = it.next();
 			if(cur.isDestroy() || cur.isDie()) {
+				isBaseRemove = true;
 				cur.destroy();
 				it.remove();
 				cur = null;
 			}
+		}
+		
+		if(isBaseRemove) {
+			updateStat();
 		}
 		
 		for(Iterator<Bullet> it = bulletList.iterator(); it.hasNext(); ) {
@@ -200,6 +213,13 @@ public class GameFrame implements Frame {
 		}
 	}
 
+	private void updateStat() {
+		GameResource.instance.updateBaseStat(baseList);
+		GameResource.instance.updateStatRender();
+		
+		controlPanel.updateAvailable();
+	}
+	
 	@Override
 	public void update() {
 		
@@ -233,8 +253,11 @@ public class GameFrame implements Frame {
 					));
 				}
 				
-				dragAndDropObj.statIncrease();
 				baseList.add(dragAndDropObj);
+				GameResource.instance.addIron(-dragAndDropObj.getIronRequire());
+				GameResource.instance.addWood(-dragAndDropObj.getWoodRequire());
+				
+				updateStat();
 				
 				dragAndDropObj = null;
 			} else if(InputFlag.getTrigger(InputFlag.MOUSE_RIGHT)) {
@@ -244,17 +267,22 @@ public class GameFrame implements Frame {
 		}
 		
 		if(currentShowingStat != null) {
-			controlPanel.showStat(currentShowingStat);
-			
-			if(currentShowingStat instanceof BaseAttack && !(currentShowingStat instanceof BaseShooter)) {
-				BaseAttack ba = (BaseAttack) currentShowingStat;
-				if(ba.getRang() != Integer.MAX_VALUE) {
-					showRang.setVisible(true);
-					showRang.setPos(ba.getPosX(), ba.getPosY());
-					showRang.setRadius(ba.getRang());
-				}
+			if(currentShowingStat instanceof IPhysical && ((IPhysical) currentShowingStat).isDestroy()) {
+				currentShowingStat = null;
+				controlPanel.statClear();
 			} else {
-				showRang.setVisible(false);
+				controlPanel.showStat(currentShowingStat);
+			
+				if(currentShowingStat instanceof BaseAttack && !(currentShowingStat instanceof BaseShooter)) {
+					BaseAttack ba = (BaseAttack) currentShowingStat;
+					if(ba.getRang() != Integer.MAX_VALUE) {
+						showRang.setVisible(true);
+						showRang.setPos(ba.getPosX(), ba.getPosY());
+						showRang.setRadius(ba.getRang());
+					}
+				} else {
+					showRang.setVisible(false);
+				}
 			}
 		}
 		
@@ -288,7 +316,7 @@ public class GameFrame implements Frame {
 		}
 		
 		if(TimeCounter.shouldSpawnZombie()) {
-			Zombie zombie = new ArcherZombie(1);
+			Zombie zombie = new OdinaryZombie(1);
 			zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
 
 				@Override

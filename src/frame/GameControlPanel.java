@@ -6,8 +6,21 @@ import input.MouseInteractiveListener;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import object.appear.IconSelector;
+import object.appear.base.Bazuka;
+import object.appear.base.Farm;
+import object.appear.base.Ironworks;
+import object.appear.base.Light;
+import object.appear.base.Logger;
+import object.appear.base.Shooter1;
+import object.appear.base.Shooter2;
+import object.appear.base.Shooter3;
+import object.appear.base.Shooter4;
+import object.appear.base.Sniper;
+import object.appear.base.Tank;
+import object.appear.base.Warehouse;
 import object.structure.Base;
 import object.structure.ILive;
 import object.structure.IName;
@@ -22,6 +35,7 @@ import render.rendable.StringRendable;
 import resource.Resource;
 import essential.GameScreen;
 import essential.ZIndex;
+import frame.logic.GameResource;
 
 public class GameControlPanel {
 	
@@ -41,6 +55,22 @@ public class GameControlPanel {
 	
 	private HashMap<String, Rendable> rightObj;
 	private Base waitingForActionObj;
+	
+	private HashMap<String, IconSelector> iconList;
+	private final Base[] baseList = {
+		new Bazuka(0f), 
+		new Farm(0f), 
+		new Ironworks(0f), 
+		new Light(0f), 
+		new Logger(0f), 
+		new Shooter1(0f), 
+		new Shooter2(0f), 
+		new Shooter3(0f), 
+		new Shooter4(0f), 
+		new Sniper(0f), 
+		new Tank(0f), 
+		new Warehouse(0f)
+	};
 	
 	private GameFrame gameFrame;
 	
@@ -125,8 +155,10 @@ public class GameControlPanel {
 	}
 	
 	private void initialLeftPanel() {
+		
 		baseObj = new HashMap<>();
 		defenseObj = new HashMap<>();
+		iconList = new HashMap<>();
 		
 		String[] fileList = {"farm","logger","ironworks","warehouse"};
 		
@@ -140,17 +172,23 @@ public class GameControlPanel {
 		
 		for(int i=0; i<fileList.length; i++) {
 			IconSelector s = new IconSelector("icon_" + fileList[i], 10 + 80 * i, this.y + 10, 70);
+			
 			StaticImageRendable icon = s.getIcon();
 			icon.addMouseInteractiveListener(baseListener);
+
+			iconList.put(fileList[i], s);
 			baseObj.put(fileList[i], s);
 		}
 		
 		fileList = new String[]{"light","tank","sniper","bazuka","shooter1","shooter2","shooter3","shooter4"};
 		for(int i=0; i<fileList.length; i++) {
 			IconSelector s = new IconSelector("icon_" + fileList[i], 10 + 80 * i, this.y + 10, 70);
+			
 			StaticImageRendable icon = s.getIcon();
 			icon.addMouseInteractiveListener(baseListener);
 			icon.setVisible(false);
+			
+			iconList.put(fileList[i], s);
 			defenseObj.put(fileList[i], s);
 		}
 		
@@ -161,6 +199,8 @@ public class GameControlPanel {
 			RendableHolder.add(each);
 			each.setVisible(false);
 		}
+		
+		updateAvailable();
 	}
 	
 	private void initialRightPanel() {
@@ -188,7 +228,7 @@ public class GameControlPanel {
 			ZIndex.CONTROL_BAR_OBJECT
 		));
 		
-		rightObj.put("hpBox", new BoxRendable(0, 0, 0, 18, Color.RED, ZIndex.CONTROL_BAR_OBJECT));
+		rightObj.put("hpBox", new BoxRendable(0, 0, 0, 18, bgHp, ZIndex.CONTROL_BAR_OBJECT));
 		
 		rightObj.put("stat", new StringRendable(
 			"", 
@@ -199,10 +239,32 @@ public class GameControlPanel {
 		
 		StaticImageRendable img = new StaticImageRendable("btn_upgrade", 0, 0, 0.35f, ZIndex.CONTROL_BAR_OBJECT);
 		
-		img.addMouseInteractiveListener(new HighlightObjectListener<Rendable>() {
+		img.addMouseInteractiveListener(new MouseInteractiveListener<StaticImageRendable>() {
+			
 			@Override
-			public void onClick(Rendable object) {
-				waitingForActionObj.upgrade(waitingForActionObj.getCurrentLevel());
+			public void onEnter(StaticImageRendable object) {
+				if(GameResource.instance.canBuild(waitingForActionObj)) {
+					object.setHoverEffect(true);
+				} else {
+					object.setPale(true);
+				}
+			}
+			
+			@Override
+			public void onLeave(StaticImageRendable object) {
+				object.setPale(false);
+				object.setHoverEffect(false);
+			}
+			
+			@Override
+			public void onClick(StaticImageRendable object) {
+				if(GameResource.instance.canBuild(waitingForActionObj)) {
+					GameResource.instance.addIron(-waitingForActionObj.getIronRequire());
+					GameResource.instance.addWood(-waitingForActionObj.getWoodRequire());
+					waitingForActionObj.upgrade(waitingForActionObj.getCurrentLevel());
+					GameResource.instance.updateBaseStat(gameFrame.getBaseList());
+					GameResource.instance.updateStatRender();
+				}
 			}
 		});
 		
@@ -213,7 +275,12 @@ public class GameControlPanel {
 		img.addMouseInteractiveListener(new HighlightObjectListener<Rendable>() {
 			@Override
 			public void onClick(Rendable object) {
-				//waitingForActionObj.upgrade(waitingForActionObj.getCurrentLevel());
+				GameResource.instance.addIron(waitingForActionObj.getIronRefund());
+				GameResource.instance.addWood(waitingForActionObj.getWoodRefund());
+				GameResource.instance.updateBaseStat(gameFrame.getBaseList());
+				waitingForActionObj.destroy();
+				GameResource.instance.updateBaseStat(gameFrame.getBaseList());
+				GameResource.instance.updateStatRender();
 			}
 		});
 		
@@ -362,5 +429,28 @@ public class GameControlPanel {
 			}
 		}
 			
+	}
+
+	public void statClear() {
+		for(Rendable obj : rightObj.values()) {
+			obj.setVisible(false);
+		}
+	}
+	
+	public void updateAvailable() {
+		HashMap<String, Boolean> baseAvailable = new HashMap<>();
+		for(int i=0; i<baseList.length; i++) {
+			baseAvailable.put(
+				baseList[i].getClass().getSimpleName().toLowerCase(),
+				GameResource.instance.canBuild(baseList[i])
+			);
+		}
+		
+		for(Entry<String, IconSelector> entry : iconList.entrySet()) {
+			String key = entry.getKey();
+			IconSelector icon = entry.getValue();
+
+			icon.setAvailable(baseAvailable.get(key));
+		}
 	}
 }

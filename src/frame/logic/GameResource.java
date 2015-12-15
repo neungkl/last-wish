@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import object.appear.base.Farm;
 import object.appear.base.Ironworks;
+import object.appear.base.Light;
 import object.appear.base.Logger;
 import object.appear.base.Warehouse;
 import object.structure.Base;
-import object.structure.BaseElement;
 import render.RendableHolder;
 import render.rendable.BoxRendable;
 import render.rendable.StaticImageRendable;
@@ -60,11 +60,14 @@ public class GameResource {
 			RendableHolder.add(woodRender);
 			ironRender = new StringRendable("", font, x + 50, 69, Color.WHITE, null, ZIndex.CONTROL_BAR_OBJECT);
 			RendableHolder.add(ironRender);
-			updateStatRender();
+			updateStatRender(null);
 		}
 	}
 	
-	public void updateStatRender() {
+	public void updateStatRender(ArrayList<Base> baseList) {
+		if(baseList != null)
+			updateBaseStat(baseList);
+		
 		farmRender.setText(getFarm()+"");
 		woodRender.setText(getWood()+"/"+maximumWood);
 		ironRender.setText(getIron()+"/"+maximumIron);
@@ -92,7 +95,7 @@ public class GameResource {
 		this.iron = Math.max(0, Math.min(maximumIron, this.iron));
 	}
 	
-	public void updateBaseStat(ArrayList<Base> baseList) {
+	private void updateBaseStat(ArrayList<Base> baseList) {
 		farm = 0;
 		
 		boolean hasFarm = false;

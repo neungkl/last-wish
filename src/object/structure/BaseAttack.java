@@ -107,6 +107,7 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 		String txt = "Damage : " + damage + "     ";
 		txt += "Firerate : " + fireRate + "\n";
 		txt += "Rang : " + (rang == Integer.MAX_VALUE ? "MAX" : rang);
+		txt += "     Farm size : " + farmPer; 
 		return txt;
 	}
 	

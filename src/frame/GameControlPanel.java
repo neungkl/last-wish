@@ -263,8 +263,7 @@ public class GameControlPanel {
 					GameResource.instance.addIron(-waitingForActionObj.getIronRequire());
 					GameResource.instance.addWood(-waitingForActionObj.getWoodRequire());
 					waitingForActionObj.upgrade(waitingForActionObj.getCurrentLevel());
-					GameResource.instance.updateBaseStat(gameFrame.getBaseList());
-					GameResource.instance.updateStatRender();
+					GameResource.instance.updateStatRender(gameFrame.getBaseList());
 				}
 			}
 		});
@@ -278,10 +277,8 @@ public class GameControlPanel {
 			public void onClick(Rendable object) {
 				GameResource.instance.addIron(waitingForActionObj.getIronRefund());
 				GameResource.instance.addWood(waitingForActionObj.getWoodRefund());
-				GameResource.instance.updateBaseStat(gameFrame.getBaseList());
 				waitingForActionObj.destroy();
-				GameResource.instance.updateBaseStat(gameFrame.getBaseList());
-				GameResource.instance.updateStatRender();
+				GameResource.instance.updateStatRender(gameFrame.getBaseList());
 			}
 		});
 		

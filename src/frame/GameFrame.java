@@ -58,6 +58,7 @@ public class GameFrame implements Frame {
 	private CircleRendable showRang;
 	private static final Color showRangCol = new Color(7, 230, 226, 50);
 	
+	private IObjectOnScreen hoverShowingStat = null;
 	private IObjectOnScreen currentShowingStat = null;
 	private Base dragAndDropObj = null;
 	
@@ -212,8 +213,7 @@ public class GameFrame implements Frame {
 	}
 
 	private void updateStat() {
-		GameResource.instance.updateBaseStat(baseList);
-		GameResource.instance.updateStatRender();
+		GameResource.instance.updateStatRender(baseList);
 		
 		controlPanel.updateAvailable(baseList);
 	}
@@ -251,8 +251,6 @@ public class GameFrame implements Frame {
 				GameResource.instance.addIron(-dragAndDropObj.getIronRequire());
 				GameResource.instance.addWood(-dragAndDropObj.getWoodRequire());
 				
-				
-				
 				dragAndDropObj = null;
 			} else if(InputFlag.getTrigger(InputFlag.MOUSE_RIGHT)) {
 				RendableHolder.remove(dragAndDropObj);
@@ -266,7 +264,12 @@ public class GameFrame implements Frame {
 			updateStat();
 		}
 		
-		if(currentShowingStat != null) {
+		if(hoverShowingStat != null) {
+			
+			showRang.setVisible(false);
+			controlPanel.showStat(hoverShowingStat);
+			
+		} else if(currentShowingStat != null) {
 			if(currentShowingStat instanceof IPhysical && ((IPhysical) currentShowingStat).isDestroy()) {
 				currentShowingStat = null;
 				showRang.setVisible(false);
@@ -345,9 +348,11 @@ public class GameFrame implements Frame {
 				if(base instanceof BaseElement) {
 					GameResource.instance.addIron(((BaseElement) base).getGiveIron());
 					GameResource.instance.addWood(((BaseElement) base).getGiveWood());
-					GameResource.instance.updateStatRender();
 				}
 			}
+			
+			GameResource.instance.updateStatRender(baseList);
+			controlPanel.updateAvailable(baseList);
 			
 			TimeCounter.setNewSecond(false);
 		}

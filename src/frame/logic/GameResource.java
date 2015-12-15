@@ -123,7 +123,10 @@ public class GameResource {
 			if(each instanceof Logger && b instanceof Logger) return false;
 			if(each instanceof Warehouse && b instanceof Warehouse) return false;
 		}
-		return canUpgrade(b);
+		if(getFarm() >= b.getFarmPer()) {
+			return canUpgrade(b);
+		}
+		return false;
 	}
 	
 	public void cheatEnable() {
@@ -133,7 +136,7 @@ public class GameResource {
 	}
 	
 	public boolean canUpgrade(Base b) {
-		if(getFarm() >= b.getFarmPer() && getWood() >= b.getWoodRequire() && getIron() >= b.getIronRequire()) {
+		if(getWood() >= b.getWoodRequire() && getIron() >= b.getIronRequire()) {
 			return true;
 		}
 		return false;

@@ -144,11 +144,11 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	}
 	
 	public int getIronRefund() {
-		return ironRefund * 10 / 3;
+		return ironRefund * 3 / 10;
 	}
 	
 	public int getWoodRefund() {
-		return woodRefund * 10 / 3;
+		return woodRefund * 3 / 10;
 	}
 	
 	@Override

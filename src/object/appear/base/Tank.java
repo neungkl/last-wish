@@ -29,19 +29,13 @@ public class Tank extends BaseAttack {
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp += 40;
-			this.currentHp +=40;
-			this.damage +=3;
-			this.woodRequire += 500;
-			this.ironRequire += 450;
-			this.rang += 2;
-		} else {
-			level = maxLevel;
-		}
-		this.currentLevel = level;
+	public void statIncrease() {
+		this.fullHp += 40;
+		this.currentHp +=40;
+		this.damage +=3;
+		this.woodRequire += 500;
+		this.ironRequire += 450;
+		this.rang += 2;
 	}
 	
 	@Override

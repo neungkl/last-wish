@@ -13,19 +13,18 @@ public class MainBase extends Base {
 		image.setAlign(RenderHelper.CENTER_MIDDLE);
 		image.setZ(ZIndex.OBJECT_IN_GAME);
 		
-		this.fullHp = this.currentHp = 3000;
+		this.fullHp = this.currentHp = 500;
+		this.woodRequire = 2000;
+		this.ironRequire = 1200;
+		this.farmPer = 0;
+		this.maxLevel = 4;
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp += 300;
-			this.currentHp += 300;
-		} else {
-			level = maxLevel;
-		}
-		currentLevel = level;
+	public void statIncrease() {
+		this.fullHp += 250;
+		this.currentHp += 250;
+		this.ironRequire += 1500;
+		this.woodRequire += 1500;
 	}
-
 }

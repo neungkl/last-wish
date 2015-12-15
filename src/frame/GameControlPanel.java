@@ -13,6 +13,7 @@ import object.structure.ILive;
 import object.structure.IName;
 import object.structure.IObjectOnScreen;
 import object.structure.IStat;
+import object.structure.IUpgradable;
 import render.RendableHolder;
 import render.rendable.BoxRendable;
 import render.rendable.Rendable;
@@ -39,6 +40,7 @@ public class GameControlPanel {
 	private HashMap<String, IconSelector> defenseObj;
 	
 	private HashMap<String, Rendable> rightObj;
+	private Base waitingForActionObj;
 	
 	private GameFrame gameFrame;
 	
@@ -195,22 +197,40 @@ public class GameControlPanel {
 			ZIndex.CONTROL_BAR_OBJECT
 		));
 		
-		rightObj.put("require0", new StringRendable(
-			"", 
-			Resource.getFont("roboto", Font.PLAIN, 12f), 
-			0, 0, fontGreyCol, null,
-			ZIndex.CONTROL_BAR_OBJECT
-		));
+		StaticImageRendable img = new StaticImageRendable("btn_upgrade", 0, 0, 0.35f, ZIndex.CONTROL_BAR_OBJECT);
 		
-		rightObj.put("icon_wood", new StaticImageRendable("icon_mini_wood", 0, 0, 0.3f, ZIndex.CONTROL_BAR_OBJECT));
-		rightObj.put("icon_iron", new StaticImageRendable("icon_mini_iron", 0, 0, 0.3f, ZIndex.CONTROL_BAR_OBJECT));
+		img.addMouseInteractiveListener(new HighlightObjectListener<Rendable>() {
+			@Override
+			public void onClick(Rendable object) {
+				waitingForActionObj.upgrade(waitingForActionObj.getCurrentLevel());
+			}
+		});
 		
-		rightObj.put("require1", new StringRendable(
-			"", 
-			Resource.getFont("roboto", Font.PLAIN, 12f), 
-			0, 0, fontGreyCol, null,
-			ZIndex.CONTROL_BAR_OBJECT
-		));
+		rightObj.put("upgrade_btn",img);
+		
+		img = new StaticImageRendable("btn_sell", 0, 0, 0.35f, ZIndex.CONTROL_BAR_OBJECT);
+		
+		img.addMouseInteractiveListener(new HighlightObjectListener<Rendable>() {
+			@Override
+			public void onClick(Rendable object) {
+				//waitingForActionObj.upgrade(waitingForActionObj.getCurrentLevel());
+			}
+		});
+		
+		rightObj.put("sell_btn",img);
+		
+		for(int i=0; i<2; i++) {
+			rightObj.put("require" + i, new StringRendable(
+				"", 
+				Resource.getFont("roboto", Font.PLAIN, 12f), 
+				0, 0, fontGreyCol, null,
+				ZIndex.CONTROL_BAR_OBJECT
+			));	
+			
+			rightObj.put("icon_farm" + i, new StaticImageRendable("icon_mini_farm", 0, 0, 0.3f, ZIndex.CONTROL_BAR_OBJECT));
+			rightObj.put("icon_wood" + i, new StaticImageRendable("icon_mini_wood", 0, 0, 0.3f, ZIndex.CONTROL_BAR_OBJECT));
+			rightObj.put("icon_iron" + i, new StaticImageRendable("icon_mini_iron", 0, 0, 0.3f, ZIndex.CONTROL_BAR_OBJECT));
+		}
 		
 		for(Rendable right : rightObj.values()) {
 			right.setVisible(false);
@@ -232,11 +252,12 @@ public class GameControlPanel {
 	
 	public void showStat(IObjectOnScreen obj) {
 		
+		if(obj == null) return ;
+		
 		int px = GameScreen.WIDTH - 300;
 		int py = y - 80;
 		
-		int ex = GameScreen.WIDTH - 80;
-		int ey = GameScreen.HEIGHT - 50;
+		int ey = GameScreen.HEIGHT - 40;
 		
 		for(Rendable right : rightObj.values()) {
 			right.setVisible(true);
@@ -246,11 +267,20 @@ public class GameControlPanel {
 		
 		if(obj instanceof IName) {
 			StringRendable txt = (StringRendable) rightObj.get("name");
+			String name = ((IName) obj).getName();
 			
-			txt.setPos(px + 10, py + 25);
-			txt.setText(((IName) obj).getName());
+			if(obj instanceof IUpgradable) {
+				if(((IUpgradable) obj).isMaxLevel()) {
+					name += " (level MAX)";
+				} else {
+					name += " (level " + ((IUpgradable) obj).getCurrentLevel() + ")";
+				}
+			}
 			
-			py += 30;
+			txt.setPos(px + 10, py + 22);
+			txt.setText(name);
+			
+			py += 25;
 		}
 		
 		if(obj instanceof ILive) {
@@ -283,20 +313,54 @@ public class GameControlPanel {
 			Base base = (Base) obj;
 			
 			String[] seq = {
-				base.getWoodRequire() + "",
-				base.getIronRequire() + ""
+				"\n" + base.getWoodRequire() + "\n" + base.getIronRequire(),
+				base.getFarmRefund() + "\n" + base.getWoodRefund() + "\n" + base.getIronRefund()
 			};
 			
-			final int space = 15;
+			final int space = 115;
 			
-			rightObj.get("icon_wood").setPos(ex, ey - space + 3);
-			rightObj.get("icon_iron").setPos(ex, ey + 3);
+			rightObj.get("upgrade_btn").setPos(px + 15, ey - 15);
+			
+			if(base.isMaxLevel()) {
+				rightObj.get("upgrade_btn").setVisible(false);
+				rightObj.get("require0").setVisible(false);
+				rightObj.get("icon_wood0").setVisible(false);
+				rightObj.get("icon_iron0").setVisible(false);
+			} 
+			rightObj.get("sell_btn").setPos(px + 130, ey - 15);
 			
 			for(int i=0; i<seq.length; i++) {
+				
+				if(i == 0) {
+					ey -= 12;
+					rightObj.get("icon_farm0").setVisible(false);
+				}
+				
 				txtHold = (StringRendable) rightObj.get("require"+i);
 				txtHold.setText(seq[i]);
-				txtHold.setPos(ex + 20, ey + space * i);
+				txtHold.setPos(px + 85 + space * i, ey - 3);
+				
+				rightObj.get("icon_farm" + i).setPos(px + 65 + space * i, ey - 12);
+				rightObj.get("icon_wood" + i).setPos(px + 65 + space * i, ey + 3);
+				rightObj.get("icon_iron" + i).setPos(px + 65 + space * i, ey + 13);
+				
+				if(i == 0) {
+					ey += 12;
+				}
+			}
+			
+			waitingForActionObj = base;
+		} else {
+			rightObj.get("upgrade_btn").setVisible(false);
+			rightObj.get("sell_btn").setVisible(false);
+			
+			for(int i=0; i<2; i++) {
+				rightObj.get("require" + i).setVisible(false);
+				rightObj.get("icon_farm" + i).setVisible(false);
+				rightObj.get("icon_wood" + i).setVisible(false);
+				rightObj.get("icon_iron" + i).setVisible(false);
 			}
 		}
+			
 	}
 }

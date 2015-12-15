@@ -2,15 +2,15 @@ package object.appear.zombie;
 
 import object.structure.Zombie;
 
-public class OdinaryZombie extends Zombie {
+public class ArcherZombie extends Zombie {
 
-	public OdinaryZombie(int level) {
-		super("normal", 15, 0.6f);
-		setName("Skeleton (level " + level + ")");
+	public ArcherZombie(int level) {
+		super("archer", 15, 0.6f);
+		setName("Archer Skeleton (level " + level + ")");
 		
-		this.fullHp = this.currentHp = 9 + 3 * level;
-		this.damage = 7 + 2 * level;
-		this.speed = 1f;
+		this.fullHp = this.currentHp = 9 + 4 * level;
+		this.damage = 13 + 4 * level;
+		this.speed = 1.5f;
 	}
 	
 	@Override
@@ -33,5 +33,6 @@ public class OdinaryZombie extends Zombie {
 		}
 		currentActive.setVisible(true);
 	}
+
 	
 }

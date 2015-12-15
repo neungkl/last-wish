@@ -30,19 +30,13 @@ public class Light extends BaseAttack {
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp += 20;
-			this.currentHp += 20;
-			this.damage += 3;
-			this.woodRequire += 200;
-			this.ironRequire += 220;
-			this.rang += 1;
-		} else {
-			level = maxLevel;
-		}
-		this.currentLevel = level;
+	public void statIncrease() {
+		this.fullHp += 20;
+		this.currentHp += 20;
+		this.damage += 3;
+		this.woodRequire += 200;
+		this.ironRequire += 220;
+		this.rang += 1;
 	}
 	
 	@Override

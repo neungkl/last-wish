@@ -1,6 +1,5 @@
 package object.structure;
 
-import render.rendable.CircleRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
 
@@ -13,7 +12,8 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	protected int ironRequire;
 	protected int farmPer;
 	
-	private CircleRendable debug;
+	private int woodRefund;
+	private int ironRefund;
 	
 	protected int currentLevel;
 	protected int maxLevel;
@@ -24,12 +24,12 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	private int physicalRadius;
 	private boolean isDestroy; 
 	
-	private int lastAttackTime = -1000;
-	
 	protected Base(int radius) {
 		physicalRadius = radius;
 		woodRequire = farmRequire = ironRequire = farmPer = 0;
 		currentLevel = maxLevel = 1;
+		
+		woodRefund = ironRefund = 0;
 		
 		fullHp = currentHp = 0;
 		isDestroy = false;
@@ -45,15 +45,12 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 		return currentLevel;
 	}
 	
-	@Override
 	public int getWoodRequire() {
 		return woodRequire;
 	}
-	@Override
 	public int getIronRequire() {
 		return ironRequire;
 	}
-	@Override
 	public int getFarmRequire() {
 		return farmRequire;
 	}
@@ -129,6 +126,33 @@ public abstract class Base implements IUpgradable, IObjectWithSingleRendable, IL
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public abstract void statIncrease();
+	
+	@Override
+	public void upgrade(int level) {
+		level++;
+		if(level <= maxLevel) {
+			ironRefund += ironRequire;
+			woodRefund += woodRequire;
+			statIncrease();
+		} else {
+			level = maxLevel;
+		}
+		this.currentLevel = level;
+	}
+	
+	public int getFarmRefund() {
+		return farmPer;
+	}
+	
+	public int getIronRefund() {
+		return ironRefund * 10 / 3;
+	}
+	
+	public int getWoodRefund() {
+		return woodRefund * 10 / 3;
 	}
 	
 	@Override

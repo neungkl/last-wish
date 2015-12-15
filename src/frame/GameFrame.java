@@ -87,7 +87,7 @@ public class GameFrame implements Frame {
 	}
 	
 	private void initializeRendableObject() {
-		mainBase = new MainBase(centerX, centerY, 0.2f);
+		mainBase = new MainBase(centerX, centerY, 0.25f);
 		mainBase.setName("Main Base");
 		mainBase.getSingleRendable().addMouseInteractiveListener(
 			new MapParentListener<Base>(mainBase) {
@@ -114,7 +114,7 @@ public class GameFrame implements Frame {
 		
 		switch(name) {
 		case "farm" :
-			obj = new Farm(0.8f);
+			obj = new Farm(1f);
 			break;
 		case "ironworks" :
 			obj = new Ironworks(0.8f);
@@ -288,7 +288,7 @@ public class GameFrame implements Frame {
 		}
 		
 		if(TimeCounter.shouldSpawnZombie()) {
-			Zombie zombie = new OdinaryZombie();
+			Zombie zombie = new OdinaryZombie(1);
 			zombie.addMouseInteractiveListener(new MapParentListener<Zombie>(zombie){
 
 				@Override

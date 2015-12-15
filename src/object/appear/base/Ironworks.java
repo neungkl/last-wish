@@ -32,20 +32,14 @@ public class Ironworks extends BaseElement {
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp += 10;
-			this.currentHp += 10;
-			this.woodRequire +=230;
-			this.ironRequire += 200;
-			this.giveFarm += 0;
-			this.giveWood += 0;
-			this.giveIron += 10;
-		} else {
-			level = maxLevel;
-		}
-		this.currentLevel = level;
+	public void statIncrease() {
+		this.fullHp += 10;
+		this.currentHp += 10;
+		this.woodRequire +=230;
+		this.ironRequire += 200;
+		this.giveFarm += 0;
+		this.giveWood += 0;
+		this.giveIron += 10;
 	}
 
 }

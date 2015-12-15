@@ -31,18 +31,12 @@ public class Shooter4 extends BaseShooter {
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp += 60;
-			this.currentHp += 60;
-			this.woodRequire += 500;
-			this.ironRequire += 400;
-			this.damage +=20;
-		} else {
-			level = maxLevel;
-		}
-		this.currentLevel = level;
+	public void statIncrease() {
+		this.fullHp += 60;
+		this.currentHp += 60;
+		this.woodRequire += 500;
+		this.ironRequire += 400;
+		this.damage +=20;
 	}
 
 	@Override

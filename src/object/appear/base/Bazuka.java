@@ -30,19 +30,13 @@ public class Bazuka extends BaseAttack {
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp += 30;
-			this.currentHp += 30;
-			this.damage +=20;
-			this.woodRequire += 400;
-			this.ironRequire += 500;
-			this.rang +=2;
-		} else {
-			level = maxLevel;
-		}
-		this.currentLevel = level;
+	public void statIncrease() {
+		this.fullHp += 30;
+		this.currentHp += 30;
+		this.damage +=20;
+		this.woodRequire += 400;
+		this.ironRequire += 500;
+		this.rang += 2;
 	}
 	
 	@Override

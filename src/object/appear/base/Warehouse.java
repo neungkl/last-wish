@@ -26,18 +26,12 @@ public class Warehouse extends BaseResourceLimit {
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp += 20;
-			this.currentHp += 20;
-			this.woodRequire += 190;
-			this.ironRequire += 170;
-			this.maximumWood += 200;
-			this.maximumIron += 200;
-		} else {
-			level = maxLevel;
-		}
-		this.currentLevel = level;
+	public void statIncrease() {
+		this.fullHp += 20;
+		this.currentHp += 20;
+		this.woodRequire += 190;
+		this.ironRequire += 170;
+		this.maximumWood += 200;
+		this.maximumIron += 200;
 	}
 }

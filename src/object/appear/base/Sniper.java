@@ -30,19 +30,13 @@ public class Sniper extends BaseAttack {
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp +=15;
-			this.currentHp += 15;
-			this.woodRequire += 600;
-			this.ironRequire += 600;
-			this.damage +=25;
-			this.rang += 5;
-		} else {
-			level = maxLevel;
-		}
-		this.currentLevel = level;
+	public void statIncrease() {
+		this.fullHp +=15;
+		this.currentHp += 15;
+		this.woodRequire += 600;
+		this.ironRequire += 600;
+		this.damage +=25;
+		this.rang += 5;
 	}
 	
 	@Override

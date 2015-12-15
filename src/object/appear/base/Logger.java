@@ -32,20 +32,14 @@ public class Logger extends BaseElement {
 	}
 
 	@Override
-	public void upgrade(int level) {
-		level++;
-		if(level <= maxLevel) {
-			this.fullHp += 10;
-			this.currentHp += 10;
-			this.woodRequire += 200;
-			this.ironRequire += 230;
-			this.giveFarm += 0;
-			this.giveWood += 10;
-			this.giveIron += 0;
-		} else {
-			level = maxLevel;
-		}
-		this.currentLevel = level;
+	public void statIncrease() {
+		this.fullHp += 10;
+		this.currentHp += 10;
+		this.woodRequire += 200;
+		this.ironRequire += 230;
+		this.giveFarm += 0;
+		this.giveWood += 10;
+		this.giveIron += 0;
 	}
 
 }

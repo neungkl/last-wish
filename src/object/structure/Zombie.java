@@ -47,7 +47,7 @@ public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen
 	
 	private ArrayList<ILive> attackList;
 	
-	protected Zombie(String type, int hp, float speed, int damage, int radius, float ratio) {
+	protected Zombie(String type, int radius, float ratio) {
 		int x = RandUtil.rand(GameScreen.WIDTH);
 		int y = RandUtil.rand(GameScreen.HEIGHT);
 		
@@ -83,8 +83,8 @@ public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen
 		this.x = x;
 		this.y = y;
 		this.angle = 0;
-		this.speed = speed;
-		this.damage = damage;
+		this.speed = 0;
+		this.damage = 0;
 		this.physicalRadius = radius;
 		
 		if(Config.DEBUG) {
@@ -92,7 +92,7 @@ public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen
 			RendableHolder.add(debug);
 		}
 		
-		this.fullHp = this.currentHp = hp;
+		this.fullHp = this.currentHp = 0;
 		
 		attackList = new ArrayList<>();
 		desBase = null;

@@ -428,7 +428,7 @@ public class GameFrame implements Frame {
 			
 		});
 		
-		Resource.getSound("zombie"+RandUtil.rand(8)).play();
+		Resource.getSound("zombie"+RandUtil.rand(7)).play();
 		zombieList.add(zombie);
 		RendableHolder.add(zombie);
 	}

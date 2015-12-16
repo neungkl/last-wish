@@ -104,7 +104,7 @@ public class Resource {
 			sound.put("base_explode1", readSound("base_explode1.wav"));
 			sound.put("base_place", readSound("base_place.wav"));
 			
-			for(int i=0; i<8; i++) {
+			for(int i=0; i<7; i++) {
 				sound.put("zombie"+i, readSound("zombie"+i+".wav"));
 			}
 			

@@ -1,5 +1,7 @@
 package resource;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -15,6 +17,7 @@ public class Resource {
 	private HashMap<String,String> imageList = new HashMap<>();
 	private HashMap<String,ImageData[]> image = new HashMap<>();
 	private HashMap<String,Font> font = new HashMap<>();
+	private HashMap<String, AudioClip> sound = new HashMap<>();
 	private static Resource instance = new Resource();
 	
 	public static Resource getInstance() {
@@ -23,6 +26,14 @@ public class Resource {
 	
 	private static ImageData[] read(String url) throws ResourceException {
 		return ImageReader.get("assets/" + url);
+	}
+	
+	private AudioClip readSound(String url) throws ResourceException  {
+		try {
+			return Applet.newAudioClip(loader.getResource("assets/sound/"+url));
+		} catch(Exception e) {
+			throw new ResourceException(ResourceException.FILE_NOT_FOUND, url);
+		}
 	}
 
 	private Resource() {
@@ -79,6 +90,33 @@ public class Resource {
 		imageList.put("bg_game_over", "game/ui/game_over_bg.jpg");
 		imageList.put("bg_game_win", "game/ui/win_game_bg.jpg");
 		
+		try {
+			sound.put("click", readSound("click.wav"));
+			sound.put("sell", readSound("sell.wav"));
+			sound.put("congratulations_speak", readSound("congratulations_speak.wav"));
+			sound.put("end_bg", readSound("end_bg.wav"));
+			sound.put("game_bg", readSound("game_bg.wav"));
+			sound.put("menu_bg", readSound("menu_bg.wav"));
+			sound.put("game_over_speak", readSound("game_over_speak.wav"));
+			sound.put("base_damage0", readSound("base_damage0.wav"));
+			sound.put("base_damage1", readSound("base_damage1.wav"));
+			sound.put("base_explode0", readSound("base_explode0.wav"));
+			sound.put("base_explode1", readSound("base_explode1.wav"));
+			sound.put("base_place", readSound("base_place.wav"));
+			
+			for(int i=0; i<8; i++) {
+				sound.put("zombie"+i, readSound("zombie"+i+".wav"));
+			}
+			
+			sound.put("bazuka", readSound("bazuka.wav"));
+			sound.put("tank", readSound("tank.wav"));
+			sound.put("sniper", readSound("sniper.wav"));
+			sound.put("light", readSound("light.wav"));
+		} catch(ResourceException e) {
+			e.printStackTrace();
+		}
+		
+		
 		String[] zombieList = {"normal","legionary","archer","warrior"};
 		
 		for(int i=0; i<zombieList.length; i++) {
@@ -92,35 +130,46 @@ public class Resource {
 		} catch(FontFormatException e) {
 			throw new RuntimeException("font can't load");
 		} catch(IOException e) {
-			throw new ResourceException(ResourceException.FILE_NOT_FOUND, "font");
+			throw new RuntimeException("font not found");
 		}
 	}
 	
 	public static ImageData[] getImage(String key) {
-		if(getInstance().imageList.containsKey(key)) {
-			HashMap<String,ImageData[]> img = getInstance().image;
-			if(img.containsKey(key)) {
-				return img.get(key);
-			} else {
-				ImageData[] seq = read(getInstance().imageList.get(key));
-				img.put(key, seq);
-				return seq;
+		try {
+			if(getInstance().imageList.containsKey(key)) {
+				HashMap<String,ImageData[]> img = getInstance().image;
+				if(img.containsKey(key)) {
+					return img.get(key);
+				} else {
+					ImageData[] seq = read(getInstance().imageList.get(key));
+					img.put(key, seq);
+					return seq;
+				}
 			}
+		} catch(ResourceException e) {
+			throw new RuntimeException("File not found : "+key);
 		}
-		throw new ResourceException(ResourceException.KEY_NOT_FOUND, key);
+		return null;
+	}
+	
+	public static AudioClip getSound(String key) {
+		if(getInstance().sound.containsKey(key)) {
+			return getInstance().sound.get(key);
+		}
+		throw new RuntimeException("File not found : " + key);
 	}
 	
 	public static Font getFont(String key) {
 		if(getInstance().font.containsKey(key)) {
 			return getInstance().font.get(key);
 		}
-		throw new ResourceException(ResourceException.KEY_NOT_FOUND, key);
+		throw new RuntimeException("File not found : " + key);
 	}
 	public static Font getFont(String key, int style, float fontSize) {
 		if(getInstance().font.containsKey(key)) {
 			return getInstance().font.get(key).deriveFont(style, fontSize);
 		}
-		throw new ResourceException(ResourceException.KEY_NOT_FOUND, key);
+		throw new RuntimeException("File not found : "+ key);
 	}
 	
 	public static AnimationImageManager getImageAnimation(String key) {

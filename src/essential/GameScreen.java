@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 import render.RendableHolder;
+import resource.Resource;
 
 @SuppressWarnings("serial")
 public class GameScreen extends JComponent {
@@ -44,6 +45,7 @@ public class GameScreen extends JComponent {
 			public void mousePressed(MouseEvent e) {
 				if(SwingUtilities.isLeftMouseButton(e)) {
 					InputFlag.set(InputFlag.MOUSE_LEFT, true);
+					Resource.getSound("click").play();
 				} else if(SwingUtilities.isRightMouseButton(e)) {
 					InputFlag.set(InputFlag.MOUSE_RIGHT, true);
 				}

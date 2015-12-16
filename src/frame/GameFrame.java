@@ -34,6 +34,7 @@ import render.rendable.BoxRendable;
 import render.rendable.CircleRendable;
 import render.rendable.Rendable;
 import render.rendable.StaticImageRendable;
+import resource.Resource;
 import essential.Config;
 import essential.GameScreen;
 import essential.GameState;
@@ -65,6 +66,8 @@ public class GameFrame implements Frame {
 	private Base dragAndDropObj = null;
 	
 	public GameFrame() {
+		
+		Resource.getSound("game_bg").loop();
 		
 		TimeCounter.start();
 		SpawnZombie.start();
@@ -203,6 +206,7 @@ public class GameFrame implements Frame {
 		}
 		
 		if(isBaseRemove) {
+			Resource.getSound("base_explode"+RandUtil.rand(2)).play();
 			updateStat();
 		}
 		
@@ -295,6 +299,8 @@ public class GameFrame implements Frame {
 						Integer.MAX_VALUE
 					));
 				}
+				
+				Resource.getSound("base_place").play();
 				
 				baseList.add(dragAndDropObj);
 				GameResource.instance.addIron(-dragAndDropObj.getIronRequire());
@@ -421,6 +427,8 @@ public class GameFrame implements Frame {
 			}
 			
 		});
+		
+		Resource.getSound("zombie"+RandUtil.rand(8)).play();
 		zombieList.add(zombie);
 		RendableHolder.add(zombie);
 	}
@@ -453,6 +461,7 @@ public class GameFrame implements Frame {
 	@Override
 	public void destroy() {
 		
+		Resource.getSound("game_bg").stop();
 		TimeCounter.stop();
 		
 		baseList.clear();

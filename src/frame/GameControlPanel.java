@@ -287,6 +287,7 @@ public class GameControlPanel {
 		img.addMouseInteractiveListener(new HighlightObjectListener<Rendable>() {
 			@Override
 			public void onClick(Rendable object) {
+				Resource.getSound("sell").play();
 				GameResource.instance.addIron(waitingForActionObj.getIronRefund());
 				GameResource.instance.addWood(waitingForActionObj.getWoodRefund());
 				waitingForActionObj.destroy();

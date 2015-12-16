@@ -4,7 +4,7 @@ import render.RendableHolder;
 import frame.Frame;
 import frame.GameFrame;
 import frame.GameOverFrame;
-import frame.GameWin;
+import frame.GameWinFrame;
 import frame.MenuFrame;
 
 public class GameState {
@@ -53,7 +53,7 @@ public class GameState {
 			currentFrame = new GameOverFrame();
 			break;
 		case GAME_WIN :
-			currentFrame = new GameWin();
+			currentFrame = new GameWinFrame();
 			break;
 		}
 	}

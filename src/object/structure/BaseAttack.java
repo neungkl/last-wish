@@ -2,9 +2,14 @@ package object.structure;
 
 import java.util.ArrayList;
 
+import object.appear.base.Bazuka;
+import object.appear.base.Light;
+import object.appear.base.Sniper;
+import object.appear.base.Tank;
 import render.RendableHolder;
 import render.RenderHelper;
 import render.rendable.StaticImageRendable;
+import resource.Resource;
 import essential.GameScreen;
 import essential.RandUtil;
 import essential.ZIndex;
@@ -95,6 +100,16 @@ public abstract class BaseAttack extends Base implements IAttackable, IStat {
 			float angle = (float) Math.atan2(best.getPosY() - getPosY(), best.getPosX() - getPosX());
 			
 			this.getSingleRendable().setAngle(angle);
+			
+			if(this instanceof Bazuka) {
+				Resource.getSound("bazuka").play();
+			} else if(this instanceof Light) {
+				Resource.getSound("light").play();
+			} else if(this instanceof Sniper) {
+				Resource.getSound("sniper").play();
+			} else if(this instanceof Tank) {
+				Resource.getSound("tank").play();
+			}
 			
 			Bullet b = generateBullet(angle);
 			RendableHolder.add(b);

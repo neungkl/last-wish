@@ -10,6 +10,7 @@ import render.RenderHelper;
 import render.rendable.AnimationRendable;
 import render.rendable.CircleRendable;
 import render.rendable.Rendable;
+import resource.Resource;
 import essential.Config;
 import essential.GameScreen;
 import essential.RandUtil;
@@ -275,6 +276,9 @@ public abstract class Zombie implements IPhysical, ILive, IStat, IObjectOnScreen
 	
 	public void updateCombatStatus() {
 		for(ILive live : attackList) {
+			if(live instanceof Base) {
+				Resource.getSound("base_damage"+RandUtil.rand(2)).play();
+			}
 			live.decreaseHp((int) damage);
 		}
 		attackList.clear();

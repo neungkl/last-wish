@@ -1,7 +1,7 @@
 package exception;
 
 @SuppressWarnings("serial")
-public class ResourceException extends RuntimeException {
+public class ResourceException extends Exception {
 
 	public static final int FILE_NOT_FOUND = 0;
 	public static final int EXTENSION_INCORRECT = 1;

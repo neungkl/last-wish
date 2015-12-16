@@ -8,6 +8,7 @@ import main.Main;
 import render.RendableHolder;
 import render.RenderHelper;
 import render.rendable.StaticImageRendable;
+import resource.Resource;
 import essential.GameScreen;
 import essential.GameState;
 import essential.ZIndex;
@@ -65,6 +66,8 @@ public class MenuFrame implements Frame {
 		logo.setAlign(RenderHelper.CENTER_MIDDLE);
 		logo.setZ(ZIndex.MENU_BTN);
 		RendableHolder.add(logo);
+		
+		Resource.getSound("menu_bg").loop();
 	}
 
 	@Override
@@ -77,5 +80,7 @@ public class MenuFrame implements Frame {
 	public void resume() {}
 
 	@Override
-	public void destroy() {}
+	public void destroy() {
+		Resource.getSound("menu_bg").stop();
+	}
 }

@@ -462,6 +462,7 @@ public class GameFrame implements Frame {
 	public void destroy() {
 		
 		Resource.getSound("game_bg").stop();
+		SpawnZombie.stop();
 		TimeCounter.stop();
 		
 		baseList.clear();

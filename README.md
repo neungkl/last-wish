@@ -3,7 +3,7 @@ The Last Wish
 
 ![The Last Wish](preview.png)
 
-This is the final project of Programming Method class in Chulalongkorn University.
+This is the final project of 2110215 Programming Method class in Chulalongkorn University.
 
 The Last Wish is the game written with Java language.
 Using JFrame as a library to render object to screen. No other library use.

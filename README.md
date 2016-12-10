@@ -3,13 +3,13 @@ The Last Wish
 
 ![The Last Wish](preview.png)
 
-This is the final project of 2110215 Programming Method class in Chulalongkorn University.
+*This is the final project of 2110215 Programming Method class in Chulalongkorn University.*
 
-The Last Wish is the game written with Java language.
+:fire: The Last Wish is the game written with Java language.
 Using JFrame as a library to render object to screen. No other library use.
 Some animation and image reader are implement by my own.
 
-## Work
+## Works
 
 - Animation implements by my own using `while(1)` and `sleep` time to refresh framerate of game.
 - Image animation written by me. But the reader part using the other code.
@@ -28,7 +28,7 @@ to kill the zombies before it's invasion.
 - Each level will more harder and spawn new type of zombie.
 - Play the best as possible for reach to higher level. 
 
-## Author
+## Authors
 
 This project develop by a group project consists of two students in each group.
 
